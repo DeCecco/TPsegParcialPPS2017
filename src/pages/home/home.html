@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Login</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding scrollbar-y-auto>
+
+  <ion-card>
+
+    <img src="assets/img/mano.png"/>
+
+    <ion-card-content >
+      <ion-card-title class="textoCentrado">
+        Bienvenido
+      </ion-card-title>
+        <form [formGroup]="formLogin">
+    <ion-list inset>
+      <!--AVISO DE ERROR SI LA VARIABLE errorEnFormulario ESTÁ SETEADA EN TRUE-->
+      <p *ngIf="errorFormLogin" style="color: #ea6153;">El nombre es obligatorio y debe contener solo letras hasta un máximo de 30.</p>      
+      <ion-item>
+    
+        <ion-label floating>Nombre</ion-label>  
+        <ion-input  [(ngModel)]="nombre" type="text" formControlName="nombre" ></ion-input>
+      </ion-item>
+      <ion-item>
+    
+        <ion-label floating>Password</ion-label>  
+        <ion-input  [(ngModel)]="password" type="password" formControlName="password" ></ion-input>
+      </ion-item>
+      <ion-item >
+        <ion-row>
+          <ion-col class="textoCentrado">
+            <p><button ion-button class="btnsize" icon-left color="danger" (click)="Rellenar(1)"><ion-icon name="ios-person"></ion-icon>Usuario</button></p>
+            <p><button ion-button class="btnsize" icon-left color="danger" (click)="Rellenar(2)"><ion-icon name="ios-person"></ion-icon>Invitado</button></p>             
+            <p><button ion-button class="btnsize" icon-left color="danger" (click)="Rellenar(3)"><ion-icon name="ios-person"></ion-icon>Admin</button></p>                         
+           <br>
+           <p><button ion-button class="btnsize" icon-left (click)="loguear()"><ion-icon name="ios-person"></ion-icon>Loguearse</button></p>                         
+      
+
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-list>
+  </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
