@@ -8,6 +8,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 //------------------------Pages------------------------//
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+import { MenuPage } from '../pages/menu/menu';
+import { UsuariosPage } from '../pages/usuarios/usuarios';
 
 //------------------------Local Provider------------------------//
 import { ApiProvider } from '../providers/api/api';
@@ -17,6 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { GlobalFunctionsProvider } from '../providers/global-functions/global-functions';
 
 export const firebaseConfig  = {
   apiKey: "AIzaSyAhU9S_jk3tRU0pxYft15f7wYa-3yuwcSY",
@@ -30,7 +33,9 @@ export const firebaseConfig  = {
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage,
+    MenuPage,
+    UsuariosPage
   ],
   imports: [
     BrowserModule,
@@ -43,14 +48,17 @@ export const firebaseConfig  = {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+    MenuPage,
+    UsuariosPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler, },
     ApiProvider,
-    HttpClientModule
+    HttpClientModule,
+    GlobalFunctionsProvider
   ]
 })
 export class AppModule { }
