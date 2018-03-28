@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController,ModalController } from 'ionic-angular';
+import { NavController, ModalController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiProvider } from '../../providers/api/api';
 import { GlobalFunctionsProvider } from '../../providers/global-functions/global-functions';
-import { AngularFirestore/*, AngularFirestoreDocument */} from 'angularfire2/firestore';
+import { AngularFirestore/*, AngularFirestoreDocument */ } from 'angularfire2/firestore';
 //import { Observable } from 'rxjs/Observable';
 import { MenuPage } from '../menu/menu';
 import { UsuariosPage } from '../usuarios/usuarios';
@@ -17,10 +17,10 @@ export class HomePage {
   mail: string;
   password: string;
   constructor(public navCtrl: NavController, public formBuilder: FormBuilder, private ApiProvider: ApiProvider, private db: AngularFirestore,
-  private GlobalF: GlobalFunctionsProvider,public modalCtrl: ModalController) {
+    private GlobalF: GlobalFunctionsProvider, public modalCtrl: ModalController) {
     this.formLogin = formBuilder.group({
-      mail: [this.mail, Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
-      password: [this.password, Validators.compose([Validators.maxLength(30), Validators.required])]
+      mail: [this.mail, Validators.compose([Validators.required, Validators.maxLength(30), Validators.minLength(6), Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])],
+      password: [this.password, Validators.compose([Validators.required, Validators.maxLength(30), Validators.minLength(6)])]
     });
 
 
@@ -45,36 +45,68 @@ export class HomePage {
         console.error("Error adding document: ", error);
       });*/
   }
-   
-  
+
+
   ingresar() {
-    this.ApiProvider.verificarUsuario(this.mail, this.password).then(response => {
-      console.info(response)
-      
-      var array = [{
-        "nombre": response[0].nombre, "apellido": response[0].apellido, "email": response[0].mail, "tipo": response[0].idtipo, "img": response[0].idimagen
-      }];
-      this.ApiProvider.token(array).then(tk => {        
-        this.GlobalF.cargando();
-        this.navCtrl.setRoot(MenuPage); 
-        
-       // this.stop();
+    if (this.formLogin.valid) {
+      this.ApiProvider.verificarUsuario(this.mail, this.password).then(response => {
+        if (response.length > 0) {
+          var array = [{
+            "nombre": response[0].nombre, "apellido": response[0].apellido, "email": response[0].mail, "tipo": response[0].idtipo, "img": response[0].idimagen
+          }];
+          this.ApiProvider.token(array).then(tk => {
+            this.GlobalF.cargando();
+            this.navCtrl.setRoot(MenuPage);
+
+            // this.stop();
+          }).catch(error => {
+            this.GlobalF.error(3)
+            console.log(error);
+          });
+          //this.local.set("userInfo",data[0]);              
+        } else {
+          this.GlobalF.error(2)
+        }
+
       }).catch(error => {
-        console.log(error);
-      });
-      //this.local.set("userInfo",data[0]);              
-      
+        this.GlobalF.error(0)
+        console.warn(error)
+      })
+    } else {
+      this.GlobalF.error(1)
+    }
 
-
-
-    }).catch(error => {
-      console.warn(error)
-    })
   }
-  administrador() {
+  harcode(donde) {
+    switch (donde) {
+      case 1:        
+        this.mail = "pablo.dececco@hotmail.com";
+        this.password = '722567';
+        break;
+      default:
 
-    this.mail = 'pablo.dececco@hotmail.com';
-    this.password = '722567';
-    this.ingresar();
+        break;
+    }
+  }
+  harcode2(donde) {
+    Promise.resolve(this.mail)
+      .then(function () {
+        switch (donde) {
+          case 1:
+            console.info(this.mail)
+            this.mail = "pablo.dececco@hotmail.com";
+            this.password = '722567';
+            break;
+          default:
+
+            break;
+        }
+      }).then(function (b) {
+
+        this.ingresar();
+      }).catch(function (error) {
+        console.info(error)
+        this.GlobalF.error(0)
+      })
   }
 }
