@@ -17,7 +17,7 @@ $app->add(function (Request $request, Response $response, $next) {
 });
 
 $app->post('/usuarios/verificarUsuario', function (Request $request, Response $response){  
-	return $response->withJson(usuarios::VerificarUsuario($request->getParam('mail'), $request->getParam('password')));
+	return $response->withJson(usuarios::VerificarUsuario($request->getParam('mail')));
 });
 
   
@@ -81,6 +81,31 @@ $app->post('/verificarToken', function (Request $request, Response $response) {
 	  $esValido =$response->withJson($esValido, 200); 
       return $esValido;
 });  
+
+/**
+   * @api {any} /Verificar/  Verificar
+   * @apiVersion 0.1.0
+   * @apiName Verificar 
+   * @apiGroup TOKEN
+   * @apiDescription  Verifica que el token ingresado sea valido
+   *
+   * @apiParam {string} token  Posee el token del usuario
+   *
+   * @apiExample Como usarlo:
+   *JS	this.WebserviceService.VerificarToken(token).then(data => {
+   *PHP 	AutentificadorJWT::verificarToken($token);
+*/  
+
+$app->post('/usuarios/altaUsuario', function (Request $request, Response $response) {
+		
+  $mail= $request->getParam('mail');
+  $idtipo= $request->getParam('idtipo');
+  $nombre= $request->getParam('nombre');
+  $apellido= $request->getParam('apellido');
+  $idimagen= $request->getParam('idimagen');  
+  Usuarios::altaUsuario($mail,$idtipo,$nombre,$apellido,$idimagen);  
+  return $response->withJson("Exito");
+});
 /**
    * @api {any} /PayLoad/  PayLoad
    * @apiVersion 0.1.0

@@ -19,13 +19,22 @@ class Usuarios
 		$this->password = $password;
 	
 	}*/
-	public static function VerificarUsuario($mail,$password){
-		$sql = 'SELECT * FROM usuarios WHERE mail = :mail and contraseña = :password';
+	public static function VerificarUsuario($mail){
+		$sql = "SELECT *,count(*)  existe FROM usuarios WHERE mail = :mail ";
         $consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);
 		$consulta->bindParam(':mail', $mail);
-		$consulta->bindParam(':password', $password);
-
 	    $consulta->execute();
 	    return $consulta->fetchAll(PDO::FETCH_ASSOC);
+	}
+	public static function altaUsuario($mail,$idtipo,$nombre,$apellido,$idimagen){
+		$sql = " INSERT INTO asistencia.usuarios (idtipo,idimagen,nombre,apellido,mail) 
+		values (:idtipo,:idimagen,:nombre,:apellido,:mail); ";
+		$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);
+		$consulta->bindParam(':mail',$mail);
+		$consulta->bindParam(':idtipo',$idtipo);
+		$consulta->bindParam(':nombre',$nombre);
+		$consulta->bindParam(':apellido',$apellido);
+		$consulta->bindParam(':idimagen',$idimagen);		
+	    $consulta->execute();
 	}
 }

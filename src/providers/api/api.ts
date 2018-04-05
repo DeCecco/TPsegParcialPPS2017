@@ -10,16 +10,10 @@ import { Injectable } from '@angular/core';
 */
 @Injectable()
 export class ApiProvider {
-  route: string = "http://localhost/appFriends/generic_App/API/index.php/"; //servidor local
+  route: string = "http://localhost/UTN/TPsegParcialPPS2017/API/index.php/"; //servidor local
   constructor(public http: HttpClient) { }
 
-  verificarUsuario(mail, password) {
-    var data = {
-      "mail": mail,
-      "password": password
-    }
-    return this.http.post(this.route + "usuarios/verificarUsuario", data).toPromise();
-  }
+  //----------------------------------------I-TOKEN----------------------------------------//
   token(formData) {
     var body = {
       "email": formData[0].email,
@@ -36,9 +30,30 @@ export class ApiProvider {
     }
     return this.http.post(this.route + "verificarToken", body).toPromise();
   }
-  payLoad(formData){    
-    var body = {"token" : formData[0].token
-               }         
-   return this.http.post(this.route + "payLoad", body).toPromise();
+  payLoad(formData) {
+    var body = {
+      "token": formData[0].token
+    }
+    return this.http.post(this.route + "payLoad", body).toPromise();
   }
+  //----------------------------------------F-TOKEN----------------------------------------//
+  //----------------------------------------I-USUARIOS----------------------------------------//
+  verificarUsuario(mail) {
+    var data = {
+      "mail": mail      
+    }
+    return this.http.post(this.route + "usuarios/verificarUsuario", data).toPromise();
+  }
+  altaUsuario(formData) {
+    var data = {
+      "mail": formData[0].mail,
+      "idtipo": formData[0].idtipo,
+      "nombre": formData[0].nombre,
+      "apellido": formData[0].apellido,
+      "idimagen": formData[0].idimagen      
+    }
+    return this.http.post(this.route + "usuarios/altaUsuario", data).toPromise();
+  }
+  //----------------------------------------F-USUARIOS----------------------------------------//
+
 }
