@@ -35,8 +35,8 @@ export class UsuariosPage {
     private ApiProvider: ApiProvider, private db: AngularFirestore, private afAuth: AngularFireAuth) {
     this.formUser = formBuilder.group({
       mail: [this.mail, Validators.compose([Validators.required, Validators.maxLength(30), Validators.minLength(6), Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])],
-      password: [this.password, Validators.compose([Validators.required, Validators.maxLength(30), Validators.minLength(6)])],
-      password2: [this.password2, Validators.compose([Validators.required, Validators.maxLength(30), Validators.minLength(6)])],
+      password: [this.password, Validators.compose([Validators.required, Validators.maxLength(30)])],
+      password2: [this.password2, Validators.compose([Validators.required, Validators.maxLength(30)])],
       nombre: [this.nombre, Validators.compose([Validators.required, Validators.maxLength(30), Validators.pattern('^[a-zA-Z ]+$')])],
       apellido: [this.apellido, Validators.compose([Validators.required, Validators.maxLength(30), Validators.pattern('^[a-zA-Z ]+$')])],
       idtipo: [this.idtipo, Validators.compose([Validators.required])],

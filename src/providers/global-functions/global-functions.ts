@@ -17,7 +17,7 @@ export class GlobalFunctionsProvider {
 
   cargando() {
     let loader = this.loadingCtrl.create({
-      dismissOnPageChange: true,      
+      dismissOnPageChange: true,
       spinner: 'ios'
     });
     loader.present();
@@ -30,10 +30,12 @@ export class GlobalFunctionsProvider {
       case 2: x = 'Credenciales invalidas';
         break;
       case 3: x = 'Token Invalido';
-      break;
+        break;
       case 4: x = 'Los passwords deben ser iguales';
-      break;
-      default: x = 'COMUNIQUESE CON SOPORTE';
+        break;
+      case 0: x = 'COMUNIQUESE CON SOPORTE';
+        break;
+      default: x = x;
         break;
     }
     let toast = this.toastCtrl.create({
@@ -44,17 +46,17 @@ export class GlobalFunctionsProvider {
     });
     toast.present();
   }
-  correcto(x){
+  correcto(x) {
     switch (x) {
       case 1: x = 'Se grabo correctamente el usuario';
         break;
       case 2: x = 'Por favor revise su casilla de correo';
         break;
       case 3: x = 'Token Invalido';
-      break;
+        break;
       case 4: x = 'Los passwords deben ser iguales';
-      break;
-      default: x = 'COMUNIQUESE CON SOPORTE';
+        break;      
+      default: x = x;
         break;
     }
     let toast = this.toastCtrl.create({

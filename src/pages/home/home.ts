@@ -106,7 +106,9 @@ export class HomePage {
     this.afAuth.auth.sendPasswordResetEmail(this.mail).then(function () {
 
     }).catch(function (error) {
+      //TODO: FALTA MENSAJE
       console.error(error)
-    });
+    });        
+    
   }
 }
