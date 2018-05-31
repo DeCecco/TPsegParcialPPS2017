@@ -19,6 +19,8 @@ export class HomePage {
   password: string;
   constructor(public navCtrl: NavController, public formBuilder: FormBuilder, private ApiProvider: ApiProvider, /*private db: AngularFirestore,*/
     private GlobalF: GlobalFunctionsProvider, public modalCtrl: ModalController, private afAuth: AngularFireAuth) {
+      this.mail="pablomdececcorios@gmail.com";
+      this.password="agos1305";
     this.formLogin = formBuilder.group({
       mail: [this.mail, Validators.compose([Validators.required, Validators.maxLength(30), Validators.minLength(6), Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])],
       password: [this.password, Validators.compose([Validators.required, Validators.maxLength(30), Validators.minLength(6)])]
