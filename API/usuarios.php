@@ -1,6 +1,6 @@
 <?php
 
-require_once"accesoDatos.php";
+require_once "accesoDatos.php";
 
 class Usuarios
 {
@@ -36,5 +36,15 @@ class Usuarios
 		$consulta->bindParam(':apellido',$apellido);
 		$consulta->bindParam(':idimagen',$idimagen);		
 	    $consulta->execute();
+	}
+	public static function traerDatosUser($mail){
+		$sql = " SELECT u.idusuario,u.idtipo,u.nombre,u.apellido,u.mail,i.imagen 
+		FROM `usuarios` u 
+		left join imagenesu i ON u.idimagen=i.idimagenesU 
+		where u.mail=:mail ";
+        $consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);
+		$consulta->bindParam(':mail', $mail);
+	    $consulta->execute();
+	    return $consulta->fetchAll(PDO::FETCH_ASSOC);
 	}
 }

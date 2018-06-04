@@ -12,14 +12,17 @@ $app->add(function (Request $request, Response $response, $next) {
     return $response
             //->withHeader('Access-Control-Allow-Origin', '*')//servidor
 			->withHeader('Access-Control-Allow-Origin', 'http://localhost:8100')//local
-            ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
-            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+      ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+      ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 });
 
 $app->post('/usuarios/verificarUsuario', function (Request $request, Response $response){  
 	return $response->withJson(usuarios::VerificarUsuario($request->getParam('mail')));
 });
 
+$app->post('/usuarios/traerDatosUser', function (Request $request, Response $response){  
+	return $response->withJson(usuarios::traerDatosUser($request->getParam('mail')));
+});
   
 /**
    * @api {any} /Crear/  Crear
@@ -81,6 +84,7 @@ $app->post('/verificarToken', function (Request $request, Response $response) {
 	  $esValido =$response->withJson($esValido, 200); 
       return $esValido;
 });  
+
 
 /**
    * @api {any} /Verificar/  Verificar

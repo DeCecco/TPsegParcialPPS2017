@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 */
 @Injectable()
 export class ApiProvider {
-  route: string = "http://localhost/UTN/TPsegParcialPPS2017/API/index.php/"; //servidor local
+  route: string = "http://localhost:8080/UTN/TPsegParcialPPS2017/API/index.php/"; //servidor local
   constructor(public http: HttpClient) { }
 
   //----------------------------------------I-TOKEN----------------------------------------//
@@ -53,6 +53,12 @@ export class ApiProvider {
       "idimagen": formData[0].idimagen      
     }
     return this.http.post(this.route + "usuarios/altaUsuario", data).toPromise();
+  }
+  traerDatosUser(mail){
+    var data = {
+      "mail": mail      
+    }
+    return this.http.post(this.route + "usuarios/traerDatosUser", data).toPromise();
   }
   //----------------------------------------F-USUARIOS----------------------------------------//
 

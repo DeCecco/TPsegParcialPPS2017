@@ -65,8 +65,9 @@ export class HomePage {
               var array = [{
                 "nombre": response[0].nombre, "apellido": response[0].apellido, "email": response[0].mail, "tipo": response[0].idtipo, "img": response[0].idimagen
               }];
+              const mail=response[0].mail;
               this.ApiProvider.token(array).then(tk => {
-
+                this.datosUser(mail);
                 this.navCtrl.setRoot(MenuPage);
               }).catch(error => {
                 this.GlobalF.error(3)
@@ -112,5 +113,14 @@ export class HomePage {
       console.error(error)
     });        
     
+  }
+
+  datosUser(mail){
+    console.info(mail)
+    this.ApiProvider.traerDatosUser(mail).then(function(response){
+      console.info(response);
+    }).catch(function(error){
+      console.error(error);
+    });
   }
 }
