@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { Storage } from '@ionic/storage';
+
 
 /*
   Generated class for the ApiProvider provider.
@@ -10,8 +12,9 @@ import { Injectable } from '@angular/core';
 */
 @Injectable()
 export class ApiProvider {
-  route: string = "http://localhost:8080/UTN/TPsegParcialPPS2017/API/index.php/"; //servidor local
-  constructor(public http: HttpClient) { }
+  //route: string = "http://localhost:8080/UTN/TPsegParcialPPS2017/API/index.php/"; //servidor local work
+  route: string = "http://localhost/UTN/TPsegParcialPPS2017/API/index.php/"; //servidor local
+  constructor(public http: HttpClient,private storage: Storage) { }
 
   //----------------------------------------I-TOKEN----------------------------------------//
   token(formData) {
@@ -35,6 +38,15 @@ export class ApiProvider {
       "token": formData[0].token
     }
     return this.http.post(this.route + "payLoad", body).toPromise();
+  }
+  returnToken(){
+    return this.storage.get('Token').then((token) =>{ var array = [{"token": token}];
+      return this.verificarToken(array).then((token)=>{ var array2 = [{"token": token}];
+        return this.payLoad(array).then((response2)=>{
+          return response2['data'];
+        });
+      });
+    });    
   }
   //----------------------------------------F-TOKEN----------------------------------------//
   //----------------------------------------I-USUARIOS----------------------------------------//
@@ -61,5 +73,17 @@ export class ApiProvider {
     return this.http.post(this.route + "usuarios/traerDatosUser", data).toPromise();
   }
   //----------------------------------------F-USUARIOS----------------------------------------//
+  //----------------------------------------I-AULAS----------------------------------------//
+  traerAulas(){    
+    return this.http.get(this.route + "materias/traerAulas").toPromise().then(data => data); 
+  }
+  //----------------------------------------F-AULAS----------------------------------------//
+
+  altaAula(formData) {
+    var data = {
+      "aula": formData[0].aula,      
+    }
+    return this.http.post(this.route + "materias/altaAula", data).toPromise();
+  }
 
 }

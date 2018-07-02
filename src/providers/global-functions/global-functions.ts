@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { LoadingController, ToastController } from 'ionic-angular';
+import { AlertController, LoadingController, ToastController,NavController,IonicPage, NavParams } from 'ionic-angular';
+
 /*
   Generated class for the GlobalFunctionsProvider provider.
 
@@ -11,7 +12,7 @@ import { LoadingController, ToastController } from 'ionic-angular';
 @Injectable()
 export class GlobalFunctionsProvider {
 
-  constructor(public http: HttpClient, public loadingCtrl: LoadingController, public toastCtrl: ToastController) {
+  constructor(public http: HttpClient, public loadingCtrl: LoadingController, public toastCtrl: ToastController,public alertCtrl: AlertController) {
     console.log('Hello GlobalFunctionsProvider Provider');
   }
 
@@ -67,5 +68,33 @@ export class GlobalFunctionsProvider {
     });
     toast.present();
   }
+
+  alerta(){    
+    const prompt = this.alertCtrl.create({
+      title: 'Atencion',
+      message: "Esta a punto de salir sin grabar. ¿Esta Seguro?",        
+      buttons: [
+        {
+          text: 'Si',
+          handler: ()=> {
+            prompt.dismiss(true);
+            return false;
+          }          
+        },
+        {
+          text: 'No',
+          handler: () => {
+            prompt.dismiss(false);
+            return false;
+          }
+        }
+      ]
+    });
+    //prompt.present();
+
+    return prompt;
+  }
+  
+  
 
 }

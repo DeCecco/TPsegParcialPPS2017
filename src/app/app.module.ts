@@ -10,6 +10,8 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { MenuPage } from '../pages/menu/menu';
 import { UsuariosPage } from '../pages/usuarios/usuarios';
+import { AulasgPage } from '../pages/aulasg/aulasg';
+import { AmaulasPage } from '../pages/amaulas/amaulas';
 
 //------------------------Local Provider------------------------//
 import { ApiProvider } from '../providers/api/api';
@@ -20,6 +22,10 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { GlobalFunctionsProvider } from '../providers/global-functions/global-functions';
+import { IonicStorageModule } from '@ionic/storage';
+
+//------------------------Components------------------------//
+import { PopoverComponent } from '../components/popover/popover'
 
 export const firebaseConfig  = {
   apiKey: "AIzaSyAhU9S_jk3tRU0pxYft15f7wYa-3yuwcSY",
@@ -35,11 +41,15 @@ export const firebaseConfig  = {
     MyApp,
     HomePage,
     MenuPage,
-    UsuariosPage
+    UsuariosPage,
+    AulasgPage,
+    AmaulasPage,
+    PopoverComponent
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
+    HttpClientModule,    
+    IonicStorageModule.forRoot(),
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
@@ -50,7 +60,10 @@ export const firebaseConfig  = {
     MyApp,
     HomePage,
     MenuPage,
-    UsuariosPage
+    UsuariosPage,
+    AmaulasPage,
+    AulasgPage,
+    PopoverComponent
   ],
   providers: [
     StatusBar,

@@ -2,6 +2,7 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 require_once "usuarios.php";
+require_once "materias.php";
 require 'vendor/autoload.php';
 require 'AutentificadorJWT.php';
 
@@ -11,7 +12,7 @@ $app->add(function (Request $request, Response $response, $next) {
     $response = $next($request, $response);
     return $response
             //->withHeader('Access-Control-Allow-Origin', '*')//servidor
-			->withHeader('Access-Control-Allow-Origin', 'http://localhost:8100')//local
+			->withHeader('Access-Control-Allow-Origin', '*')//local
       ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
       ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 });
@@ -39,15 +40,12 @@ $app->post('/usuarios/traerDatosUser', function (Request $request, Response $res
 */
 $app->post('/crearToken', function (Request $request, Response $response) {
 	
-	$mail = $request->getParam('mail');	
-	$idrol = $request->getParam('idrol');
+	$email = $request->getParam('email');	
+	$tipo = $request->getParam('tipo');
 	$nombre = $request->getParam('nombre');
-	$apellido = $request->getParam('apellido');	
-	$idusuario = $request->getParam('idusuario');	
-	$cuenta = $request->getParam('cuenta');	
-	$dni = $request->getParam('dni');	
+	$apellido = $request->getParam('apellido');		
 	
-    $datos = array('mail' => $mail,'idrol' => $idrol, 'nombre' => $nombre,'apellido' => $apellido,'idusuario'=>$idusuario,'cuenta'=>$cuenta,'dni'=>$dni);    
+    $datos = array('email' => $email,'tipo' => $tipo, 'nombre' => $nombre,'apellido' => $apellido);    
     
     $token= AutentificadorJWT::CrearToken($datos); 
 	//$payload=AutentificadorJWT::ObtenerPayload($token);
@@ -130,5 +128,17 @@ $app->post('/payLoad', function (Request $request, Response $response) {
   $newResponse = $response->withJson($payload, 200); 
   return $newResponse;
 });
+
+$app->get('/materias/traerAulas', function (Request $request, Response $response){
+  return $response->withJson(Materias::traerAulas());
+});
+
+$app->post('/materias/altaAula', function (Request $request, Response $response) {
+		
+  $aula= $request->getParam('aula');
+  Materias::altaAula($aula);
+  return $response->withJson("Exito");
+});
+
 $app->run();
 ?>

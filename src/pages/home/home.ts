@@ -8,6 +8,8 @@ import { AngularFireAuth } from 'angularfire2/auth';
 //import { Observable } from 'rxjs/Observable';
 import { MenuPage } from '../menu/menu';
 import { UsuariosPage } from '../usuarios/usuarios';
+import { Storage } from '@ionic/storage';
+
 
 @Component({
   selector: 'page-home',
@@ -18,7 +20,7 @@ export class HomePage {
   mail: string;
   password: string;
   constructor(public navCtrl: NavController, public formBuilder: FormBuilder, private ApiProvider: ApiProvider, /*private db: AngularFirestore,*/
-    private GlobalF: GlobalFunctionsProvider, public modalCtrl: ModalController, private afAuth: AngularFireAuth) {
+    private GlobalF: GlobalFunctionsProvider, public modalCtrl: ModalController, private afAuth: AngularFireAuth,private storage: Storage) {
       this.mail="pablomdececcorios@gmail.com";
       this.password="agos1305";
     this.formLogin = formBuilder.group({
@@ -65,9 +67,9 @@ export class HomePage {
               var array = [{
                 "nombre": response[0].nombre, "apellido": response[0].apellido, "email": response[0].mail, "tipo": response[0].idtipo, "img": response[0].idimagen
               }];
-              const mail=response[0].mail;
+              
               this.ApiProvider.token(array).then(tk => {
-                this.datosUser(mail);
+                this.storage.set('Token', tk);
                 this.navCtrl.setRoot(MenuPage);
               }).catch(error => {
                 this.GlobalF.error(3)
@@ -115,12 +117,5 @@ export class HomePage {
     
   }
 
-  datosUser(mail){
-    console.info(mail)
-    this.ApiProvider.traerDatosUser(mail).then(function(response){
-      console.info(response);
-    }).catch(function(error){
-      console.error(error);
-    });
-  }
+  
 }
