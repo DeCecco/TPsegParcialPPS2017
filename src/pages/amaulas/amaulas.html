@@ -1,0 +1,39 @@
+<!--
+  Generated template for the AmaulasPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+
+<ion-header>
+    <ion-toolbar>
+      <ion-buttons left>
+        <button ion-button icon-only (click)="back();">
+         <ion-icon name="md-arrow-back"></ion-icon>
+        </button>
+      </ion-buttons>
+      <ion-title>{{estado}}</ion-title>
+      <ion-buttons end *ngIf="modifica">
+        <button ion-button icon-only (click)="presentActionSheet()">
+          <ion-icon name="md-more"></ion-icon>
+        </button>
+      </ion-buttons>
+      <ion-buttons end *ngIf="!modifica">
+        <button ion-button icon-only (click)="guardar()">
+          <ion-icon name="md-checkmark"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content padding>
+    <form [formGroup]="formAM">
+        <ion-list>     
+           <ion-item>
+            <ion-label floating>Aula</ion-label>
+            <ion-input [(ngModel)]="aula" formControlName="aula"  required  type="text"></ion-input>
+          </ion-item>
+        </ion-list>
+    </form>
+</ion-content>
