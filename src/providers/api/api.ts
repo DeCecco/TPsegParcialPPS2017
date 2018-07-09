@@ -86,4 +86,13 @@ export class ApiProvider {
     return this.http.post(this.route + "materias/altaAula", data).toPromise();
   }
 
+  abmGralPost(formData,ruta){    
+    let data={};
+    
+      for (let key in formData[0]) {              
+        data[key]=formData[0][key]        
+      }
+    return this.http.post(this.route + ruta, data).toPromise();
+  }
+
 }

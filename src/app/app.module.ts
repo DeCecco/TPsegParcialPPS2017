@@ -12,6 +12,7 @@ import { MenuPage } from '../pages/menu/menu';
 import { UsuariosPage } from '../pages/usuarios/usuarios';
 import { AulasgPage } from '../pages/aulasg/aulasg';
 import { AmaulasPage } from '../pages/amaulas/amaulas';
+import { MateriasGPage } from '../pages/materias-g/materias-g';
 
 //------------------------Local Provider------------------------//
 import { ApiProvider } from '../providers/api/api';
@@ -44,7 +45,8 @@ export const firebaseConfig  = {
     UsuariosPage,
     AulasgPage,
     AmaulasPage,
-    PopoverComponent
+    PopoverComponent,
+    MateriasGPage
   ],
   imports: [
     BrowserModule,
@@ -63,6 +65,7 @@ export const firebaseConfig  = {
     UsuariosPage,
     AmaulasPage,
     AulasgPage,
+    MateriasGPage,
     PopoverComponent
   ],
   providers: [

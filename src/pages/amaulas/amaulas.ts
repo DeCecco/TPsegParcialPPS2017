@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AulasgPage } from '../aulasg/aulasg';
 import { ApiProvider } from '../../providers/api/api';
 import { GlobalFunctionsProvider } from '../../providers/global-functions/global-functions';
-
+import { AngularFirestore/*, AngularFirestoreDocument */ } from 'angularfire2/firestore';
 
 /**
  * Generated class for the AmaulasPage page.
@@ -20,14 +20,18 @@ import { GlobalFunctionsProvider } from '../../providers/global-functions/global
 })
 export class AmaulasPage {
   estado:string;
-  idAula:string;
+  aulaM:any;
   formAM : FormGroup;
   aula:string;
-  constructor(public navCtrl: NavController, public navParams: NavParams,public formBuilder: FormBuilder,private ApiProvider: ApiProvider,private GlobalF: GlobalFunctionsProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public formBuilder: FormBuilder,private ApiProvider: ApiProvider,private GlobalF: GlobalFunctionsProvider,
+    private db: AngularFirestore) {
     this.estado = this.navParams.get("estado");
-    this.idAula = this.navParams.get("idAula");
+    if(this.estado=='Modificar'){
+      this.aulaM = this.navParams.get("aula");
+      this.aula=this.aulaM.descripcion;
+    }
     this.formAM = formBuilder.group({
-      aula: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('^[^a-zA-Z0-9]'), Validators.required])],      
+      aula: [this.aula, Validators.compose([Validators.maxLength(30), Validators.required, Validators.pattern('^[a-zA-Z0-9]+$')])],      
   });
   }
 
@@ -36,7 +40,7 @@ export class AmaulasPage {
   }
   back(){        
     
-    let promt = this.GlobalF.alerta();
+    let promt = this.GlobalF.alerta(0);
     promt.present();
     promt.onDidDismiss((data)=>{      
       if(data){
@@ -44,18 +48,34 @@ export class AmaulasPage {
       }
     })
   }
+  
   guardar(){
     
-    if(this.aula){
-      var array = [{
-        "aula": this.aula
-      }];
-      console.info(array);
+    if(this.formAM.valid){
+      
+      if(this.estado!='Modificar'){
+        var array = [{"aula": this.aula }];      
+        this.ApiProvider.altaAula(array).then(Response=>{
+          this.GlobalF.guardarFirebaseDB(array,'aulas');
+          this.GlobalF.correcto(1);
+          this.navCtrl.setRoot(AulasgPage); 
+        }).catch(error=>{
+          this.GlobalF.error(5);
+        })
+      }else{
+        var array2 = [{"descripcion": this.aula,"idaula":this.aulaM.idaula,"estado":this.aulaM.estado }];      
+        this.ApiProvider.abmGralPost(array2,'materias/modificarAula').then(Response=>{
+          this.GlobalF.correcto(1);
+          this.navCtrl.setRoot(AulasgPage); 
+        }).catch(error=>{
+          this.GlobalF.error(5);
+        })
+      }
+    
     }else{
       this.GlobalF.error(1);
-    }
-    
-    
+    }    
   }
+   
 
 }

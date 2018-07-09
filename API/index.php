@@ -139,6 +139,13 @@ $app->post('/materias/altaAula', function (Request $request, Response $response)
   Materias::altaAula($aula);
   return $response->withJson("Exito");
 });
-
+$app->post('/materias/modificarAula', function (Request $request, Response $response) {
+		
+  $aula= $request->getParam('descripcion');
+  $idaula= $request->getParam('idaula');
+  $estado= $request->getParam('estado');
+  Materias::modificarAula($aula,$idaula,$estado);
+  return $response->withJson("Exito");
+});
 $app->run();
 ?>

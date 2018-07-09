@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ApiProvider } from '../../providers/api/api';
 import { Storage } from '@ionic/storage';
 import { AulasgPage } from '../aulasg/aulasg';
-
+import { GlobalFunctionsProvider } from '../../providers/global-functions/global-functions';
 /**
  * Generated class for the MenuPage page.
  *
@@ -19,7 +19,7 @@ import { AulasgPage } from '../aulasg/aulasg';
 export class MenuPage {  
   nombre : string ;
   
-  constructor(public navCtrl: NavController, public navParams: NavParams,private storage: Storage,private ApiProvider: ApiProvider) {    
+  constructor(public navCtrl: NavController, public navParams: NavParams,private storage: Storage,private ApiProvider: ApiProvider,private GlobalF: GlobalFunctionsProvider) {    
     this.nombre='-Sin Nombre-';     
    
   }
@@ -46,6 +46,7 @@ export class MenuPage {
       case 3:
       break;
       case 4:
+        this.GlobalF.cargando();
         this.navCtrl.setRoot(AulasgPage);
       break;
       case 5:

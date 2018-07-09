@@ -11,10 +11,18 @@ class Materias
 		return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
     public static function altaAula($aula){
-		$sql = " INSERT INTO aula (aula) 
+		$sql = " INSERT INTO aulas (descripcion) 
 		values (:aula); ";
 		$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);
 		$consulta->bindParam(':aula',$aula);		
 	    $consulta->execute();
 	}
+	public static function modificarAula($aula,$idaula,$estado){				
+		$sql = " UPDATE aulas set descripcion=:aula,estado=:estado where idaula=:idaula";
+		$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);
+		$consulta->bindParam(':aula',$aula);		
+		$consulta->bindParam(':idaula',$idaula);		
+		$consulta->bindParam(':estado',$estado);		
+	    $consulta->execute();
+	}	
 }
