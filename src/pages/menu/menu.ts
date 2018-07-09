@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ApiProvider } from '../../providers/api/api';
 import { Storage } from '@ionic/storage';
 import { AulasgPage } from '../aulasg/aulasg';
+import { MateriasGPage } from '../materias-g/materias-g';
+import { UsuariosGPage } from '../usuarios-g/usuarios-g';
 import { GlobalFunctionsProvider } from '../../providers/global-functions/global-functions';
 /**
  * Generated class for the MenuPage page.
@@ -44,12 +46,16 @@ export class MenuPage {
       case 2:
       break;
       case 3:
+        this.GlobalF.cargando();
+        this.navCtrl.setRoot(MateriasGPage);      
       break;
       case 4:
         this.GlobalF.cargando();
         this.navCtrl.setRoot(AulasgPage);
       break;
       case 5:
+        this.GlobalF.cargando();
+        this.navCtrl.setRoot(UsuariosGPage);      
       break;
       case 6:
       break;

@@ -17,13 +17,7 @@ $app->add(function (Request $request, Response $response, $next) {
       ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 });
 
-$app->post('/usuarios/verificarUsuario', function (Request $request, Response $response){  
-	return $response->withJson(usuarios::VerificarUsuario($request->getParam('mail')));
-});
 
-$app->post('/usuarios/traerDatosUser', function (Request $request, Response $response){  
-	return $response->withJson(usuarios::traerDatosUser($request->getParam('mail')));
-});
   
 /**
    * @api {any} /Crear/  Crear
@@ -85,6 +79,77 @@ $app->post('/verificarToken', function (Request $request, Response $response) {
 
 
 /**
+   * @api {any} /PayLoad/  PayLoad
+   * @apiVersion 0.1.0
+   * @apiName PayLoad 
+   * @apiGroup TOKEN
+   * @apiDescription  Decodifica el token y devuelve los datos del mismo
+   *
+   * @apiParam {string} token  Posee el token del usuario
+   *
+   * @apiExample Como usarlo:
+   *JS	this.WebserviceService.PayLoad(token).then(data => {
+   *PHP 	AutentificadorJWT::ObtenerPayload($token);
+*/ 
+$app->post('/payLoad', function (Request $request, Response $response) {
+	
+	$token = $request->getParam('token');		          
+	$payload=AutentificadorJWT::ObtenerPayload($token);
+  $newResponse = $response->withJson($payload, 200); 
+  return $newResponse;
+});
+
+
+//----------------------------------INICIO - AULAS---------------------------------//
+$app->get('/materias/traerAulas', function (Request $request, Response $response){
+  return $response->withJson(Materias::traerAulas());
+});
+
+$app->post('/materias/altaAula', function (Request $request, Response $response) {
+		
+  $aula= $request->getParam('aula');
+  Materias::altaAula($aula);
+  return $response->withJson("Exito");
+});
+$app->post('/materias/modificarAula', function (Request $request, Response $response) {
+		
+  $aula= $request->getParam('descripcion');
+  $idaula= $request->getParam('idaula');
+  $estado= $request->getParam('estado');
+  Materias::modificarAula($aula,$idaula,$estado);
+  return $response->withJson("Exito");
+});
+
+//----------------------------------FIN  - AULAS---------------------------------//
+//----------------------------------INICIO - MATERIAS---------------------------------//
+$app->post('/materias/listarMateria', function (Request $request, Response $response){
+  return $response->withJson(Materias::listarMaterias());
+});
+$app->post('/materias/altaMateria', function (Request $request, Response $response) {
+		
+  $descripcion= $request->getParam('descripcion');
+  $descripcionCorta= $request->getParam('descripcionCorta');
+  $turno= $request->getParam('turno');
+  Materias::altaMateriaTurno($descripcion,$descripcionCorta,$turno);
+  return $response->withJson("Exito");
+});
+$app->post('/materias/modificarMateria', function (Request $request, Response $response) {
+	$idmateria= $request->getParam('idmateria');	
+  $descripcion= $request->getParam('descripcion');
+  $descripcionCorta= $request->getParam('descripcionCorta');
+  $estado= $request->getParam('estado');
+  $turno= $request->getParam('turno');
+  Materias::modificarMateriaTurno($idmateria,$descripcion,$descripcionCorta,$estado,$turno);
+  return $response->withJson("Exito");
+});
+$app->post('/materias/buscarTurnos', function (Request $request, Response $response) {
+		
+  $idmateria= $request->getParam('idmateria');    
+  return $response->withJson(Materias::buscarTurnos($idmateria));
+});
+//----------------------------------FIN  - MATERIAS---------------------------------//
+//----------------------------------INICIO - USUARIOS---------------------------------//
+/**
    * @api {any} /Verificar/  Verificar
    * @apiVersion 0.1.0
    * @apiName Verificar 
@@ -108,44 +173,29 @@ $app->post('/usuarios/altaUsuario', function (Request $request, Response $respon
   Usuarios::altaUsuario($mail,$idtipo,$nombre,$apellido,$idimagen);  
   return $response->withJson("Exito");
 });
-/**
-   * @api {any} /PayLoad/  PayLoad
-   * @apiVersion 0.1.0
-   * @apiName PayLoad 
-   * @apiGroup TOKEN
-   * @apiDescription  Decodifica el token y devuelve los datos del mismo
-   *
-   * @apiParam {string} token  Posee el token del usuario
-   *
-   * @apiExample Como usarlo:
-   *JS	this.WebserviceService.PayLoad(token).then(data => {
-   *PHP 	AutentificadorJWT::ObtenerPayload($token);
-*/ 
-$app->post('/payLoad', function (Request $request, Response $response) {
-	
-	$token = $request->getParam('token');		          
-	$payload=AutentificadorJWT::ObtenerPayload($token);
-  $newResponse = $response->withJson($payload, 200); 
-  return $newResponse;
-});
-
-$app->get('/materias/traerAulas', function (Request $request, Response $response){
-  return $response->withJson(Materias::traerAulas());
-});
-
-$app->post('/materias/altaAula', function (Request $request, Response $response) {
-		
-  $aula= $request->getParam('aula');
-  Materias::altaAula($aula);
+$app->post('/usuarios/modificarUsuario', function (Request $request, Response $response) {
+	$idusuario= $request->getParam('idusuario');	
+  $mail= $request->getParam('mail');
+  $idtipo= $request->getParam('idtipo');
+  $nombre= $request->getParam('nombre');
+  $apellido= $request->getParam('apellido');
+  $idimagen= $request->getParam('idimagen');  
+  $estado= $request->getParam('estado');  
+  Usuarios::modificarUsuario($idusuario,$mail,$idtipo,$nombre,$apellido,$idimagen,$estado);  
   return $response->withJson("Exito");
 });
-$app->post('/materias/modificarAula', function (Request $request, Response $response) {
-		
-  $aula= $request->getParam('descripcion');
-  $idaula= $request->getParam('idaula');
-  $estado= $request->getParam('estado');
-  Materias::modificarAula($aula,$idaula,$estado);
-  return $response->withJson("Exito");
+$app->post('/usuarios/verificarUsuario', function (Request $request, Response $response){  
+	return $response->withJson(usuarios::VerificarUsuario($request->getParam('mail')));
 });
+
+$app->post('/usuarios/traerDatosUser', function (Request $request, Response $response){  
+	return $response->withJson(usuarios::traerDatosUser($request->getParam('mail')));
+});
+
+$app->post('/usuarios/listarUsuarios', function (Request $request, Response $response){
+  return $response->withJson(Usuarios::listarUsuarios());
+});
+
+//----------------------------------FIN  - USUARIOS---------------------------------//
 $app->run();
 ?>

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFirestore/*, AngularFirestoreDocument */ } from 'angularfire2/firestore';
 
-import { AlertController, LoadingController, ToastController,NavController,IonicPage, NavParams,ActionSheetController } from 'ionic-angular';
+import { AlertController, LoadingController, ToastController,ActionSheetController } from 'ionic-angular';
 
 /*
   Generated class for the GlobalFunctionsProvider provider.

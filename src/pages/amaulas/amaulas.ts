@@ -32,7 +32,7 @@ export class AmaulasPage {
     }
     this.formAM = formBuilder.group({
       aula: [this.aula, Validators.compose([Validators.maxLength(30), Validators.required, Validators.pattern('^[a-zA-Z0-9]+$')])],      
-  });
+    });
   }
 
   ionViewDidLoad() {

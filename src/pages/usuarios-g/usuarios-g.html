@@ -1,5 +1,5 @@
 <!--
-  Generated template for the AulasgPage page.
+  Generated template for the UsuariosGPage page.
 
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
@@ -12,7 +12,7 @@
       </button>
     </ion-buttons>
     <ion-navbar>
-      <ion-title>Aulas</ion-title>
+      <ion-title>Usuarios</ion-title>
     </ion-navbar>
     <ion-buttons right>
       <button ion-button icon-only (click)="menu($event);">
@@ -27,13 +27,17 @@
 
 
 <ion-content padding>
-    <!-- <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar> -->
+    <!--ion-searchbar (ionInput)="getItems($event)"></ion-searchbar-->
     <ion-list inset>
       <button ion-item *ngFor="let item of listado" (click)="opciones(item)">
-        <ion-avatar item-start>
-          <ion-icon name="ios-create-outline" ></ion-icon>  
-        </ion-avatar>        
-        <h2> Aula: {{ item.descripcion }}</h2>  
+        <!--ion-avatar item-start>
+          <ion-icon name="md-book" ></ion-icon>  
+        </ion-avatar-->        
+        <ion-thumbnail item-start>
+          <img *ngIf="item.idimagen=='1'" src="https://ionicframework.com/dist/preview-app/www/assets/img/avatar-gollum.jpg">
+          <img *ngIf="item.idimagen!='1'" src="{{imagen}}">          
+        </ion-thumbnail>
+        <h2> {{ item.nomap }}</h2>  
     </button>
     </ion-list>
     <ion-fab right bottom>

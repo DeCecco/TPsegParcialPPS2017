@@ -16,7 +16,7 @@
       <ion-navbar>
         <ion-title>{{menu}}</ion-title>
       </ion-navbar>
-      <ion-buttons right *ngIf="where=='HOME' || where=='ALTA'">
+      <ion-buttons right >
         <button ion-button icon-only (click)="guardar();">
           <ion-icon name="md-checkmark"></ion-icon>
         </button>
@@ -27,7 +27,7 @@
 </ion-header>
 
 
-<ion-content padding *ngIf="where=='HOME' || where=='ALTA'">
+<ion-content padding>
   <form [formGroup]="formUser">
     <ion-list>
 
@@ -43,15 +43,21 @@
         <ion-input placeholder="Mail" type="text" formControlName="mail" [(ngModel)]="mail"></ion-input>
       </ion-item>
 
-      <ion-item>
-        <ion-input placeholder="Tipo" type="text" formControlName="idtipo" [(ngModel)]="idtipo"></ion-input>
+      <ion-item>        
+        <ion-label>Perfil</ion-label>
+        <ion-select [(ngModel)]="idtipo" formControlName="idtipo">
+          <ion-option value="1">Administrador</ion-option>
+          <ion-option value="2">Profesor</ion-option>
+          <ion-option value="3">Alumno</ion-option>
+          <ion-option value="4">Administrativo</ion-option>
+          </ion-select>
       </ion-item>
 
-      <ion-item>
+      <ion-item *ngIf="where=='HOME'">
         <ion-input placeholder="Password" type="password" formControlName="password" [(ngModel)]="password"></ion-input>
       </ion-item>
 
-      <ion-item>
+      <ion-item *ngIf="where=='HOME'">
         <ion-input placeholder="Confirmar password" type="password" formControlName="password2" [(ngModel)]="password2"></ion-input>
       </ion-item>
 

@@ -4,6 +4,7 @@ require_once "accesoDatos.php";
 
 class Materias
 {
+	//----------------------------------INICIO - AULAS---------------------------------//
     public static function traerAulas(){
 		$sql = 'SELECT * FROM aulas where estado=1';
         $consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);
@@ -25,4 +26,76 @@ class Materias
 		$consulta->bindParam(':estado',$estado);		
 	    $consulta->execute();
 	}	
+
+	//----------------------------------FIN  - AULAS---------------------------------//
+	//----------------------------------INICIO - MATERIAS---------------------------------//
+
+	public static function listarMaterias(){
+		$sql = 'SELECT * FROM materias where estado=1';
+        $consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);
+	    $consulta->execute();
+		return $consulta->fetchAll(PDO::FETCH_ASSOC);
+	}
+	public static function altaMateriaTurno($descripcion,$descripcionCorta,$turno){
+		
+		Materias::altaMateria($descripcion,$descripcionCorta);		
+		$id=Materias::ultimoIdMateria();
+		Materias::insertarTurnos($id,$turno);		
+	}
+	public static function insertarTurnos($idmateria,$turno){
+		foreach ($turno as $key => $value) {
+			
+			$sql = " INSERT INTO `materias-turnos` (idmateria,idturno) 
+				values (:idmateria,$value); ";
+			$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);
+			$consulta->bindParam(':idmateria',$idmateria);					
+			$consulta->execute();
+		}
+	}
+	public static function altaMateria($descripcion,$descripcionCorta){
+		$sql = " INSERT INTO materias (descripcion,descripcionCorta) 
+		values (:descripcion,:descripcionCorta); ";
+		$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);
+		$consulta->bindParam(':descripcion',$descripcion);		
+		$consulta->bindParam(':descripcionCorta',$descripcionCorta);				
+		$consulta->execute();		
+	}
+	public static function ultimoIdMateria(){
+		$sql = "select idmateria from materias order by idmateria desc limit 1 ";
+		$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);		
+		$consulta->execute();		
+		return $consulta->fetchColumn();	
+	}
+	public static function buscarTurnos($idmateria){
+		$sql = "select idturno from `materias-turnos` where idmateria=:idmateria	";
+		$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);		
+		$consulta->bindParam(':idmateria',$idmateria);				
+		$consulta->execute();				
+		return $consulta->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public static function modificarMateriaTurno($idmateria,$descripcion,$descripcionCorta,$estado,$turno){
+		
+		Materias::modificarMateria($idmateria,$descripcion,$descripcionCorta,$estado);	
+		if($estado!=0){			
+
+				$sql = "DELETE from `materias-turnos` where idmateria=:idmateria";
+				$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);
+				$consulta->bindParam(':idmateria',$idmateria);					
+				$consulta->execute();		
+				Materias::insertarTurnos($idmateria,$turno);	
+		}
+		
+	}
+	public static function modificarMateria($idmateria,$descripcion,$descripcionCorta,$estado){
+		$sql = "UPDATE materias set descripcion=:descripcion,descripcionCorta=:descripcionCorta,estado=:estado 
+		where idmateria=:idmateria";
+		$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);
+		$consulta->bindParam(':descripcion',$descripcion);		
+		$consulta->bindParam(':descripcionCorta',$descripcionCorta);				
+		$consulta->bindParam(':estado',$estado);		
+		$consulta->bindParam(':idmateria',$idmateria);		
+		$consulta->execute();		
+	}
+	//----------------------------------FIN  - MATERIAS---------------------------------//
 }

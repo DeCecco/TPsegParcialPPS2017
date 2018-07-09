@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Menu } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { MenuPage } from '../menu/menu';
 import { PopoverController } from 'ionic-angular';
 import { PopoverComponent } from '../../components/popover/popover';
@@ -19,7 +19,7 @@ import { AmaulasPage } from '../amaulas/amaulas';
   templateUrl: 'aulasg.html',
 })
 export class AulasgPage {
-  listaAulas: any;
+  listado: any;
   estado: string;
   constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, private ApiProvider: ApiProvider, private GlobalF: GlobalFunctionsProvider) {
   }
@@ -31,7 +31,7 @@ export class AulasgPage {
   listar(){
     this.ApiProvider.traerAulas()
       .then(data => {
-        this.listaAulas = data;
+        this.listado = data;
       })
       .catch(error => {
         console.log('ERROR: ' + error);
@@ -44,18 +44,7 @@ export class AulasgPage {
     const popover = this.popoverCtrl.create(PopoverComponent);
     popover.present({
       ev: evento
-    });
-    /*popover.onDidDismiss(popoverData=>{
-      console.log(popoverData);
-      console.log(popoverData.do);
-      switch(popoverData.do){
-        case 1:
-
-        break;
-        default:
-        break;
-      }
-    })*/
+    });    
   }
 
   add() {

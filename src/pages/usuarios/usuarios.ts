@@ -7,6 +7,7 @@ import { GlobalFunctionsProvider } from '../../providers/global-functions/global
 import { ApiProvider } from '../../providers/api/api';
 import { AngularFirestore/*, AngularFirestoreDocument */ } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { UsuariosGPage } from '../usuarios-g/usuarios-g';
 
 /**
  * Generated class for the UsuariosPage page.
@@ -31,8 +32,28 @@ export class UsuariosPage {
   idimagen: number;
   idtipo: number;
   menu: string;
+  arreglo:any;
   constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, private GlobalF: GlobalFunctionsProvider,
-    private ApiProvider: ApiProvider, private db: AngularFirestore, private afAuth: AngularFireAuth) {
+    private ApiProvider: ApiProvider, private db: AngularFirestore, private afAuth: AngularFireAuth) {    
+    this.where = navParams.get('where');
+
+    if (this.where == 'HOME') {
+      this.menu = "Agregar usuario";
+    } else if(this.where=='Alta')  {      
+      this.menu = "Alta de usuario";
+      this.password='123456';
+      this.password2='123456';
+    }else{
+      this.menu = "Modificar usuario";
+      this.arreglo = navParams.get('arreglo');
+      this.password='123456';
+      this.password2='123456';
+      this.mail = this.arreglo.mail;
+      this.nombre = this.arreglo.nombre;
+      this.apellido = this.arreglo.apellido;
+      this.idtipo = this.arreglo.idtipo;
+      this.idimagen = this.arreglo.idimagen;
+    }
     this.formUser = formBuilder.group({
       mail: [this.mail, Validators.compose([Validators.required, Validators.maxLength(30), Validators.minLength(6), Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])],
       password: [this.password, Validators.compose([Validators.required, Validators.maxLength(30)])],
@@ -42,24 +63,16 @@ export class UsuariosPage {
       idtipo: [this.idtipo, Validators.compose([Validators.required])],
       idimagen: [this.idimagen, Validators.compose([Validators.required])]
     });
-    this.where = navParams.get('where');
-
-    if (this.where == 'HOME') {
-      this.menu = "Agregar usuario";
-    } else {
-      this.menu = "Usuarios";
-    }
-
   }
   back() {
     if (this.where == 'HOME') {
       this.navCtrl.setRoot(HomePage);
 
     } else {
-      this.navCtrl.setRoot(MenuPage);
+      this.navCtrl.setRoot(UsuariosGPage);
     }
   }
-  checkPassword() {
+  checkPassword() {    
     if (this.password == this.password2)
       return true;
     else
@@ -75,13 +88,25 @@ export class UsuariosPage {
     })
   }
   guardar() {
+    console.info(this.formUser)
     if (this.checkPassword()) {
-      if (this.formUser.valid) {
-        var array = [{
-          "nombre": this.nombre, "apellido": this.apellido, "mail": this.mail, "password": this.password,
-          "idtipo": this.idtipo, "idimagen": this.idimagen
-        }];
-        this.insertarEnFB(array);
+      if (this.formUser.valid) {       
+        if(this.where!='Modificar'){
+          var array = [{
+            "nombre": this.nombre, "apellido": this.apellido, "mail": this.mail, "password": this.password,
+            "idtipo": this.idtipo, "idimagen": this.idimagen
+          }];
+          this.insertarEnFB(array);
+        }else{
+          var array2 = [{
+            "idusuario":this.arreglo.idusuario,"nombre": this.nombre, "apellido": this.apellido, "mail": this.mail,"idtipo": this.idtipo, "idimagen": this.idimagen,"estado":this.arreglo.estado
+          }];
+          this.ApiProvider.abmGralPost(array2,'usuarios/modificarUsuario').then(Response=>{          
+            this.navCtrl.setRoot(UsuariosGPage);
+          }).catch(error=>{
+            this.GlobalF.error(0);
+          })
+        } 
       } else {
         this.GlobalF.error(1);
       }

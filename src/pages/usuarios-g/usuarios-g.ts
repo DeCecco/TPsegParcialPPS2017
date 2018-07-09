@@ -5,9 +5,9 @@ import { PopoverController } from 'ionic-angular';
 import { PopoverComponent } from '../../components/popover/popover';
 import { ApiProvider } from '../../providers/api/api';
 import { GlobalFunctionsProvider } from '../../providers/global-functions/global-functions';
-import { MateriasAmPage } from '../materias-am/materias-am';
+import { UsuariosPage } from '../usuarios/usuarios';
 /**
- * Generated class for the MateriasGPage page.
+ * Generated class for the UsuariosGPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -15,23 +15,24 @@ import { MateriasAmPage } from '../materias-am/materias-am';
 
 @IonicPage()
 @Component({
-  selector: 'page-materias-g',
-  templateUrl: 'materias-g.html',
+  selector: 'page-usuarios-g',
+  templateUrl: 'usuarios-g.html',
 })
-export class MateriasGPage {
+export class UsuariosGPage {
   listado: any;
   estado: string;
   constructor(public navCtrl: NavController, public navParams: NavParams,public popoverCtrl: PopoverController, private ApiProvider: ApiProvider, private GlobalF: GlobalFunctionsProvider) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad MateriasGPage');
+    console.log('ionViewDidLoad UsuariosGPage');
     this.listar();
   }
 
+
   listar(){
     var array = [{"traer": '1' }];      
-    this.ApiProvider.abmGralPost(array,'materias/listarMateria').then(Response=>{          
+    this.ApiProvider.abmGralPost(array,'usuarios/listarUsuarios').then(Response=>{          
       this.listado = Response;
     }).catch(error=>{
       this.GlobalF.error(0);
@@ -50,13 +51,13 @@ export class MateriasGPage {
   add() {
     
     this.estado = 'Alta';
-    this.navCtrl.push(MateriasAmPage, { estado: this.estado });
+    this.navCtrl.setRoot(UsuariosPage, { where: this.estado });
   }
 
   modificar(item) {
     
     this.estado = 'Modificar';
-    this.navCtrl.push(MateriasAmPage, { estado: this.estado, arreglo: item });
+    this.navCtrl.setRoot(UsuariosPage, { where: this.estado, arreglo: item });
   }
 
   eliminar(item) {
@@ -64,8 +65,11 @@ export class MateriasGPage {
     promt.present();
     promt.onDidDismiss((data) => {
       if (data) {
-        var array2 = [{"idmateria":item[1].idmateria,"descripcion": item[1].descripcion,"descripcionCorta": item[1].descripcionCorta,"estado": item[1].estado }];      
-        this.ApiProvider.abmGralPost(array2,'materias/modificarMateria').then(Response=>{          
+        console.info(item);
+        var array2 = [{
+        "idusuario":item.idusuario,"nombre": item.nombre, "apellido": item.apellido, "mail": item.mail,"idtipo": item.idtipo, "idimagen": item.idimagen,"estado":item.estado
+      }];      
+        this.ApiProvider.abmGralPost(array2,'usuarios/modificarUsuario').then(Response=>{          
           this.GlobalF.correcto(1);         
           this.listar()
         }).catch(error=>{
@@ -73,22 +77,6 @@ export class MateriasGPage {
         })
       }
     })
-  }
-  buscarTurnos(item,x){    
-      let array=[];
-      array.push(item);        
-      this.ApiProvider.abmGralPost(array,'materias/buscarTurnos').then(Response=>{          
-        let array2=[];      
-        array2.push(Response);
-        array2.push(item);          
-        if(x==0){    
-          this.modificar(array2);
-        }else{
-          this.eliminar(array2);
-        }
-      }).catch(error=>{
-        this.GlobalF.error(5);
-      })    
   }
   opciones(x) {    
     const as = this.GlobalF.opcionesAS();
@@ -98,11 +86,11 @@ export class MateriasGPage {
     as.onDidDismiss(response => {
       switch (response) {
         case 1:
-          this.buscarTurnos(x,0);
+          this.modificar(x);
           break;
         case 2:          
           x.estado=0;          
-          this.buscarTurnos(x,1);
+          this.eliminar(x);
           break;
         default:
           break;
@@ -110,4 +98,18 @@ export class MateriasGPage {
     })
   }
 
+  getItems(ev: any) {
+    // Reset items back to all of the items
+    this.listar();
+
+    // set val to the value of the searchbar
+    const val = ev.target.value;
+    // if the value is an empty string don't filter the items
+    if (val && val.trim() != '') {
+      this.listado = this.listado.filter((item) => {
+        console.info(item['nomap']);
+        return (item['nomap'].toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
+  }
 }
