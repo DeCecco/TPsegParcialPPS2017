@@ -130,7 +130,8 @@ $app->post('/materias/altaMateria', function (Request $request, Response $respon
   $descripcion= $request->getParam('descripcion');
   $descripcionCorta= $request->getParam('descripcionCorta');
   $turno= $request->getParam('turno');
-  Materias::altaMateriaTurno($descripcion,$descripcionCorta,$turno);
+  $aulaAsig= $request->getParam('aulaAsig');
+  Materias::altaMateriaTurno($descripcion,$descripcionCorta,$turno,$aulaAsig);
   return $response->withJson("Exito");
 });
 $app->post('/materias/modificarMateria', function (Request $request, Response $response) {
@@ -139,13 +140,19 @@ $app->post('/materias/modificarMateria', function (Request $request, Response $r
   $descripcionCorta= $request->getParam('descripcionCorta');
   $estado= $request->getParam('estado');
   $turno= $request->getParam('turno');
-  Materias::modificarMateriaTurno($idmateria,$descripcion,$descripcionCorta,$estado,$turno);
+  $aulaAsig= $request->getParam('aulaAsig');
+  Materias::modificarMateriaTurno($idmateria,$descripcion,$descripcionCorta,$estado,$turno,$aulaAsig);
   return $response->withJson("Exito");
 });
 $app->post('/materias/buscarTurnos', function (Request $request, Response $response) {
 		
   $idmateria= $request->getParam('idmateria');    
   return $response->withJson(Materias::buscarTurnos($idmateria));
+});
+$app->post('/materias/buscarAulaMateria', function (Request $request, Response $response) {
+		
+  $idmateria= $request->getParam('idmateria');    
+  return $response->withJson(Materias::buscarAulaMateria($idmateria));
 });
 //----------------------------------FIN  - MATERIAS---------------------------------//
 //----------------------------------INICIO - USUARIOS---------------------------------//

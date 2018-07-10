@@ -36,11 +36,12 @@ class Materias
 	    $consulta->execute();
 		return $consulta->fetchAll(PDO::FETCH_ASSOC);
 	}
-	public static function altaMateriaTurno($descripcion,$descripcionCorta,$turno){
+	public static function altaMateriaTurno($descripcion,$descripcionCorta,$turno,$aulaAsig){
 		
 		Materias::altaMateria($descripcion,$descripcionCorta);		
 		$id=Materias::ultimoIdMateria();
 		Materias::insertarTurnos($id,$turno);		
+		Materias::insertarAulaMateria($aulaAsig,$id);
 	}
 	public static function insertarTurnos($idmateria,$turno){
 		foreach ($turno as $key => $value) {
@@ -52,6 +53,18 @@ class Materias
 			$consulta->execute();
 		}
 	}
+	public static function insertarAulaMateria($aulaAsig,$idmateria){
+		foreach ($aulaAsig as $key => $value) {
+			if($value!=null){
+				$sql = " INSERT INTO `materias-aulas` (idmateria,idaula,idturno) 
+					values (:idmateria,$value,$key); ";
+				$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);
+				$consulta->bindParam(':idmateria',$idmateria);					
+				$consulta->execute();
+			}
+		}
+	}
+	
 	public static function altaMateria($descripcion,$descripcionCorta){
 		$sql = " INSERT INTO materias (descripcion,descripcionCorta) 
 		values (:descripcion,:descripcionCorta); ";
@@ -73,8 +86,15 @@ class Materias
 		$consulta->execute();				
 		return $consulta->fetchAll(PDO::FETCH_ASSOC);
 	}
+	public static function buscarAulaMateria($idmateria){
+		$sql = "select idaula,idturno from `materias-aulas` where idmateria=:idmateria	";
+		$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);		
+		$consulta->bindParam(':idmateria',$idmateria);				
+		$consulta->execute();				
+		return $consulta->fetchAll(PDO::FETCH_ASSOC);
+	}
 
-	public static function modificarMateriaTurno($idmateria,$descripcion,$descripcionCorta,$estado,$turno){
+	public static function modificarMateriaTurno($idmateria,$descripcion,$descripcionCorta,$estado,$turno,$aulaAsig){
 		
 		Materias::modificarMateria($idmateria,$descripcion,$descripcionCorta,$estado);	
 		if($estado!=0){			
@@ -82,8 +102,13 @@ class Materias
 				$sql = "DELETE from `materias-turnos` where idmateria=:idmateria";
 				$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);
 				$consulta->bindParam(':idmateria',$idmateria);					
+				$consulta->execute();
+				$sql = "DELETE from `materias-aulas` where idmateria=:idmateria";
+				$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);
+				$consulta->bindParam(':idmateria',$idmateria);					
 				$consulta->execute();		
 				Materias::insertarTurnos($idmateria,$turno);	
+				Materias::insertarAulaMateria($aulaAsig,$idmateria);
 		}
 		
 	}

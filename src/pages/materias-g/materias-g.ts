@@ -78,14 +78,20 @@ export class MateriasGPage {
       let array=[];
       array.push(item);        
       this.ApiProvider.abmGralPost(array,'materias/buscarTurnos').then(Response=>{          
-        let array2=[];      
-        array2.push(Response);
-        array2.push(item);          
-        if(x==0){    
-          this.modificar(array2);
-        }else{
-          this.eliminar(array2);
-        }
+        this.ApiProvider.abmGralPost(array,'materias/buscarAulaMateria').then(Response2=>{
+          console.info(Response2)
+          let array2=[];      
+          array2.push(Response);          
+          array2.push(item);    
+          array2.push(Response2);      
+          if(x==0){    
+            this.modificar(array2);
+          }else{
+            this.eliminar(array2);
+          }
+        }).catch(error=>{
+          this.GlobalF.error(5);
+        })    
       }).catch(error=>{
         this.GlobalF.error(5);
       })    
