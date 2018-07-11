@@ -15,6 +15,7 @@ import { AmaulasPage } from '../pages/amaulas/amaulas';
 import { MateriasGPage } from '../pages/materias-g/materias-g';
 import { MateriasAmPage } from '../pages/materias-am/materias-am';
 import { UsuariosGPage } from '../pages/usuarios-g/usuarios-g';
+import { AsignacionMateriasPage } from '../pages/asignacion-materias/asignacion-materias';
 
 //------------------------Local Provider------------------------//
 import { ApiProvider } from '../providers/api/api';
@@ -50,7 +51,8 @@ export const firebaseConfig  = {
     PopoverComponent,
     MateriasGPage,
     MateriasAmPage,
-    UsuariosGPage
+    UsuariosGPage,
+    AsignacionMateriasPage
   ],
   imports: [
     BrowserModule,
@@ -72,7 +74,8 @@ export const firebaseConfig  = {
     MateriasGPage,
     PopoverComponent,
     MateriasAmPage,
-    UsuariosGPage
+    UsuariosGPage,
+    AsignacionMateriasPage
   ],
   providers: [
     StatusBar,

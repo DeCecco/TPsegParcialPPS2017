@@ -1,0 +1,44 @@
+<!--
+  Generated template for the AsignacionMateriasPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-header>
+    <ion-toolbar>
+      <ion-buttons left>
+        <button ion-button icon-only (click)="back();">
+         <ion-icon name="md-arrow-back"></ion-icon>
+        </button>
+      </ion-buttons>
+      <ion-title>Asignacion de materias</ion-title>      
+      <ion-buttons end *ngIf="!modifica">
+        <button ion-button icon-only (click)="guardar()">
+          <ion-icon name="md-checkmark"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+      <ion-item>
+          <ion-label floating>Usuario a asignar</ion-label>
+          <ion-input type="email" [readonly]="true" [(ngModel)]="nomap"></ion-input>
+        </ion-item>        
+    <ion-item>
+      <ion-label>Materias</ion-label>
+      <ion-select [(ngModel)]="materia" (ngModelChange)="buscarTurno($event);">
+        <ion-option *ngFor="let val of listadoMaterias" value="{{val.idmateria}}">{{val.descripcion}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+        <ion-label>Turnos</ion-label>
+        <ion-select [(ngModel)]="idmateriasturnos" (ngModelChange)="seleccionCompleta();">
+          <ion-option *ngFor="let val of listadoTurnos" value="{{val.idMateriasTurnos}}">{{val.descripcion}}</ion-option>
+        </ion-select>
+      </ion-item>
+  </ion-list>
+</ion-content>

@@ -34,6 +34,8 @@ export class MateriasAmPage {
   aulaAsigform: any;
   aulaAsigformT: any;
   aulaAsigformN: any;
+  anio:string;
+  cuatrimestre:string;
   constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, private ApiProvider: ApiProvider, private GlobalF: GlobalFunctionsProvider,
     private db: AngularFirestore) {
     this.estado = this.navParams.get("estado");
@@ -45,6 +47,8 @@ export class MateriasAmPage {
       this.arreglo = this.navParams.get("arreglo");
       this.descripcion = this.arreglo[1].descripcion;
       this.descripcionCorta = this.arreglo[1].descripcionCorta;
+      this.anio = this.arreglo[1].anio;
+      this.cuatrimestre = this.arreglo[1].cuatrimestre;
       this.turno = this.arreglo[0];
       let arr = [];
       this.aulaAsigform = '0';
@@ -77,9 +81,11 @@ export class MateriasAmPage {
       descripcion: [this.descripcion, Validators.compose([Validators.maxLength(100), Validators.required, Validators.pattern('^[a-zA-Z]+$')])],
       descripcionCorta: [this.descripcionCorta, Validators.compose([Validators.maxLength(40), Validators.pattern('^[a-zA-Z]+$')])],
       turno: [this.turno, Validators.compose([Validators.maxLength(40), Validators.required])],
+      anio: [this.anio, Validators.compose([Validators.required])],
+      cuatrimestre: [this.cuatrimestre, Validators.compose([Validators.required])],
       aulaAsigform: [this.aulaAsigform],
       aulaAsigformT: [this.aulaAsigformT],
-      aulaAsigformN: [this.aulaAsigformN],
+      aulaAsigformN: [this.aulaAsigformN],      
     });
   }
   ver() {
@@ -121,12 +127,12 @@ export class MateriasAmPage {
     })
   }
 
-  guardar() {
-    console.info(this.formAM);
+  guardar() {    
+    console.info(this.formAM)
     if (this.formAM.valid) {
 
       if (this.estado != 'Modificar') {
-        var array = [{ "descripcion": this.descripcion, "descripcionCorta": this.descripcionCorta, "turno": this.turno, "aulaAsig": this.aulaAsig }];
+        var array = [{ "descripcion": this.descripcion, "descripcionCorta": this.descripcionCorta, "turno": this.turno, "aulaAsig": this.aulaAsig,"anio":this.anio,"cuatrimestre":this.cuatrimestre }];
         this.ApiProvider.abmGralPost(array, 'materias/altaMateria').then(Response => {
           //this.GlobalF.guardarFirebaseDB(array,'materias');
           this.GlobalF.correcto(1);
@@ -135,7 +141,7 @@ export class MateriasAmPage {
           this.GlobalF.error(0);
         })
       } else {
-        var array2 = [{ "idmateria": this.arreglo[1].idmateria, "descripcion": this.descripcion, "descripcionCorta": this.descripcionCorta, "estado": this.arreglo[1].estado, "turno": this.turno, "aulaAsig": this.aulaAsig }];
+        var array2 = [{ "idmateria": this.arreglo[1].idmateria, "descripcion": this.descripcion, "descripcionCorta": this.descripcionCorta, "estado": this.arreglo[1].estado, "turno": this.turno, "aulaAsig": this.aulaAsig,"anio":this.anio,"cuatrimestre":this.cuatrimestre }];
         console.info(array2);
         this.ApiProvider.abmGralPost(array2, 'materias/modificarMateria').then(Response => {
           this.GlobalF.correcto(1);

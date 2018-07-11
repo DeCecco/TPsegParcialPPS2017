@@ -37,30 +37,45 @@
         <ion-input [(ngModel)]="descripcionCorta" formControlName="descripcionCorta" required type="text"></ion-input>
       </ion-item>
       <ion-item>
+        <ion-label>Año</ion-label>
+        <ion-select [(ngModel)]="anio" formControlName="anio">
+          <ion-option value="1">1°</ion-option>
+          <ion-option value="2">2°</ion-option>
+          <ion-option value="3">3°</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+          <ion-label>Cuatrimestre</ion-label>
+          <ion-select [(ngModel)]="cuatrimestre" formControlName="cuatrimestre">
+            <ion-option value="1">Primer</ion-option>
+            <ion-option value="2">Segundo</ion-option>            
+          </ion-select>
+        </ion-item>
+      <ion-item>
         <ion-label>Turno</ion-label>
-        <ion-select [(ngModel)]="turno" formControlName="turno"   (ngModelChange)="ver();" multiple="true" cancelText="Cancelar" okText="Aceptar">
+        <ion-select [(ngModel)]="turno" formControlName="turno" (ngModelChange)="ver();" multiple="true" cancelText="Cancelar" okText="Aceptar">
           <ion-option value="1">Mañana</ion-option>
           <ion-option value="2">Tarde</ion-option>
           <ion-option value="3">Noche</ion-option>
-          </ion-select>
+        </ion-select>
       </ion-item>
       <ion-item *ngIf="habilitarM=='1'">
         <ion-label>Aula Mañana</ion-label>
-        <ion-select [(ngModel)]="aulaAsigform" formControlName="aulaAsigform"  (ngModelChange)="asigAulaMateria($event,habilitarM);">
+        <ion-select [(ngModel)]="aulaAsigform" formControlName="aulaAsigform" (ngModelChange)="asigAulaMateria($event,habilitarM);">
           <ion-option *ngFor="let val of listadoAulaM" value="{{val.idaula}}">{{val.descripcion}}</ion-option>
-        </ion-select>        
+        </ion-select>
       </ion-item>
       <ion-item *ngIf="habilitarT=='2'">
         <ion-label>Aula Tarde</ion-label>
-        <ion-select [(ngModel)]="aulaAsigform2" formControlName="aulaAsigformT"  (ngModelChange)="asigAulaMateria($event,habilitarT);">
+        <ion-select [(ngModel)]="aulaAsigform2" formControlName="aulaAsigformT" (ngModelChange)="asigAulaMateria($event,habilitarT);">
           <ion-option *ngFor="let val of listadoAulaT" value="{{val.idaula}}">{{val.descripcion}}</ion-option>
-        </ion-select>        
+        </ion-select>
       </ion-item>
       <ion-item *ngIf="habilitarN=='3'">
         <ion-label>Aula Noche</ion-label>
-        <ion-select [(ngModel)]="aulaAsigform3" formControlName="aulaAsigformN"  (ngModelChange)="asigAulaMateria($event,habilitarN);">
+        <ion-select [(ngModel)]="aulaAsigform3" formControlName="aulaAsigformN" (ngModelChange)="asigAulaMateria($event,habilitarN);">
           <ion-option *ngFor="let val of listadoAulaN" value="{{val.idaula}}">{{val.descripcion}}</ion-option>
-        </ion-select>        
+        </ion-select>
       </ion-item>
     </ion-list>
   </form>

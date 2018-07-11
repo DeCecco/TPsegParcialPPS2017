@@ -21,7 +21,7 @@ export class PopoverComponent {
     this.text = 'Hello World';
     this.items=[
       {item: 'Volver al menu', do: 1,icon:'md-list'},
-      {item: 'Tomar lista', do: 1,icon:'ios-clipboard-outline'},
+      {item: 'Tomar asistencia', do: 1,icon:'ios-list-box'},
       {item: 'Reportes', do: 1,icon:'ios-stats'},
       {item: 'Salir', do: 2,icon:'md-log-out'}
     ]

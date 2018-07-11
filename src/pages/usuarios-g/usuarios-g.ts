@@ -6,6 +6,7 @@ import { PopoverComponent } from '../../components/popover/popover';
 import { ApiProvider } from '../../providers/api/api';
 import { GlobalFunctionsProvider } from '../../providers/global-functions/global-functions';
 import { UsuariosPage } from '../usuarios/usuarios';
+import { MateriasGPage } from '../materias-g/materias-g';
 /**
  * Generated class for the UsuariosGPage page.
  *
@@ -79,7 +80,7 @@ export class UsuariosGPage {
     })
   }
   opciones(x) {    
-    const as = this.GlobalF.opcionesAS();
+    const as = this.GlobalF.opcionesAS2();
     as.present({
       ev: event
     })
@@ -91,6 +92,9 @@ export class UsuariosGPage {
         case 2:          
           x.estado=0;          
           this.eliminar(x);
+          break;
+        case 4:          
+        this.navCtrl.setRoot(MateriasGPage, { arreglo: x,estado:'Usuarios' });        
           break;
         default:
           break;

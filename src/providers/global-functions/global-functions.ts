@@ -40,6 +40,14 @@ export class GlobalFunctionsProvider {
         break;
       case 5: x= 'Error al grabar los datos, intente nuevamente';
       break;
+      case 6: x = 'Seleccione un Año valido!';
+      break;
+      case 7: x = 'Seleccione un Cuatrimestre valido!';
+      break;
+      case 8: x = 'Seleccione un Turno valido!';
+      break;
+      case 9: x = 'No se encuentra una lista para grabar!';
+      break;
       default: x = x;
         break;
     }
@@ -149,6 +157,50 @@ export class GlobalFunctionsProvider {
             actionSheet.dismiss(2);
             return false;
           }
+        }, 
+        {
+          text: 'Cancelar',
+          role: 'cancelar',
+          handler: () => {
+            actionSheet.dismiss(3);
+            return false;
+          }
+        }
+      ]
+    });
+ 
+    //actionSheet.present();
+    return actionSheet;
+  }
+  opcionesAS2(){
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Opciones',
+      buttons: [
+        {
+          text: 'Modificar',
+          role: 'modificar',
+          icon: "md-create",
+          handler: () => {            
+            actionSheet.dismiss(1);
+            return false;
+          }
+        },
+        {
+          text: 'Eliminar',
+          icon: 'md-trash',
+          handler: () => {
+            actionSheet.dismiss(2);
+            return false;
+          }
+        }, 
+        {
+          text: 'Asignar Materias',
+          role: 'Asign',
+          icon: "md-filing",
+          handler: () => {            
+            actionSheet.dismiss(4);
+            return false;
+          }
         },
         {
           text: 'Cancelar',
@@ -164,5 +216,4 @@ export class GlobalFunctionsProvider {
     //actionSheet.present();
     return actionSheet;
   }
-
 }
