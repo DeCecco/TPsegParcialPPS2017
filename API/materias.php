@@ -113,14 +113,17 @@ class Materias
 				$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);
 				$consulta->bindParam(':idmateria',$idmateria);					
 				$consulta->execute();
-				$sql = "DELETE from `materias-aulas` where idmateria=:idmateria";
-				$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);
-				$consulta->bindParam(':idmateria',$idmateria);					
-				$consulta->execute();		
+				Materias::eliminarMateriaAula($idmateria);
 				Materias::insertarTurnos($idmateria,$turno);	
 				Materias::insertarAulaMateria($aulaAsig,$idmateria);
 		}
 		
+	}
+	public static function eliminarMateriaAula($idmateria){
+		$sql = "DELETE from `materias-aulas` where idmateria=:idmateria";
+		$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);		
+		$consulta->bindParam(':idmateria',$idmateria);				
+		$consulta->execute();				
 	}
 	public static function modificarMateria($idmateria,$descripcion,$descripcionCorta,$estado,$anio,$cuatrimestre){
 		$sql = "UPDATE materias set descripcion=:descripcion,descripcionCorta=:descripcionCorta,estado=:estado,anio=:anio,cuatrimestre=:cuatrimestre 
@@ -169,5 +172,17 @@ class Materias
 		$consulta->bindParam(':idmateriasturnos',$idmateriasturnos);		
 		$consulta->execute();		
 	}
+	public static function listaAsistencia($idmateriasturnos){
+		$sql= " SELECT m.idmateria,m.descripcion,m.descripcionCorta,m.cuatrimestre,m.anio,ma.idmateriasaulas,ma.idaula,mt.idturno,mu.*,concat(nombre, ' ',apellido) as nomap  from materias  m
+				left join `materias-aulas` ma on ma.idmateria=m.idmateria
+				left join `materias-turnos` mt on mt.idmateria=ma.idmateria
+				left join `materias-usuarios` mu on mu.idmateriasturnos=mt.idmateriasturnos
+				left join usuarios u on u.idusuario=mu.idusuario
+				where m.anio=1 and m.cuatrimestre=1 and m.estado=1 and mt.idturno=1 and ma.idaula=1 and m.idmateria=14 ";
+		$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);						
+		$consulta->execute();				
+		return $consulta->fetchAll(PDO::FETCH_ASSOC);
+	}
 	//----------------------------------FIN  - MATERIAS---------------------------------//
+	
 }
