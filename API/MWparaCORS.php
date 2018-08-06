@@ -17,7 +17,7 @@ class MWparaCORS
             ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 	}
 
- public function HabilitarCORS8080($request, $response, $next) {
+ lic function HabilitarCORS8080($request, $response, $next) {
 
 		/*
 		al ingresar no hago nada

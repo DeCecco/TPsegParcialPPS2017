@@ -8,7 +8,7 @@ import { ApiProvider } from '../../providers/api/api';
 import { AngularFirestore/*, AngularFirestoreDocument */ } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { UsuariosGPage } from '../usuarios-g/usuarios-g';
-
+import { Storage } from '@ionic/storage';
 /**
  * Generated class for the UsuariosPage page.
  *
@@ -32,22 +32,27 @@ export class UsuariosPage {
   idimagen: number;
   idtipo: number;
   menu: string;
-  arreglo:any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, private GlobalF: GlobalFunctionsProvider,
-    private ApiProvider: ApiProvider, private db: AngularFirestore, private afAuth: AngularFireAuth) {    
+  arreglo: any;
+  tipo : any;
+  name:any;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder,  private storage: Storage,private GlobalF: GlobalFunctionsProvider,
+    private ApiProvider: ApiProvider, private db: AngularFirestore, private afAuth: AngularFireAuth) {
     this.where = navParams.get('where');
-
+    
     if (this.where == 'HOME') {
       this.menu = "Agregar usuario";
-    } else if(this.where=='Alta')  {      
+      this.idtipo = 3;
+    } else if (this.where == 'Alta') {
       this.menu = "Alta de usuario";
-      this.password='123456';
-      this.password2='123456';
-    }else{
+      this.password = '123456';
+      this.password2 = '123456';
+      this.returnToken();
+    } else {
+      this.returnToken();
       this.menu = "Modificar usuario";
       this.arreglo = navParams.get('arreglo');
-      this.password='123456';
-      this.password2='123456';
+      this.password = '123456';
+      this.password2 = '123456';
       this.mail = this.arreglo.mail;
       this.nombre = this.arreglo.nombre;
       this.apellido = this.arreglo.apellido;
@@ -64,6 +69,18 @@ export class UsuariosPage {
       idimagen: [this.idimagen, Validators.compose([Validators.required])]
     });
   }
+  returnToken() {    
+    this.ApiProvider.returnToken().then(response=> {     
+      console.info(response)  
+      this.name = response.nombre + ' ' + response.apellido;    
+      this.tipo = response.tipo;
+    }).catch(error=>{
+      this.GlobalF.cargando();
+      this.storage.clear();
+      this.navCtrl.setRoot(HomePage);
+    })    
+  }
+
   back() {
     if (this.where == 'HOME') {
       this.navCtrl.setRoot(HomePage);
@@ -72,7 +89,7 @@ export class UsuariosPage {
       this.navCtrl.setRoot(UsuariosGPage);
     }
   }
-  checkPassword() {    
+  checkPassword() {
     if (this.password == this.password2)
       return true;
     else
@@ -90,23 +107,23 @@ export class UsuariosPage {
   guardar() {
     console.info(this.formUser)
     if (this.checkPassword()) {
-      if (this.formUser.valid) {       
-        if(this.where!='Modificar'){
+      if (this.formUser.valid) {
+        if (this.where != 'Modificar') {
           var array = [{
             "nombre": this.nombre, "apellido": this.apellido, "mail": this.mail, "password": this.password,
             "idtipo": this.idtipo, "idimagen": this.idimagen
           }];
           this.insertarEnFB(array);
-        }else{
+        } else {
           var array2 = [{
-            "idusuario":this.arreglo.idusuario,"nombre": this.nombre, "apellido": this.apellido, "mail": this.mail,"idtipo": this.idtipo, "idimagen": this.idimagen,"estado":this.arreglo.estado
+            "idusuario": this.arreglo.idusuario, "nombre": this.nombre, "apellido": this.apellido, "mail": this.mail, "idtipo": this.idtipo, "idimagen": this.idimagen, "estado": this.arreglo.estado
           }];
-          this.ApiProvider.abmGralPost(array2,'usuarios/modificarUsuario').then(Response=>{          
+          this.ApiProvider.abmGralPost(array2, 'usuarios/modificarUsuario').then(Response => {
             this.navCtrl.setRoot(UsuariosGPage);
-          }).catch(error=>{
+          }).catch(error => {
             this.GlobalF.error(0);
           })
-        } 
+        }
       } else {
         this.GlobalF.error(1);
       }
@@ -118,12 +135,16 @@ export class UsuariosPage {
   }
 
   insertarEnFB(array) {
-    const result = this.afAuth.auth.createUserWithEmailAndPassword(array[0].mail, array[0].password);
-    if (result) {
-      this.insertarEnFB2(array);
-      this.guardar2(array);
-    } else {
-      this.GlobalF.error(3)
+    try {
+      const result = this.afAuth.auth.createUserWithEmailAndPassword(array[0].mail, array[0].password);
+      if (result) {
+        this.insertarEnFB2(array);
+
+      } else {
+        this.GlobalF.error(3)
+      }
+    } catch (error) {
+      console.info(error)
     }
   }
   insertarEnFB2(array) {
@@ -136,6 +157,7 @@ export class UsuariosPage {
     })
       .then((docRef) => {
         console.log("Document written with ID: ", docRef.id);
+        this.guardar2(array);
       })
       .catch((error) => {
         console.error("Error adding document: ", error);

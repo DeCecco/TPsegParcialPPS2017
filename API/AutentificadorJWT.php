@@ -4,7 +4,7 @@ use Firebase\JWT\JWT;
 
 class AutentificadorJWT
 {
-    private static $claveSecreta = 'PDCAppGral_GRT@';
+    private static $claveSecreta = 'PDCPizzaGRT@';
     private static $tipoEncriptacion = ['HS256'];
     private static $aud = null;
     
@@ -22,7 +22,7 @@ class AutentificadorJWT
             'exp' => $ahora + 3600,
             'aud' => self::Aud(),
             'data' => $datos,
-            'app'=> "App_Gral-PDC"
+            'app'=> "TP-LABIV-PDC"
         );
      
         return JWT::encode($payload, self::$claveSecreta);

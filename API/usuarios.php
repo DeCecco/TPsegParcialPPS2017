@@ -61,10 +61,24 @@ class Usuarios
 	    return $consulta->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-	public static function listarUsuarios(){
-		$sql = "SELECT *,concat(nombre, ' ',apellido) as nomap  from usuarios where estado=1 order by apellido ";
-        $consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);		
+	public static function listarUsuarios($tipo){
+		if($tipo==1){
+			$sql = "SELECT *,concat(nombre, ' ',apellido) as nomap  from usuarios where estado=1 order by apellido,nombre";
+		}else{
+			$sql = "SELECT *,concat(nombre, ' ',apellido) as nomap  from usuarios where estado=1 and idtipo=3 order by apellido,nombre ";
+		}
+		$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);				
 	    $consulta->execute();
 	    return $consulta->fetchAll(PDO::FETCH_ASSOC);
 	}
+	/*
+	select a.idasistencia,e.idestados,e.descripcion,u.idusuario,u.nombre,u.apellido,concat(nombre, ' ',apellido) as nomap,u.mail,m.idmateria,m.descripcion,a.fecha
+from asistencia a 
+left join estados e on e.idestados=a.idestado
+left join usuarios u on u.idusuario=a.idusuario
+left join `materias-usuarios` mu on mu.idmateriasusuarios= a.idmateriasusuarios and a.idusuario=mu.idusuario
+left join `materias-turnos` mt on mt.idmateriasturnos=mu.idmateriasturnos
+left join materias m on m.idmateria=mt.idmateria and mu.anio=m.anio and m.cuatrimestre=mu.cuatrimestre
+where m.estado=1 and m.idmateria=15
+	*/
 }

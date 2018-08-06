@@ -6,7 +6,7 @@ class Materias
 {
 	//----------------------------------INICIO - AULAS---------------------------------//
     public static function traerAulas(){
-		$sql = 'SELECT * FROM aulas where estado=1';
+		$sql = 'SELECT * FROM aulas where estado=1 order by descripcion ';
         $consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);
 	    $consulta->execute();
 		return $consulta->fetchAll(PDO::FETCH_ASSOC);
@@ -39,17 +39,29 @@ class Materias
 	//----------------------------------INICIO - MATERIAS---------------------------------//
 
 	public static function listarMaterias(){
-		$sql = 'SELECT * FROM materias where estado=1';
+		$sql = 'SELECT * FROM materias where estado=1 order by anio,cuatrimestre,descripcion';
         $consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);
 	    $consulta->execute();
 		return $consulta->fetchAll(PDO::FETCH_ASSOC);
 	}
 	public static function altaMateriaTurno($descripcion,$descripcionCorta,$turno,$aulaAsig,$anio,$cuatrimestre){
-		
+
+		for ($i=0; $i < count($aulaAsig); $i++) { 
+			if($aulaAsig[$i]){
+				$respuesta=Materias::verificarAulaOcupada($turno,$anio,$cuatrimestre,$aulaAsig[$i],0,$i);
+				
+				
+				if($respuesta[0]['existe']!=0){
+					return "La materia " .$respuesta[0]['descripcion'] . " ocupa el aula " . $respuesta[0]['aula'] . " en el turno " . $respuesta[0]['turno'];
+					die();
+				}
+			}
+		}		
 		Materias::altaMateria($descripcion,$descripcionCorta,$anio,$cuatrimestre);		
 		$id=Materias::ultimoIdMateria();
 		Materias::insertarTurnos($id,$turno);		
-		Materias::insertarAulaMateria($aulaAsig,$id);
+		Materias::insertarAulaMateria($aulaAsig,$id);	
+		return 1;	
 	}
 	public static function insertarTurnos($idmateria,$turno){
 		foreach ($turno as $key => $value) {
@@ -106,6 +118,17 @@ class Materias
 
 	public static function modificarMateriaTurno($idmateria,$descripcion,$descripcionCorta,$estado,$turno,$aulaAsig,$anio,$cuatrimestre){
 		
+		for ($i=0; $i < count($aulaAsig); $i++) { 
+			if($aulaAsig[$i]){
+				$respuesta=Materias::verificarAulaOcupada($turno,$anio,$cuatrimestre,$aulaAsig[$i],$idmateria,$i);
+				
+				if($respuesta[0]['existe']!=0){
+					return "La materia " .$respuesta[0]['descripcion'] . " ocupa el aula " . $respuesta[0]['aula'] . " en el turno " . $respuesta[0]['turno'];
+					die();
+				}
+			}
+		}
+
 		Materias::modificarMateria($idmateria,$descripcion,$descripcionCorta,$estado,$anio,$cuatrimestre);	
 		if($estado!=0){			
 
@@ -116,6 +139,7 @@ class Materias
 				Materias::eliminarMateriaAula($idmateria);
 				Materias::insertarTurnos($idmateria,$turno);	
 				Materias::insertarAulaMateria($aulaAsig,$idmateria);
+				return 1;
 		}
 		
 	}
@@ -139,11 +163,11 @@ class Materias
 	}
 
 	public static function listarMateriaAsignada($anio,$cuatrimestre,$turno,$idusuario){
-		$sql = "SELECT  m.idmateria,m.descripcionCorta,m.descripcion,mt.idmateriasturnos,0 'asignado',$idusuario as 'idusuario' from materias       m
+		$sql = "SELECT  m.idmateria,m.descripcionCorta,m.descripcion,mt.idmateriasturnos,0 'asignado',$idusuario as 'idusuario',$anio as 'anio',$cuatrimestre as 'cuatrimestre' from materias       m
 		left join `materias-turnos` mt on mt.idmateria=m.idmateria
 		where m.estado=1 and m.cuatrimestre=$cuatrimestre and m.anio=$anio and mt.idturno=$turno and mt.idmateriasturnos not in (select mt.idmateriasturnos  from `materias-usuarios` mt where mt.idusuario=$idusuario)
 		union 
-		select m.idmateria,m.descripcionCorta,m.descripcion,mu.idmateriasturnos,mu.asignado,$idusuario as 'idusuario' from `materias-usuarios` mu
+		select m.idmateria,m.descripcionCorta,m.descripcion,mu.idmateriasturnos,mu.asignado,$idusuario as 'idusuario',$anio as 'anio',$cuatrimestre as 'cuatrimestre' from `materias-usuarios` mu
 		left join `materias-turnos` mt on mt.idmateriasturnos=mu.idmateriasturnos
 		left join materias m  on mt.idmateria=m.idmateria
 		where m.estado=1 and m.cuatrimestre=$cuatrimestre and m.anio=$anio and mt.idturno=$turno and mu.idusuario=$idusuario";
@@ -151,37 +175,103 @@ class Materias
 		$consulta->execute();				
 		return $consulta->fetchAll(PDO::FETCH_ASSOC);
 	}
-	public static function grabarAsignacion($lista,$idusuario){
-		
-		
+	public static function grabarAsignacion($lista,$idusuario){		
+		Materias::borrarAsignacion($lista[0]['anio'],$lista[0]['cuatrimestre'],$idusuario);
 
-		foreach ($lista as $key => $value) {
-			Materias::borrarAsignacion($value['idmateriasturnos']);
+		foreach ($lista as $key => $value) {			
 			if($value['asignado']==1){		
 				
-				$sql = "INSERT into `materias-usuarios` (idmateriasturnos,idusuario,asignado) values (".$value['idmateriasturnos'].",".$idusuario.",".$value['asignado'].");";
-			
-				$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);						
+				$sql = "INSERT into `materias-usuarios` (idmateriasturnos,idusuario,asignado,anio,cuatrimestre) values (".$value['idmateriasturnos'].",".$idusuario.",".$value['asignado'].",".$value['anio'].",".$value['cuatrimestre'].");";			
+				$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);							
 				$consulta->execute();				
 			}
 		}
 	}
-	public static function borrarAsignacion($idmateriasturnos){
-		$sql = "delete from `materias-usuarios` where idmateriasturnos=:idmateriasturnos";
+	public static function borrarAsignacion($anio,$cuatrimestre,$idusuario){
+		$sql = "delete from `materias-usuarios` where anio=:anio and cuatrimestre=:cuatrimestre and idusuario=:idusuario";
 		$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);		
-		$consulta->bindParam(':idmateriasturnos',$idmateriasturnos);		
+		$consulta->bindParam(':anio',$anio);		
+		$consulta->bindParam(':cuatrimestre',$cuatrimestre);		
+		$consulta->bindParam(':idusuario',$idusuario);		
 		$consulta->execute();		
 	}
-	public static function listaAsistencia($idmateriasturnos){
-		$sql= " SELECT m.idmateria,m.descripcion,m.descripcionCorta,m.cuatrimestre,m.anio,ma.idmateriasaulas,ma.idaula,mt.idturno,mu.*,concat(nombre, ' ',apellido) as nomap  from materias  m
-				left join `materias-aulas` ma on ma.idmateria=m.idmateria
-				left join `materias-turnos` mt on mt.idmateria=ma.idmateria
-				left join `materias-usuarios` mu on mu.idmateriasturnos=mt.idmateriasturnos
-				left join usuarios u on u.idusuario=mu.idusuario
-				where m.anio=1 and m.cuatrimestre=1 and m.estado=1 and mt.idturno=1 and ma.idaula=1 and m.idmateria=14 ";
+	public static function tomarAsistencia($anio,$cuatrimestre,$turno,$idmateria){
+		$sql= " SELECT mu.idmateriasusuarios,0 as 'idasistencia',mu.idusuario,mu.anio,mu.cuatrimestre,mt.idmateria,m.descripcion,m.descripcioncorta,mt.idturno,
+		u.nombre,u.apellido,5 as 'asistio',0 'fecha',concat(u.nombre, ' ',u.apellido) as nomap,'1' as idimagen
+		from `materias-usuarios` mu
+		left join `materias-turnos` mt on mt.idmateriasturnos=mu.idmateriasturnos
+		left join materias m on m.idmateria=mt.idmateria
+		left join usuarios u on u.idusuario=mu.idusuario
+		where mu.anio=$anio and mu.cuatrimestre=$cuatrimestre  and m.estado=1 and m.idmateria=$idmateria and u.estado=1 
+		and mu.idusuario not in(SELECT a.idusuario from asistencia a
+								left join  `materias-usuarios` mu on a.idmateriasusuarios=mu.idmateriasusuarios
+								left join `materias-turnos` mt on mt.idmateriasturnos=mu.idmateriasturnos
+								where a.idestado!=5 and mu.cuatrimestre=$cuatrimestre and mu.anio=$anio and mt.idmateria=$idmateria
+								)
+		union		
+		SELECT a.idmateriasusuarios,a.idasistencia,a.idusuario,mu.anio,mu.cuatrimestre,m.idmateria,m.descripcion,m.descripcioncorta,mt.idturno,
+		u.nombre,u.apellido,a.idestado,a.fecha,concat(u.nombre, ' ',u.apellido) as nomap,'1' as idimagen
+		from asistencia a
+		left join  `materias-usuarios` mu on a.idmateriasusuarios=mu.idmateriasusuarios
+		left join `materias-turnos` mt on mt.idmateriasturnos=mu.idmateriasturnos
+		left join materias m on m.idmateria=mt.idmateria
+		left join usuarios u on u.idusuario=mu.idusuario
+		where a.idestado!=5 and mu.cuatrimestre=$cuatrimestre and mu.anio=$anio and mt.idmateria=$idmateria ";
+		$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);							
+		$consulta->execute();				
+		return $consulta->fetchAll(PDO::FETCH_ASSOC);
+	}
+	public static function cambiarEstadoAsistencia($idmateriasusuarios,$idusuario,$idestado){
+		
+		Materias::borrarEstadoAsistencia($idmateriasusuarios,$idusuario);
+
+		$sql = "INSERT into asistencia (idmateriasusuarios,idusuario,idestado,fecha) values (:idmateriasusuarios,:idusuario,:idestado,'".gmdate('d-m-Y')."')";
+		$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);		
+		$consulta->bindParam(':idmateriasusuarios',$idmateriasusuarios);		
+		$consulta->bindParam(':idestado',$idestado);		
+		$consulta->bindParam(':idusuario',$idusuario);		
+		$consulta->execute();		
+	}
+	public static function borrarEstadoAsistencia($idmateriasusuarios,$idusuario){
+		$sql = "delete from asistencia where idmateriasusuarios=:idmateriasusuarios and idusuario=:idusuario and fecha='".gmdate('d-m-Y')."'";
+		$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);		
+		$consulta->bindParam(':idmateriasusuarios',$idmateriasusuarios);				
+		$consulta->bindParam(':idusuario',$idusuario);				
+		$consulta->execute();		
+	}	
+
+	public static function verificarAulaCreada($descripcion,$idaula){
+		$sql = "SELECT count(descripcion) existe from aulas where descripcion like '%$descripcion%' and estado=1 and idaula!=$idaula";
 		$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);						
 		$consulta->execute();				
 		return $consulta->fetchAll(PDO::FETCH_ASSOC);
+	}
+	public static function verificarAulaOcupada($idturno,$anio,$cuatrimestre,$idaula,$idmateria,$pos){
+		
+				
+					if(array_search($pos,$idturno) || array_search($pos,$idturno)==0 ){
+						$sql = " SELECT count(m.idmateria) existe, m.descripcion,mt.idturno,m.cuatrimestre,m.anio,a.descripcion aula,
+						case mt.idturno when 1 then 'Mañana'
+										when 2 then 'Tarde'
+										when 3 then 'Noche' end as turno
+						from materias m
+						left join  `materias-turnos` mt on mt.idmateria=m.idmateria
+						left join `materias-aulas` ma on ma.idmateria=m.idmateria and mt.idturno=ma.idturno
+						left join aulas a on a.idaula=ma.idaula
+						where mt.idturno=:idturno and m.anio=:anio and m.cuatrimestre=:cuatrimestre and ma.idaula=:idaula and m.estado=1 and m.idmateria!=:idmateria";				
+						$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);							
+						$consulta->bindParam(':idturno',$pos);		
+						$consulta->bindParam(':anio',$anio);		
+						$consulta->bindParam(':cuatrimestre',$cuatrimestre);						
+						$consulta->bindParam(':idaula',$idaula);		
+						$consulta->bindParam(':idmateria',$idmateria);		
+						 
+						$consulta->execute();							
+						return $consulta->fetchAll(PDO::FETCH_ASSOC); 
+					}else{
+						return 0;
+					}				
+
 	}
 	//----------------------------------FIN  - MATERIAS---------------------------------//
 	

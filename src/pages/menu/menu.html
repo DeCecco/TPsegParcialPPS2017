@@ -56,22 +56,22 @@
       </ion-item>
     </ion-list>
     <ion-list>
-      <button *ngIf="rol!='3' " icon-left ion-item (click)="goTo(2)">
+      <button *ngIf="tipo!=2 && tipo!=3" icon-left ion-item (click)="goTo(2)">
         <ion-icon item-start name="ios-list-box"  style="color:#0e6073;"></ion-icon>
           <div>Asistencia</div>        
         <ion-icon item-end name="ios-arrow-forward"></ion-icon>
       </button> 
-      <button icon-left ion-item (click)="goTo(3)">
+      <button icon-left ion-item (click)="goTo(3)" *ngIf="tipo!=2 && tipo!=3">
         <ion-icon item-start name="ios-book"  style="color:#0e6073;"></ion-icon>
           <div>Materias</div>        
         <ion-icon item-end name="ios-arrow-forward"></ion-icon>
       </button> 
-      <button icon-left ion-item (click)="goTo(4)">
+      <button icon-left ion-item (click)="goTo(4)" *ngIf="tipo==1">
         <ion-icon item-start name="ios-create"  style="color:#0e6073;"></ion-icon>
           <div>Aulas</div>        
         <ion-icon item-end name="ios-arrow-forward"></ion-icon>
       </button>       
-      <button icon-left ion-item  (click)="goTo(5)">
+      <button icon-left ion-item  (click)="goTo(5)" *ngIf="tipo!=2 && tipo!=3">
         <ion-icon item-start name="ios-contacts"  style="color:#0e6073;"></ion-icon>
           <div>Usuarios</div>        
         <ion-icon item-end name="ios-arrow-forward"></ion-icon>

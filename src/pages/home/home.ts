@@ -20,9 +20,9 @@ export class HomePage {
   mail: string;
   password: string;
   constructor(public navCtrl: NavController, public formBuilder: FormBuilder, private ApiProvider: ApiProvider, /*private db: AngularFirestore,*/
-    private GlobalF: GlobalFunctionsProvider, public modalCtrl: ModalController, private afAuth: AngularFireAuth,private storage: Storage) {
-      this.mail="pablomdececcorios@gmail.com";
-      this.password="agos1305";
+    private GlobalF: GlobalFunctionsProvider, public modalCtrl: ModalController, private afAuth: AngularFireAuth, private storage: Storage) {
+    //this.mail = "pablomdececcorios@gmail.com";
+    //this.password = "agos1305";
     this.formLogin = formBuilder.group({
       mail: [this.mail, Validators.compose([Validators.required, Validators.maxLength(30), Validators.minLength(6), Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])],
       password: [this.password, Validators.compose([Validators.required, Validators.maxLength(30), Validators.minLength(6)])]
@@ -54,39 +54,45 @@ export class HomePage {
   }
 
 
-  ingresar() {  
-    
+  ingresar() {
+
     if (this.formLogin.valid) {
       try {
 
-        this.afAuth.auth.signInWithEmailAndPassword(this.mail, this.password).then(response => {
-          this.GlobalF.cargando();
-          this.ApiProvider.verificarUsuario(this.mail).then(response => {
-            if (response[0].existe > 0) {
+        //this.afAuth.auth.signInWithEmailAndPassword(this.mail, this.password).then(response => {
+        this.GlobalF.cargando();
+        console.info(this.mail)
+        this.ApiProvider.verificarUsuario(this.mail).then(response => {
+          if (response[0].existe > 0) {
 
-              var array = [{
-                "nombre": response[0].nombre, "apellido": response[0].apellido, "email": response[0].mail, "tipo": response[0].idtipo, "img": response[0].idimagen
-              }];
+            var array = [{
+              "nombre": response[0].nombre, "apellido": response[0].apellido, "email": response[0].mail, "tipo": response[0].idtipo, "img": response[0].idimagen
+            }];
+            console.info(array)
+            this.ApiProvider.token(array).then(tk => {
+              this.storage.set('Token', tk);
+              this.GlobalF.cargando();
+              setTimeout(() => {
+
+                this.navCtrl.setRoot(MenuPage);  
+              }, 2000);
               
-              this.ApiProvider.token(array).then(tk => {
-                this.storage.set('Token', tk);
-                this.navCtrl.setRoot(MenuPage);
-              }).catch(error => {
-                this.GlobalF.error(3)
-                console.log(error);
-              });
-              //this.local.set("userInfo",data[0]);              
-            } else {
-              this.GlobalF.error(2)
-            }
+            }).catch(error => {
+              this.GlobalF.error(3)
+              console.log(error);
+            });
+            //this.local.set("userInfo",data[0]);              
+          } else {
+            this.GlobalF.error(2)
+          }
 
-          }).catch(error => {
-            this.GlobalF.error(0)
-            console.warn(error)
-          })
         }).catch(error => {
+          this.GlobalF.error(0)
+          console.warn(error)
+        })
+        /*}).catch(error => {
           this.GlobalF.error(2)
-        });
+        });*/
       } catch (e) {
         console.error(e);
       }
@@ -98,8 +104,20 @@ export class HomePage {
   harcode(donde) {
     switch (donde) {
       case 1:
+        this.mail = "pablomdececcorios@gmail.com";
+        this.password = '568977pñ';
+        break;
+      case 2:
+        this.mail = "ovillegas@gmail.com";
+        this.password = '123456';
+        break;
+      case 3:
+        this.mail = "luciana.a.arrua@gmail.com";
+        this.password = '123456';
+        break;
+      case 4:
         this.mail = "pablo.dececco@hotmail.com";
-        this.password = '722567';
+        this.password = '123456';
         break;
       default:
 
@@ -108,14 +126,15 @@ export class HomePage {
   }
 
   forgot() {
-    this.afAuth.auth.sendPasswordResetEmail(this.mail).then(function () {
+    this.afAuth.auth.sendPasswordResetEmail(this.mail).then(response=> {     
 
-    }).catch(function (error) {
+    }).catch(error=> {
       //TODO: FALTA MENSAJE
+      this.GlobalF.error(error.message)
       console.error(error)
-    });        
-    
+    });
+
   }
 
-  
+
 }

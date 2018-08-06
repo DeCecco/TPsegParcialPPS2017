@@ -11,10 +11,12 @@ $app = new \Slim\App(['settings' => ['determineRouteBeforeAppMiddleware' => true
 $app->add(function (Request $request, Response $response, $next) {
     $response = $next($request, $response);
     return $response
-            //->withHeader('Access-Control-Allow-Origin', '*')//servidor
-			->withHeader('Access-Control-Allow-Origin', '*')//local
+      //->withHeader('Access-Control-Allow-Origin', '*')//servidor
+			->withHeader('Access-Control-Allow-Origin', 'http://localhost:8100')//local
       ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
       ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+      //->withHeader('Accept', 'application/json')
+      //->withHeader('content-type', 'application/json');
 });
 
 
@@ -107,7 +109,7 @@ $app->get('/materias/traerAulas', function (Request $request, Response $response
 
 $app->post('/materias/altaAula', function (Request $request, Response $response) {
 		
-  $aula= $request->getParam('aula');
+  $aula= $request->getParam('aula');  
   Materias::altaAula($aula);
   return $response->withJson("Exito");
 });
@@ -138,8 +140,8 @@ $app->post('/materias/altaMateria', function (Request $request, Response $respon
   $aulaAsig= $request->getParam('aulaAsig');
   $anio= $request->getParam('anio');
   $cuatrimestre= $request->getParam('cuatrimestre');
-  Materias::altaMateriaTurno($descripcion,$descripcionCorta,$turno,$aulaAsig,$anio,$cuatrimestre);
-  return $response->withJson("Exito");
+  
+  return $response->withJson(Materias::altaMateriaTurno($descripcion,$descripcionCorta,$turno,$aulaAsig,$anio,$cuatrimestre));
 });
 $app->post('/materias/modificarMateria', function (Request $request, Response $response) {
 	$idmateria= $request->getParam('idmateria');	
@@ -150,8 +152,8 @@ $app->post('/materias/modificarMateria', function (Request $request, Response $r
   $aulaAsig= $request->getParam('aulaAsig');
   $anio= $request->getParam('anio');
   $cuatrimestre= $request->getParam('cuatrimestre');
-  Materias::modificarMateriaTurno($idmateria,$descripcion,$descripcionCorta,$estado,$turno,$aulaAsig,$anio,$cuatrimestre);
-  return $response->withJson("Exito");
+  
+  return $response->withJson(Materias::modificarMateriaTurno($idmateria,$descripcion,$descripcionCorta,$estado,$turno,$aulaAsig,$anio,$cuatrimestre));
 });
 $app->post('/materias/buscarTurnos', function (Request $request, Response $response) {
 		
@@ -176,6 +178,33 @@ $app->post('/materias/grabarAsignacion', function (Request $request, Response $r
   $lista= $request->getParam('lista');      
   $idusuario = $lista[0]['idusuario'];  
   return $response->withJson(Materias::grabarAsignacion($lista,$idusuario));
+});
+$app->post('/materias/tomarAsistencia', function (Request $request, Response $response) {
+		
+  $anio= $request->getParam('anio');    
+  $cuatrimestre= $request->getParam('cuatrimestre'); 
+  $turno= $request->getParam('turno'); 
+  $idmateria=   $request->getParam('idmateria');   
+  return $response->withJson(Materias::tomarAsistencia($anio,$cuatrimestre,$turno,$idmateria));
+});
+$app->post('/materias/cambiarEstadoAsistencia', function (Request $request, Response $response) {
+		
+  $idmateriasusuarios= $request->getParam('idmateriasusuarios');    
+  $idusuario= $request->getParam('idusuario'); 
+  $idestado= $request->getParam('idestado');   
+  return $response->withJson(Materias::cambiarEstadoAsistencia($idmateriasusuarios,$idusuario,$idestado));
+});
+$app->post('/materias/verificarAulaCreada', function (Request $request, Response $response){  
+	return $response->withJson(materias::verificarAulaCreada($request->getParam('descripcion'),$request->getParam('idaula')));
+});
+$app->post('/materias/verificarAulaOcupada', function (Request $request, Response $response) {
+		
+  $idturno= $request->getParam('idturno');    
+  $anio= $request->getParam('anio'); 
+  $cuatrimestre= $request->getParam('cuatrimestre');   
+  $idaula= $request->getParam('idaula');   
+  $idmateria= $request->getParam('idmateria');   
+  return $response->withJson(Materias::verificarAulaOcupada($idturno,$anio,$cuatrimestre,$idaula,$idmateria));
 });
 //----------------------------------FIN  - MATERIAS---------------------------------//
 //----------------------------------INICIO - USUARIOS---------------------------------//
@@ -223,8 +252,10 @@ $app->post('/usuarios/traerDatosUser', function (Request $request, Response $res
 });
 
 $app->post('/usuarios/listarUsuarios', function (Request $request, Response $response){
-  return $response->withJson(Usuarios::listarUsuarios());
+  $traer= $request->getParam('traer');	
+  return $response->withJson(Usuarios::listarUsuarios($traer));
 });
+
 
 //----------------------------------FIN  - USUARIOS---------------------------------//
 $app->run();

@@ -10,14 +10,11 @@
       <button ion-button icon-only (click)="back();">
         <ion-icon name="md-arrow-back"></ion-icon>
       </button>
-    </ion-buttons>
-    <ion-navbar *ngIf="estado!='Usuarios'">
-      <ion-title>Materias</ion-title>
+    </ion-buttons>    
+    <ion-navbar>
+        <ion-title>{{titulo}}</ion-title>
     </ion-navbar>
-    <ion-navbar *ngIf="estado=='Usuarios'">
-        <ion-title>Asignacion de Materias</ion-title>
-      </ion-navbar>
-    <ion-buttons right *ngIf="estado!='Usuarios'">
+    <ion-buttons right *ngIf="estado!='Usuarios' && estado!='Asistencia'">
       <button ion-button icon-only (click)="menu($event);">
         <ion-icon name="md-more"></ion-icon>
       </button>
@@ -35,7 +32,7 @@
 
 
 <ion-content padding>  
-  <ion-item *ngIf="estado=='Usuarios'">    
+  <ion-item *ngIf="estado=='Usuarios' || estado=='Asistencia'">    
     <ion-select [(ngModel)]="anio" (ngModelChange)="limpiarLista();" >
       <ion-option value="0" selected>Año</ion-option>
       <ion-option value="1">1°</ion-option>
@@ -54,21 +51,21 @@
       <ion-option value="3">Noche</ion-option>
     </ion-select>
   </ion-item>
-  <ion-item *ngIf="estado=='Usuarios'" >
+  <ion-item *ngIf="estado=='Usuarios' || estado=='Asistencia'" >
       <button ion-button full (click)="listarAsignacion()">Buscar</button>
 </ion-item>
 <ion-item>
   <ion-list inset>
     <button ion-item *ngFor="let item of listado" (click)="opciones(item)">
-      <ion-avatar item-start *ngIf="estado!='Usuarios'">
+      <ion-avatar item-start *ngIf="estado=='Materias'">
         <ion-icon name="md-book"></ion-icon>
       </ion-avatar>
-      <ion-label>{{ item.descripcionCorta }}</ion-label>
+      <ion-label >{{ item.descripcionCorta }}</ion-label>      
       <ion-checkbox *ngIf="estado=='Usuarios'" [(ngModel)]="item.asignado"></ion-checkbox>
     </button>
   </ion-list>  
 </ion-item>
-<ion-fab right bottom *ngIf="estado!='Usuarios'">
+<ion-fab right bottom *ngIf="estado!='Usuarios' && estado!='Asistencia'">
     <button ion-fab mini (click)="add()">
       <ion-icon name="md-add"></ion-icon>
     </button>

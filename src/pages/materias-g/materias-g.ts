@@ -7,6 +7,9 @@ import { ApiProvider } from '../../providers/api/api';
 import { GlobalFunctionsProvider } from '../../providers/global-functions/global-functions';
 import { MateriasAmPage } from '../materias-am/materias-am';
 import { UsuariosGPage } from '../usuarios-g/usuarios-g';
+import { Storage } from '@ionic/storage';
+import { HomePage } from '../home/home';
+
 /**
  * Generated class for the MateriasGPage page.
  *
@@ -26,21 +29,46 @@ export class MateriasGPage {
   anio:any;
   cuatrimestre:any;
   turno:any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, private ApiProvider: ApiProvider, private GlobalF: GlobalFunctionsProvider) {
+  nombre:string;
+  tipo:any;
+  titulo:string;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, private ApiProvider: ApiProvider, private storage: Storage,private GlobalF: GlobalFunctionsProvider) {
     this.estado = this.navParams.get("estado");
     this.arreglo = this.navParams.get("arreglo");
     this.anio='0';
     this.cuatrimestre='0';
     this.turno='0';
+    this.titulo='Materias';
+    this.returnToken();
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad MateriasGPage');
-    if(this.estado!='Usuarios'){
-      this.listar();
-    }
+    console.log('ionViewDidLoad MateriasGPage');    
+    switch(this.estado){
+      case 'Usuarios':
+        this.titulo='Asignacion de Materias';
+      break;
+      case 'Asistencia':
+        this.titulo='Toma de Asistencia';
+      break;
+      default:        
+        this.titulo='Materias';
+        this.estado='Materias';
+        this.listar();
+      break;
+    }    
   }
-
+  returnToken() {    
+    this.ApiProvider.returnToken().then(response=> {     
+      console.info(response)  
+      this.nombre = response.nombre + ' ' + response.apellido;    
+      this.tipo = response.tipo;
+    }).catch(error=>{
+      this.GlobalF.cargando();
+      this.storage.clear();
+      this.navCtrl.setRoot(HomePage);
+    })    
+  }
   listar() {
     var array = [{ "traer": '1' }];
     this.ApiProvider.abmGralPost(array, 'materias/listarMateria').then(Response => {
@@ -50,6 +78,7 @@ export class MateriasGPage {
     })
   }
   listarAsignacion() {
+
     if(this.anio=='0'){
       this.GlobalF.error(6);
     }else if(this.cuatrimestre=='0'){
@@ -57,12 +86,18 @@ export class MateriasGPage {
     }else if(this.turno=='0'){
       this.GlobalF.error(8);
     }else{
-      var array = [{ "anio": this.anio,"cuatrimestre":this.cuatrimestre,"turno":this.turno,"idusuario":this.arreglo.idusuario.toString()}];
-      this.ApiProvider.abmGralPost(array, 'materias/listarMateriaAsignada').then(Response => {
-        this.listado = Response;
-      }).catch(error => {
-        this.GlobalF.error(0);
-      })
+        var array;
+        if(this.estado=='Usuarios'){
+          array = [{ "anio": this.anio,"cuatrimestre":this.cuatrimestre,"turno":this.turno,"idusuario":this.arreglo.idusuario.toString()}];
+        }else{
+          array = [{ "anio": this.anio,"cuatrimestre":this.cuatrimestre,"turno":this.turno,"idusuario":'0'}];
+        }
+      
+        this.ApiProvider.abmGralPost(array, 'materias/listarMateriaAsignada').then(Response => {
+          this.listado = Response;
+        }).catch(error => {
+          this.GlobalF.error(0);
+        })            
     }
   }
   back() {
@@ -92,6 +127,7 @@ export class MateriasGPage {
   }
 
   eliminar(item) {
+    this.returnToken();
     let promt = this.GlobalF.alerta(2);
     promt.present();
     promt.onDidDismiss((data) => {
@@ -131,7 +167,7 @@ export class MateriasGPage {
   opciones(x) {
     if (this.estado == 'Usuarios') {
 
-    } else {
+    } else if(this.estado=='Materias'){
       const as = this.GlobalF.opcionesAS();
       as.present({
         ev: event
@@ -149,6 +185,8 @@ export class MateriasGPage {
             break;
         }
       })
+    }else{      
+      this.listarUsuariosAsignados(x)
     }
   }
 
@@ -157,6 +195,7 @@ export class MateriasGPage {
     if(this.listado!=null){
         if(this.listado.length!=0){
           var array = [{ "lista": this.listado}];
+          console.info(array);
           this.ApiProvider.abmGralPost(array, 'materias/grabarAsignacion').then(Response => {
             this.GlobalF.correcto(1);            
           }).catch(error => {
@@ -174,5 +213,14 @@ export class MateriasGPage {
     
     this.listado=[];
   }
-
+  listarUsuariosAsignados(item){    
+      let  array = [{ "anio": this.anio,"cuatrimestre":this.cuatrimestre,"turno":this.turno,"idmateria":item.idmateria}];
+      this.ApiProvider.abmGralPost(array, 'materias/tomarAsistencia').then(Response => {
+        this.listado = Response;
+        console.info(this.listado);
+        this.navCtrl.setRoot(UsuariosGPage,{listado:this.listado});
+      }).catch(error => {
+        this.GlobalF.error(0);
+      })    
+  }
 }

@@ -3,6 +3,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ApiProvider } from '../../providers/api/api';
 import { GlobalFunctionsProvider } from '../../providers/global-functions/global-functions';
 import { UsuariosGPage } from '../usuarios-g/usuarios-g';
+import { Storage } from '@ionic/storage';
+import { HomePage } from '../home/home';
+
 /**
  * Generated class for the AsignacionMateriasPage page.
  *
@@ -22,17 +25,30 @@ export class AsignacionMateriasPage {
   idmateriasturnos:any;
   arreglo:any;
   nomap:string;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private ApiProvider: ApiProvider, private GlobalF: GlobalFunctionsProvider) {
+  nombre:string;
+  tipo:any;
+  constructor(public navCtrl: NavController, public navParams: NavParams, private ApiProvider: ApiProvider, private storage: Storage, private GlobalF: GlobalFunctionsProvider) {
     this.arreglo = this.navParams.get("arreglo");
     this.nomap=this.arreglo.nomap;
     console.info(this.arreglo)
+    this.returnToken();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AsignacionMateriasPage');
     this.listarMaterias()
   }
-
+  returnToken() {    
+    this.ApiProvider.returnToken().then(response=> {     
+      console.info(response)  
+      this.nombre = response.nombre + ' ' + response.apellido;    
+      this.tipo = response.tipo;
+    }).catch(error=>{
+      this.GlobalF.cargando();
+      this.storage.clear();
+      this.navCtrl.setRoot(HomePage);
+    })    
+  }
   listarMaterias(){
     var array = [{"traer": '1' }];      
     this.ApiProvider.abmGralPost(array,'materias/listarMateria').then(Response=>{          

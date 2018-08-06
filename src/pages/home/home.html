@@ -5,7 +5,7 @@
     </ion-title>
   </ion-navbar>
 </ion-header>
-
+<ion-nav [root]="rootPage"></ion-nav>
 <ion-content padding>
   <form [formGroup]="formLogin">
     <ion-list>
@@ -22,8 +22,11 @@
 
     </ion-list>
   </form>
-  <button ion-button full (click)="ingresar()">Ingresar</button>
+  <button ion-button full (click)="ingresar()">Ingresar</button>  
   <div class="center"><a (click)="forgot()">Olvide mi password</a></div>
   <button ion-button full color="danger" (click)="registrarse()">Registrarse</button>
   <button ion-button full color="dark" (click)="harcode(1)">Administrador</button>
+  <button ion-button full color="dark" (click)="harcode(2)">Profesor</button>
+  <button ion-button full color="dark" (click)="harcode(3)">Alumno</button>
+  <button ion-button full color="dark" (click)="harcode(4)">Administrativo</button>
 </ion-content>

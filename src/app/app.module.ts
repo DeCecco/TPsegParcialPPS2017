@@ -30,6 +30,7 @@ import { IonicStorageModule } from '@ionic/storage';
 
 //------------------------Components------------------------//
 import { PopoverComponent } from '../components/popover/popover'
+import { EstadoAsistenciaComponent } from '../components/estado-asistencia/estado-asistencia'
 
 export const firebaseConfig  = {
   apiKey: "AIzaSyAhU9S_jk3tRU0pxYft15f7wYa-3yuwcSY",
@@ -49,6 +50,7 @@ export const firebaseConfig  = {
     AulasgPage,
     AmaulasPage,
     PopoverComponent,
+    EstadoAsistenciaComponent,
     MateriasGPage,
     MateriasAmPage,
     UsuariosGPage,
@@ -73,6 +75,7 @@ export const firebaseConfig  = {
     AulasgPage,
     MateriasGPage,
     PopoverComponent,
+    EstadoAsistenciaComponent,
     MateriasAmPage,
     UsuariosGPage,
     AsignacionMateriasPage

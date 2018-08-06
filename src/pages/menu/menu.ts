@@ -6,6 +6,7 @@ import { AulasgPage } from '../aulasg/aulasg';
 import { MateriasGPage } from '../materias-g/materias-g';
 import { UsuariosGPage } from '../usuarios-g/usuarios-g';
 import { GlobalFunctionsProvider } from '../../providers/global-functions/global-functions';
+import { HomePage } from '../home/home';
 /**
  * Generated class for the MenuPage page.
  *
@@ -18,53 +19,64 @@ import { GlobalFunctionsProvider } from '../../providers/global-functions/global
   selector: 'page-menu',
   templateUrl: 'menu.html',
 })
-export class MenuPage {  
-  nombre : string ;
-  
-  constructor(public navCtrl: NavController, public navParams: NavParams,private storage: Storage,private ApiProvider: ApiProvider,private GlobalF: GlobalFunctionsProvider) {    
-    this.nombre='-Sin Nombre-';     
-   
-  }
+export class MenuPage {
+  nombre: any;
+  name: string;
+  tipo:any;
+  constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private ApiProvider: ApiProvider, private GlobalF: GlobalFunctionsProvider) {
+    this.nombre='-Sin Nombre-';             
+    
+    this.returnToken();
+    
 
-  load2(){
-    this.ApiProvider.returnToken().then(function (response){           
-      console.info(response)
-      console.info(response.nombre +' '+ response.apellido)
-      console.info(typeof (response.nombre))      
-      this.nombre=response.nombre +' '+ response.apellido;
-  })
-  
   }
+  returnToken() {    
+    this.ApiProvider.returnToken().then(response=> {     
+      console.info(response)  
+      this.nombre = response.nombre + ' ' + response.apellido;    
+      this.tipo = response.tipo;
+    }).catch(error=>{
+      this.GlobalF.cargando();
+      this.storage.clear();
+      this.navCtrl.setRoot(HomePage);
+    })    
+  }
+  
   ionViewDidLoad() {
     console.log('ionViewDidLoad MenuPage');
   }
-  goTo(where){
+  goTo(where) {
     console.info(where);
-    switch(where){
+    switch (where) {
       case 1:
-      break;
+        break;
       case 2:
-      break;
+        this.GlobalF.cargando();
+        this.navCtrl.setRoot(MateriasGPage, { estado: 'Asistencia' });
+        break;
       case 3:
         this.GlobalF.cargando();
-        this.navCtrl.setRoot(MateriasGPage);      
-      break;
+        this.navCtrl.setRoot(MateriasGPage);
+        break;
       case 4:
         this.GlobalF.cargando();
         this.navCtrl.setRoot(AulasgPage);
-      break;
+        break;
       case 5:
         this.GlobalF.cargando();
-        this.navCtrl.setRoot(UsuariosGPage);      
-      break;
+        this.navCtrl.setRoot(UsuariosGPage);
+        break;
       case 6:
-      break;
+        break;
       case 7:
-      break;
+        break;
       case 8:
-      break;
+        this.GlobalF.cargando();
+        this.storage.clear();
+        this.navCtrl.setRoot(HomePage);
+        break;
       default:
-      break;
+        break;
     }
   }
 }
