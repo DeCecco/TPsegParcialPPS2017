@@ -11,8 +11,8 @@ $app = new \Slim\App(['settings' => ['determineRouteBeforeAppMiddleware' => true
 $app->add(function (Request $request, Response $response, $next) {
     $response = $next($request, $response);
     return $response
-      //->withHeader('Access-Control-Allow-Origin', '*')//servidor
-			->withHeader('Access-Control-Allow-Origin', 'http://localhost:8100')//local
+      ->withHeader('Access-Control-Allow-Origin', '*')//servidor
+		//	->withHeader('Access-Control-Allow-Origin', 'http://localhost:8100')//local
       ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
       ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
       //->withHeader('Accept', 'application/json')

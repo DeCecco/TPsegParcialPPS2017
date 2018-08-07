@@ -68,7 +68,11 @@ export class UsuariosGPage {
       })        
   }
   back() {
-    this.navCtrl.setRoot(MenuPage);
+    if(this.status=='Asistencia'){
+      this.navCtrl.setRoot(MateriasGPage, { estado: 'Asistencia' });
+    }else{
+      this.navCtrl.setRoot(MenuPage);
+    }    
   }
   menu(evento) {
     console.info(evento);

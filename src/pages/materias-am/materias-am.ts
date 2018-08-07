@@ -39,9 +39,9 @@ export class MateriasAmPage {
   aulaAsigformN: any;
   anio: string;
   cuatrimestre: string;
-  nombre:string;
-  tipo:any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, private ApiProvider: ApiProvider,  private storage: Storage,private GlobalF: GlobalFunctionsProvider,
+  nombre: string;
+  tipo: any;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, private ApiProvider: ApiProvider, private storage: Storage, private GlobalF: GlobalFunctionsProvider,
     private db: AngularFirestore) {
     this.estado = this.navParams.get("estado");
     this.habilitarM = 0;
@@ -69,18 +69,21 @@ export class MateriasAmPage {
         if (each[key2].idaula != null) {
           switch (each[key2].idturno.toString()) {
             case '1':
+            case 1:
               this.aulaAsigform = each[key2].idaula.toString();
               this.aulaAsig["1"] = this.aulaAsigform;
               break;
             case '2':
+            case 2:
               this.aulaAsigformT = each[key2].idaula.toString();
               this.aulaAsig["2"] = this.aulaAsigformT;
               break;
             case '3':
+            case 3:
               this.aulaAsigformN = each[key2].idaula.toString();
               this.aulaAsig["3"] = this.aulaAsigformN;
               break;
-          }          
+          }
           console.info(this.aulaAsig);
         }
       }
@@ -98,16 +101,17 @@ export class MateriasAmPage {
     });
     this.returnToken();
   }
-  returnToken() {    
-    this.ApiProvider.returnToken().then(response=> {     
-      console.info(response)  
-      this.nombre = response.nombre + ' ' + response.apellido;    
+  
+  returnToken() {
+    this.ApiProvider.returnToken().then(response => {
+      console.info(response)
+      this.nombre = response.nombre + ' ' + response.apellido;
       this.tipo = response.tipo;
-    }).catch(error=>{
+    }).catch(error => {
       this.GlobalF.cargando();
       this.storage.clear();
       this.navCtrl.setRoot(HomePage);
-    })    
+    })
   }
   ver() {
     var arrx = [];
@@ -157,26 +161,26 @@ export class MateriasAmPage {
         var array = [{ "descripcion": this.descripcion, "descripcionCorta": this.descripcionCorta, "turno": this.turno, "aulaAsig": this.aulaAsig, "anio": this.anio, "cuatrimestre": this.cuatrimestre }];
         this.ApiProvider.abmGralPost(array, 'materias/altaMateria').then(Response => {
           //this.GlobalF.guardarFirebaseDB(array,'materias');
-          if(Response==1){
+          if (Response == 1) {
             this.GlobalF.correcto(1);
-             this.navCtrl.setRoot(MateriasGPage);
-           }else{
-             this.GlobalF.error(Response);  
-           }          
+            this.navCtrl.setRoot(MateriasGPage);
+          } else {
+            this.GlobalF.error(Response);
+          }
         }).catch(error => {
           this.GlobalF.error(0);
         })
       } else {
-        
+
         var array2 = [{ "idmateria": this.arreglo[1].idmateria, "descripcion": this.descripcion, "descripcionCorta": this.descripcionCorta, "estado": this.arreglo[1].estado, "turno": this.turno, "aulaAsig": this.aulaAsig, "anio": this.anio, "cuatrimestre": this.cuatrimestre }];
         console.info(array2);
         this.ApiProvider.abmGralPost(array2, 'materias/modificarMateria').then(Response => {
-          
-          if(Response==1){
-           this.GlobalF.correcto(1);
+
+          if (Response == 1) {
+            this.GlobalF.correcto(1);
             this.navCtrl.setRoot(MateriasGPage);
-          }else{
-            this.GlobalF.error(Response);  
+          } else {
+            this.GlobalF.error(Response);
           }
         }).catch(error => {
           this.GlobalF.error(5);

@@ -13,7 +13,7 @@ import { Storage } from '@ionic/storage';
 @Injectable()
 export class ApiProvider {
   route: string = "http://localhost/UTN/TPsegParcialPPS2017/API/index.php/"; //servidor local work
-  //route: string = "https://asistencia1231231.000webhostapp.com/API/index.php/"; //servidor local //8@xZtlYoZNLpHKUOi(RM
+  //route: string = "http://nggroup.esy.es/API/index.php/"; //servidor local //8@xZtlYoZNLpHKUOi(RM
   constructor(public http: HttpClient, private storage: Storage) { }
 
   //----------------------------------------I-TOKEN----------------------------------------//

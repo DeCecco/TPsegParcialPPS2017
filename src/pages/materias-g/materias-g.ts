@@ -197,7 +197,11 @@ export class MateriasGPage {
           var array = [{ "lista": this.listado}];
           console.info(array);
           this.ApiProvider.abmGralPost(array, 'materias/grabarAsignacion').then(Response => {
-            this.GlobalF.correcto(1);            
+            if(Response==1){
+              this.GlobalF.correcto(1);            
+            }else{
+              this.GlobalF.error(Response);  
+            }
           }).catch(error => {
             this.GlobalF.error(5);
           })

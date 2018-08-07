@@ -7,19 +7,16 @@ class AccesoDatos
 
     private function __construct(){
         try { 
-            //CREACIÓN DE LA CONEXIÓN CON EL SERVIDOR LOCAL
-            //$servername = 'ftp.pablodececco.com.ar'; //localhost'
-            //$servername ='pablodececco.com.ar';
-            //$servername ='asistencia1231231.000webhostapp.com';//https://databases.000webhost.com/
+            //CREACIÓN DE LA CONEXIÓN CON EL SERVIDOR LOCAL            
+            //$servername ='mysql.hostinger.com.ar';            
             $servername = 'localhost'; //localhost'
-            //$dbname='pablodec_asistencia'; //asistencia'
-            //$dbname='id6598807_asistencia'; //asistencia'
-            $dbname='asistencia'; //asistencia'
-            //$username = 'pablodec_adm98'; //root'
-            //$username = 'id6598807_asispdcadm'; //root'
+            //$dbname='u766132325_bd'; //asistencia'
+            
+            $dbname='asistencia'; //asistencia'            
             $username = 'root'; //root'
-            //$password = 'http://SARAza89/';//''
-            //$password = '54/s*d09@ppKI9)';//''
+            //$username = 'u766132325_us'; //root'pablodec_pdcv2
+            
+            //$password = 'garbarino123';//''
             $password = '';//''
             $this->objetoPDO = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password,
                     array(PDO::ATTR_EMULATE_PREPARES => false,PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
