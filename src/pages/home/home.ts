@@ -68,10 +68,10 @@ export class HomePage {
             var array = [{
               "nombre": response[0].nombre, "apellido": response[0].apellido, "email": response[0].mail, "tipo": response[0].idtipo, "img": response[0].idimagen
             }];
-            console.info(array)
+            
             this.ApiProvider.token(array).then(tk => {
               this.storage.set('Token', tk);
-              this.GlobalF.cargando();
+              //this.GlobalF.cargando();
               setTimeout(() => {
 
                 this.navCtrl.setRoot(MenuPage);  

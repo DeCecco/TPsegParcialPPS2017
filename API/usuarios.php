@@ -27,7 +27,7 @@ class Usuarios
 	    return $consulta->fetchAll(PDO::FETCH_ASSOC);
 	}
 	public static function altaUsuario($mail,$idtipo,$nombre,$apellido,$idimagen){
-		$sql = " INSERT INTO asistencia.usuarios (idtipo,idimagen,nombre,apellido,mail) 
+		$sql = " INSERT INTO usuarios (idtipo,idimagen,nombre,apellido,mail) 
 		values (:idtipo,:idimagen,:nombre,:apellido,:mail); ";
 		$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);
 		$consulta->bindParam(':mail',$mail);
