@@ -194,20 +194,23 @@ class Materias
 	public static function grabarAsignacion($lista,$idusuario){		
 
 		foreach ($lista as $key => $value) {			
-			Materias::borrarAsignacion($lista[0]['anio'],$lista[0]['cuatrimestre'],$idusuario,$value['idmateriasturnos']);		
-			if($value['asignado']!=0){		
+			Materias::borrarAsignacion($lista[0]['anio'],$lista[0]['cuatrimestre'],$idusuario,$value['idmateriasturnos']);					
+			if($value['asignado']==1 || $value['asignado']==true ){						
 
+				
 				$respuesta=Materias::verificarMateriasInscriptas($value['idusuario'],$value['cuatrimestre'],$value['anio'],$value['idmateria']);
+				
 				if($respuesta[0]['existe']!=0){
 					return "No se grabaron los datos porque la materia " . $respuesta[0]['descripcion'] . " ya se encuentra asignada al turno " . $respuesta[0]['turno'];
 				}else{			
 					$sql = "INSERT into `materias-usuarios` (idmateriasturnos,idusuario,asignado,anio,cuatrimestre) values (".$value['idmateriasturnos'].",".$idusuario.",1,".$value['anio'].",".$value['cuatrimestre'].");";			
 					$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);							
 					$consulta->execute();				
-					return 1;
+					
 				}	
 			}
 		}
+		return 1;
 	}
 
 

@@ -1,0 +1,109 @@
+<!--
+  Generated template for the MenuPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+
+<ion-header> 
+
+  <ion-navbar>
+    <ion-title>menu</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+</ion-content>
+-->
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons left>
+      <button ion-button menuToggle icon-only>
+        <ion-icon name="ios-menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-navbar>
+      <ion-title>Estadisticas</ion-title>
+    </ion-navbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <div *ngIf="habilitar">Seleccione un reporte del Menu</div>
+  <ion-item *ngIf="informe==1">    
+      <ion-select [(ngModel)]="anio"  >
+        <ion-option value="0" selected>Año</ion-option>
+        <ion-option value="1">1°</ion-option>
+        <ion-option value="2">2°</ion-option>
+        <ion-option value="3">3°</ion-option>
+      </ion-select>    
+      <ion-select [(ngModel)]="cuatrimestre"  >
+        <ion-option value="0" selected>Cuatrimestre</ion-option>
+        <ion-option value="1">Primer</ion-option>
+        <ion-option value="2">Segundo</ion-option>
+      </ion-select>    
+      <ion-select [(ngModel)]="turno" >
+          <ion-option value="0" selected>Turno</ion-option>
+        <ion-option value="1">Mañana</ion-option>
+        <ion-option value="2">Tarde</ion-option>
+        <ion-option value="3">Noche</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item *ngIf="informe==1" >
+        <button ion-button full (click)="listarAsignacion()">Buscar</button>
+  </ion-item>
+  <!--ion-card>
+      <ion-card-header>
+        Bar Chart
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #barCanvas></canvas>
+      </ion-card-content>
+    </ion-card>
+ 
+    <ion-card>
+      <ion-card-header>
+        Doughnut Chart
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #doughnutCanvas></canvas>
+      </ion-card-content>
+    </ion-card>
+ 
+    <ion-card>
+      <ion-card-header>
+        Line Chart
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #lineCanvas></canvas>
+      </ion-card-content>
+    </ion-card-->
+ 
+</ion-content>
+<ion-menu [content]="leftMenu"  side="right" id="menu2">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Estadisticas</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <button ion-item (click)="openPage(homePage)">
+        Home
+      </button>
+      <button ion-item (click)="openPage(friendsPage)">
+        Friends
+      </button>
+      <button ion-item (click)="openPage(eventsPage)">
+        Events
+      </button>
+      <button ion-item (click)="closeMenu()">
+        Close Menu
+      </button>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-nav id="nav" #leftMenu [root]="rootPage"></ion-nav>

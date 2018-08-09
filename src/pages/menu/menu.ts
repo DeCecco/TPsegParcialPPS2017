@@ -37,13 +37,13 @@ export class MenuPage {
     this.nombre = '-Sin Nombre-';
     this.idimagen = 1;
     //this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
-    this.returnToken();
-
+    this.returnToken();    
 
   }
   returnToken() {
     this.GlobalF.cargando();
     this.ApiProvider.returnToken().then(response => {
+      console.info(response);
       this.item=response;
       this.nombre = response.nombre + ' ' + response.apellido;
       this.tipo = response.idtipo;

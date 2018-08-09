@@ -24,50 +24,51 @@ import { HomePage } from '../home/home';
 })
 export class MateriasGPage {
   listado: any;
+  listadoT: any;
   estado: string;
   arreglo: any;
-  anio:any;
-  cuatrimestre:any;
-  turno:any;
-  nombre:string;
-  tipo:any;
-  titulo:string;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, private ApiProvider: ApiProvider, private storage: Storage,private GlobalF: GlobalFunctionsProvider) {
+  anio: any;
+  cuatrimestre: any;
+  turno: any;
+  nombre: string;
+  tipo: any;
+  titulo: string;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, private ApiProvider: ApiProvider, private storage: Storage, private GlobalF: GlobalFunctionsProvider) {
     this.estado = this.navParams.get("estado");
     this.arreglo = this.navParams.get("arreglo");
-    this.anio='0';
-    this.cuatrimestre='0';
-    this.turno='0';
-    this.titulo='Materias';
+    this.anio = '1';
+    this.cuatrimestre = '1';
+    this.turno = '1';
+    this.titulo = 'Materias';
     this.returnToken();
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad MateriasGPage');    
-    switch(this.estado){
+    console.log('ionViewDidLoad MateriasGPage');
+    switch (this.estado) {
       case 'Usuarios':
-        this.titulo='Asignacion de Materias';
-      break;
+        this.titulo = 'Asignacion de Materias';
+        break;
       case 'Asistencia':
-        this.titulo='Toma de Asistencia';
-      break;
-      default:        
-        this.titulo='Materias';
-        this.estado='Materias';
+        this.titulo = 'Toma de Asistencia';
+        break;
+      default:
+        this.titulo = 'Materias';
+        this.estado = 'Materias';
         this.listar();
-      break;
-    }    
+        break;
+    }
   }
-  returnToken() {    
-    this.ApiProvider.returnToken().then(response=> {     
-      console.info(response)  
-      this.nombre = response.nombre + ' ' + response.apellido;    
+  returnToken() {
+    this.ApiProvider.returnToken().then(response => {
+      console.info(response)
+      this.nombre = response.nombre + ' ' + response.apellido;
       this.tipo = response.idtipo;
-    }).catch(error=>{
+    }).catch(error => {
       this.GlobalF.cargando();
       this.storage.clear();
       this.navCtrl.setRoot(HomePage);
-    })    
+    })
   }
   listar() {
     var array = [{ "traer": '1' }];
@@ -79,33 +80,42 @@ export class MateriasGPage {
   }
   listarAsignacion() {
 
-    if(this.anio=='0'){
+    if (this.anio == '0') {
       this.GlobalF.error(6);
-    }else if(this.cuatrimestre=='0'){
+    } else if (this.cuatrimestre == '0') {
       this.GlobalF.error(7);
-    }else if(this.turno=='0'){
+    } else if (this.turno == '0') {
       this.GlobalF.error(8);
-    }else{
-        var array;
-        if(this.estado=='Usuarios'){
-          array = [{ "anio": this.anio,"cuatrimestre":this.cuatrimestre,"turno":this.turno,"idusuario":this.arreglo.idusuario.toString()}];
-        }else{
-          array = [{ "anio": this.anio,"cuatrimestre":this.cuatrimestre,"turno":this.turno,"idusuario":'0'}];
+    } else {
+      var array;
+      if (this.estado == 'Usuarios') {
+        array = [{ "anio": this.anio, "cuatrimestre": this.cuatrimestre, "turno": this.turno, "idusuario": this.arreglo.idusuario.toString() }];
+      } else {
+        array = [{ "anio": this.anio, "cuatrimestre": this.cuatrimestre, "turno": this.turno, "idusuario": '0' }];
+      }
+
+      this.ApiProvider.abmGralPost(array, 'materias/listarMateriaAsignada').then(Response => {
+        this.listadoT = Response;
+
+        for (let index = 0; index < this.listadoT.length; index++) {
+          this.listado[index] = this.listadoT[index]
+          if (this.listado[index].asignado == true || this.listado[index].asignado == 1) {
+            this.listado[index].asignado = 1
+          } else {
+            this.listado[index].asignado = 0
+          }
         }
-      
-        this.ApiProvider.abmGralPost(array, 'materias/listarMateriaAsignada').then(Response => {
-          this.listado = Response;
-        }).catch(error => {
-          this.GlobalF.error(0);
-        })            
+      }).catch(error => {
+        this.GlobalF.error(0);
+      })
     }
   }
   back() {
-    if(this.estado=='Usuarios'){
+    if (this.estado == 'Usuarios') {
       this.navCtrl.setRoot(UsuariosGPage);
-    }else{
+    } else {
       this.navCtrl.setRoot(MenuPage);
-    }    
+    }
   }
   menu(evento) {
     const popover = this.popoverCtrl.create(PopoverComponent);
@@ -167,7 +177,7 @@ export class MateriasGPage {
   opciones(x) {
     if (this.estado == 'Usuarios') {
 
-    } else if(this.estado=='Materias'){
+    } else if (this.estado == 'Materias') {
       const as = this.GlobalF.opcionesAS();
       as.present({
         ev: event
@@ -185,46 +195,45 @@ export class MateriasGPage {
             break;
         }
       })
-    }else{      
+    } else {
       this.listarUsuariosAsignados(x)
     }
   }
 
-  guardar(){
+  guardar() {
 
-    if(this.listado!=null){
-        if(this.listado.length!=0){
-          var array = [{ "lista": this.listado}];
-          console.info(array);
-          this.ApiProvider.abmGralPost(array, 'materias/grabarAsignacion').then(Response => {
-            if(Response==1){
-              this.GlobalF.correcto(1);            
-            }else{
-              this.GlobalF.error(Response);  
-            }
-          }).catch(error => {
-            this.GlobalF.error(5);
-          })
-        }else{
-          this.GlobalF.error(9);
-        }
-    }else{
+    if (this.listado != null) {
+      if (this.listado.length != 0) {
+        var array = [{ "lista": this.listado }];
+        console.info(array);
+        this.ApiProvider.abmGralPost(array, 'materias/grabarAsignacion').then(Response => {
+          if (Response == 1) {
+            this.GlobalF.correcto(1);
+          } else {
+            this.GlobalF.error(Response);
+          }
+        }).catch(error => {
+          this.GlobalF.error(5);
+        })
+      } else {
+        this.GlobalF.error(9);
+      }
+    } else {
       this.GlobalF.error(9);
     }
   }
 
-  limpiarLista(){
-    
-    this.listado=[];
+  limpiarLista() {
+
+    this.listado = [];
   }
-  listarUsuariosAsignados(item){    
-      let  array = [{ "anio": this.anio,"cuatrimestre":this.cuatrimestre,"turno":this.turno,"idmateria":item.idmateria}];
-      this.ApiProvider.abmGralPost(array, 'materias/tomarAsistencia').then(Response => {
-        this.listado = Response;
-        console.info(this.listado);
-        this.navCtrl.setRoot(UsuariosGPage,{listado:this.listado});
-      }).catch(error => {
-        this.GlobalF.error(0);
-      })    
+  listarUsuariosAsignados(item) {
+    let array = [{ "anio": this.anio, "cuatrimestre": this.cuatrimestre, "turno": this.turno, "idmateria": item.idmateria }];
+    this.ApiProvider.abmGralPost(array, 'materias/tomarAsistencia').then(Response => {
+      this.listado = Response;
+      this.navCtrl.setRoot(UsuariosGPage, { listado: this.listado });
+    }).catch(error => {
+      this.GlobalF.error(0);
+    })
   }
 }
