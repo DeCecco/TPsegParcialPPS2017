@@ -9,6 +9,9 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { MenuPage } from '../menu/menu';
 import { UsuariosPage } from '../usuarios/usuarios';
 import { Storage } from '@ionic/storage';
+import { Vibration } from '@ionic-native/vibration';
+import { Toast } from '@ionic-native/toast';
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
 
 @Component({
@@ -19,10 +22,11 @@ export class HomePage {
   formLogin: FormGroup;
   mail: string;
   password: string;
-  constructor(public navCtrl: NavController, public formBuilder: FormBuilder, private ApiProvider: ApiProvider, /*private db: AngularFirestore,*/
-    private GlobalF: GlobalFunctionsProvider, public modalCtrl: ModalController, private afAuth: AngularFireAuth, private storage: Storage) {
+  constructor(private screenOrientation: ScreenOrientation,private vibration: Vibration,public navCtrl: NavController, public formBuilder: FormBuilder, private ApiProvider: ApiProvider, /*private db: AngularFirestore,*/
+    private GlobalF: GlobalFunctionsProvider, public modalCtrl: ModalController, private afAuth: AngularFireAuth, private storage: Storage,private toast: Toast) {
     //this.mail = "pablomdececcorios@gmail.com";
     //this.password = "agos1305";
+    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
     this.formLogin = formBuilder.group({
       mail: [this.mail, Validators.compose([Validators.required, Validators.maxLength(30), Validators.minLength(6), Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])],
       password: [this.password, Validators.compose([Validators.required, Validators.maxLength(30), Validators.minLength(6)])]
@@ -30,6 +34,7 @@ export class HomePage {
 
 
   }
+  
   presentProfileModal() {
     let profileModal = this.modalCtrl.create(UsuariosPage, { where: 'HOME' });
     profileModal.present();
@@ -61,14 +66,14 @@ export class HomePage {
 
         //this.afAuth.auth.signInWithEmailAndPassword(this.mail, this.password).then(response => {
         this.GlobalF.cargando();
-        console.info(this.mail)
+        
         this.ApiProvider.verificarUsuario(this.mail).then(response => {
           if (response[0].existe > 0) {
-
-            var array = [{
-              "nombre": response[0].nombre, "apellido": response[0].apellido, "email": response[0].mail, "tipo": response[0].idtipo, "img": response[0].idimagen
-            }];
             
+            var array = [{
+              "idusuario": response[0].idusuario,"nombre": response[0].nombre, "apellido": response[0].apellido, "mail": response[0].mail, "idtipo": response[0].idtipo, "idimagen": response[0].idimagen
+            }];
+            console.info(array)
             this.ApiProvider.token(array).then(tk => {
               this.storage.set('Token', tk);
               //this.GlobalF.cargando();
@@ -126,13 +131,23 @@ export class HomePage {
   }
 
   forgot() {
-    this.afAuth.auth.sendPasswordResetEmail(this.mail).then(response=> {     
+    if(this.mail){
+      this.vibration.vibrate(500);
+      this.toast.show(`Se envio un correo a su casilla`, '5000', 'center').subscribe(
+        toast => {
+          console.log(toast);
+        }
+      );
+      this.afAuth.auth.sendPasswordResetEmail(this.mail).then(response=> {     
 
-    }).catch(error=> {
-      //TODO: FALTA MENSAJE
-      this.GlobalF.error(error.message)
-      console.error(error)
-    });
+      }).catch(error=> {
+        //TODO: FALTA MENSAJE
+        this.GlobalF.error(error.message)
+        console.error(error)
+      });
+    }else{
+      this.GlobalF.error('Ingrese un mail valido')
+    }
 
   }
 

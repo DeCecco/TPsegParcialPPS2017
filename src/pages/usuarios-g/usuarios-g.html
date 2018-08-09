@@ -36,7 +36,7 @@
         </ion-avatar-->
       <ion-thumbnail item-start>
         <img *ngIf="item.idimagen=='1'" src="https://ionicframework.com/dist/preview-app/www/assets/img/avatar-gollum.jpg">
-        <img *ngIf="item.idimagen!='1'" src="{{imagen}}">
+        <img *ngIf="item.idimagen!='1'" src="{{item.idimagen}}">
       </ion-thumbnail>
       <h2> {{ item.nomap }}</h2>
       <ion-icon *ngIf="item.asistio==4" style="color:blue" name="ios-clock"></ion-icon>

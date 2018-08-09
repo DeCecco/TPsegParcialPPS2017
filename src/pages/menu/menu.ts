@@ -7,6 +7,13 @@ import { MateriasGPage } from '../materias-g/materias-g';
 import { UsuariosGPage } from '../usuarios-g/usuarios-g';
 import { GlobalFunctionsProvider } from '../../providers/global-functions/global-functions';
 import { HomePage } from '../home/home';
+import { UsuariosPage } from '../usuarios/usuarios';
+import { EstadisticasPage } from '../estadisticas/estadisticas';
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
+
+//import { Push, PushObject, PushOptions } from '@ionic-native/push';
+
 /**
  * Generated class for the MenuPage page.
  *
@@ -22,26 +29,33 @@ import { HomePage } from '../home/home';
 export class MenuPage {
   nombre: any;
   name: string;
-  tipo:any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private ApiProvider: ApiProvider, private GlobalF: GlobalFunctionsProvider) {
-    this.nombre='-Sin Nombre-';             
-    
+  tipo: any;
+  idimagen: any;
+  idusuario: any;
+  item:any;
+  constructor(/*private push: Push,*/ private qrScanner: QRScanner, private screenOrientation: ScreenOrientation, public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private ApiProvider: ApiProvider, private GlobalF: GlobalFunctionsProvider) {
+    this.nombre = '-Sin Nombre-';
+    this.idimagen = 1;
+    //this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
     this.returnToken();
-    
+
 
   }
-  returnToken() {    
-    this.ApiProvider.returnToken().then(response=> {     
-      console.info(response)  
-      this.nombre = response.nombre + ' ' + response.apellido;    
-      this.tipo = response.tipo;
-    }).catch(error=>{
+  returnToken() {
+    this.GlobalF.cargando();
+    this.ApiProvider.returnToken().then(response => {
+      this.item=response;
+      this.nombre = response.nombre + ' ' + response.apellido;
+      this.tipo = response.idtipo;
+      this.idimagen = response.idimagen;
+      this.idusuario = response.idusuario;
+    }).catch(error => {
       this.GlobalF.cargando();
       this.storage.clear();
       this.navCtrl.setRoot(HomePage);
-    })    
+    })
   }
-  
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad MenuPage');
   }
@@ -49,6 +63,8 @@ export class MenuPage {
     console.info(where);
     switch (where) {
       case 1:
+        this.GlobalF.cargando();
+        this.navCtrl.setRoot(UsuariosPage, { where: 'Modificar', arreglo: this.item });
         break;
       case 2:
         this.GlobalF.cargando();
@@ -67,6 +83,8 @@ export class MenuPage {
         this.navCtrl.setRoot(UsuariosGPage);
         break;
       case 6:
+        this.GlobalF.cargando();
+        this.navCtrl.setRoot(EstadisticasPage);
         break;
       case 7:
         break;
@@ -75,8 +93,74 @@ export class MenuPage {
         this.storage.clear();
         this.navCtrl.setRoot(HomePage);
         break;
+      case 1234:
+        //this.pruebaPush();
+        break;
       default:
         break;
     }
+  }
+  /*pruebaPush() {
+    this.push.hasPermission()
+      .then((res: any) => {
+
+        if (res.isEnabled) {
+          this.push.createChannel({
+            id: "testchannel1",
+            description: "My first test channel",
+            // The importance property goes from 1 = Lowest, 2 = Low, 3 = Normal, 4 = High and 5 = Highest.
+            importance: 3
+          }).then(() => console.log('Channel created'));
+
+          const options: PushOptions = {
+            android: {},
+            ios: {
+              alert: 'true',
+              badge: true,
+              sound: 'false'
+            },
+            windows: {},
+            browser: {
+              pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+            }
+          };
+          const pushObject: PushObject = this.push.init(options);
+
+
+          pushObject.on('notification').subscribe((notification: any) => console.log('Received a notification', notification));
+
+          pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));
+
+          pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
+        } else {
+
+        }
+
+      });
+  }*/
+  pruebaQR() {
+    this.qrScanner.prepare()
+      .then((status: QRScannerStatus) => {
+        if (status.authorized) {
+          // camera permission was granted
+
+
+          // start scanning
+          let scanSub = this.qrScanner.scan().subscribe((text: string) => {
+            console.log('Scanned something', text);
+
+            this.qrScanner.hide(); // hide camera preview
+            scanSub.unsubscribe(); // stop scanning
+          });
+
+        } else if (status.denied) {
+          // camera permission was permanently denied
+          // you must use QRScanner.openSettings() method to guide the user to the settings page
+          // then they can grant the permission from there
+        } else {
+          // permission was denied, but not permanently. You can ask for permission again at a later time.
+        }
+      })
+      .catch((e: any) => console.log('Error is', e));
   }
 }

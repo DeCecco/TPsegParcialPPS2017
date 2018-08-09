@@ -21,6 +21,7 @@ export class GlobalFunctionsProvider {
   cargando() {
     let loader = this.loadingCtrl.create({
       dismissOnPageChange: true,
+      cssClass: 'transparent',
       spinner: 'ios'
     });
     loader.present();

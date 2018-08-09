@@ -10,6 +10,8 @@ import { UsuariosPage } from '../usuarios/usuarios';
 import { MateriasGPage } from '../materias-g/materias-g';
 import { HomePage } from '../home/home';
 import { Storage } from '@ionic/storage';
+
+
 /**
  * Generated class for the UsuariosGPage page.
  *
@@ -36,8 +38,9 @@ export class UsuariosGPage {
   }
   returnToken() {
     this.ApiProvider.returnToken().then(response => {
+      console.info(response)
       this.nombre = response.nombre + ' ' + response.apellido;
-      this.tipo = response.tipo;
+      this.tipo = response.idtipo;
       if (this.arreglo != null) {
         this.listado = this.arreglo;
         this.status = 'Asistencia';

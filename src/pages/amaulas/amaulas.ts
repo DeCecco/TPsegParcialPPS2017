@@ -60,6 +60,7 @@ export class AmaulasPage {
     promt.present();
     promt.onDidDismiss((data) => {
       if (data) {
+        this.GlobalF.cargando();
         this.navCtrl.setRoot(AulasgPage);
       }
     })

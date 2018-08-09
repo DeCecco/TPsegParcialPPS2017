@@ -61,10 +61,12 @@
         <ion-input placeholder="Confirmar password" type="password" formControlName="password2" [(ngModel)]="password2"></ion-input>
       </ion-item>
 
-      <ion-item>
-        <ion-input placeholder="Imagen" type="text" formControlName="idimagen" [(ngModel)]="idimagen"></ion-input>
-      </ion-item>
-
+      <ion-item  text-center>                    
+              <ion-icon style="zoom:2.0;" name="camera" (click)="photo(1)"></ion-icon>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <ion-icon style="zoom:2.0;" name="attach" (click)="photo(2)"></ion-icon>
+      </ion-item>      
+      <img *ngIf="idimagen!=1" src="{{idimagen}}" height="50%" width="50%" >
     </ion-list>
   </form>
 </ion-content>

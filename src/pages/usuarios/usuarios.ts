@@ -9,6 +9,8 @@ import { AngularFirestore/*, AngularFirestoreDocument */ } from 'angularfire2/fi
 import { AngularFireAuth } from 'angularfire2/auth';
 import { UsuariosGPage } from '../usuarios-g/usuarios-g';
 import { Storage } from '@ionic/storage';
+import { Camera, CameraOptions } from '@ionic-native/camera';
+import { Vibration } from '@ionic-native/vibration';
 /**
  * Generated class for the UsuariosPage page.
  *
@@ -33,12 +35,13 @@ export class UsuariosPage {
   idtipo: number;
   menu: string;
   arreglo: any;
-  tipo : any;
-  name:any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder,  private storage: Storage,private GlobalF: GlobalFunctionsProvider,
+  tipo: any;
+  name: any;
+  testImg: any;
+  constructor(private vibration: Vibration, public navCtrl: NavController, private camera: Camera, public navParams: NavParams, public formBuilder: FormBuilder, private storage: Storage, private GlobalF: GlobalFunctionsProvider,
     private ApiProvider: ApiProvider, private db: AngularFirestore, private afAuth: AngularFireAuth) {
     this.where = navParams.get('where');
-    
+    this.idimagen = 1;
     if (this.where == 'HOME') {
       this.menu = "Agregar usuario";
       this.idtipo = 3;
@@ -51,12 +54,13 @@ export class UsuariosPage {
       this.returnToken();
       this.menu = "Modificar usuario";
       this.arreglo = navParams.get('arreglo');
+      console.info(this.arreglo)
       this.password = '123456';
       this.password2 = '123456';
       this.mail = this.arreglo.mail;
       this.nombre = this.arreglo.nombre;
       this.apellido = this.arreglo.apellido;
-      this.idtipo = this.arreglo.idtipo;
+      this.idtipo = Number(this.arreglo.idtipo);
       this.idimagen = this.arreglo.idimagen;
     }
     this.formUser = formBuilder.group({
@@ -69,19 +73,19 @@ export class UsuariosPage {
       idimagen: [this.idimagen, Validators.compose([Validators.required])]
     });
   }
-  returnToken() {    
-    this.ApiProvider.returnToken().then(response=> {     
-      console.info(response)  
-      this.name = response.nombre + ' ' + response.apellido;    
-      this.tipo = response.tipo;
-    }).catch(error=>{
+  returnToken() {
+    this.ApiProvider.returnToken().then(response => {      
+      this.name = response.nombre + ' ' + response.apellido;
+      this.tipo = response.idtipo;
+    }).catch(error => {
       this.GlobalF.cargando();
       this.storage.clear();
       this.navCtrl.setRoot(HomePage);
-    })    
+    })
   }
 
   back() {
+    this.GlobalF.cargando();
     if (this.where == 'HOME') {
       this.navCtrl.setRoot(HomePage);
 
@@ -105,10 +109,12 @@ export class UsuariosPage {
     })
   }
   guardar() {
-    console.info(this.formUser)
+
+    console.info(this.idimagen);
     if (this.checkPassword()) {
       if (this.formUser.valid) {
         if (this.where != 'Modificar') {
+
           var array = [{
             "nombre": this.nombre, "apellido": this.apellido, "mail": this.mail, "password": this.password,
             "idtipo": this.idtipo, "idimagen": this.idimagen
@@ -167,4 +173,41 @@ export class UsuariosPage {
     console.log('ionViewDidLoad UsuariosPage');
   }
 
+  photo(x) {
+    this.vibration.vibrate(300);
+    if (x == 1) {
+      const options: CameraOptions = {
+        quality: 50,
+        destinationType: this.camera.DestinationType.FILE_URI,
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE,
+        saveToPhotoAlbum: true,        
+      }
+
+      this.camera.getPicture(options).then((imageData) => {
+        // imageData is either a base64 encoded string or a file URI
+        // If it's base64 (DATA_URL):      
+        this.idimagen = imageData;
+      }, (err) => {
+        // Handle error
+      });
+    } else {
+      const options: CameraOptions = {
+        quality: 50,
+        destinationType: this.camera.DestinationType.NATIVE_URI,
+        encodingType: this.camera.EncodingType.JPEG,
+//        mediaType: this.camera.MediaType.PICTURE,
+        saveToPhotoAlbum: true,
+        sourceType: 2
+      }
+
+      this.camera.getPicture(options).then((imageData) => {
+        // imageData is either a base64 encoded string or a file URI
+        // If it's base64 (DATA_URL):      
+        this.idimagen = imageData;
+      }, (err) => {
+        // Handle error
+      });
+    }
+  }
 }

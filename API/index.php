@@ -36,12 +36,14 @@ $app->add(function (Request $request, Response $response, $next) {
 */
 $app->post('/crearToken', function (Request $request, Response $response) {
 	
-	$email = $request->getParam('email');	
-	$tipo = $request->getParam('tipo');
+	$mail = $request->getParam('mail');	
+	$idtipo = $request->getParam('idtipo');
 	$nombre = $request->getParam('nombre');
-	$apellido = $request->getParam('apellido');		
+  $apellido = $request->getParam('apellido');		
+  $idimagen = $request->getParam('idimagen');		
+  $idusuario = $request->getParam('idusuario');		
 	
-    $datos = array('email' => $email,'tipo' => $tipo, 'nombre' => $nombre,'apellido' => $apellido);    
+    $datos = array('mail' => $mail,'idtipo' => $idtipo, 'nombre' => $nombre,'apellido' => $apellido,'idimagen' => $idimagen,'idusuario' => $idusuario);    
     
     $token= AutentificadorJWT::CrearToken($datos); 
 	//$payload=AutentificadorJWT::ObtenerPayload($token);

@@ -27,3 +27,16 @@
 .green{
     color:green;
 }
+ion-loading.transparent {
+    .loading-wrapper {
+      background: transparent;
+      box-shadow: none;
+      color:black;
+      width: 40px !important;
+    height: 40px !important;
+  
+      .spinner-crescent circle {
+        stroke-width: 8px;
+      }
+    }
+  }

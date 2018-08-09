@@ -81,6 +81,7 @@ export class AsignacionMateriasPage {
     promt.present();
     promt.onDidDismiss((data)=>{      
       if(data){
+        this.GlobalF.cargando();
         this.navCtrl.setRoot(UsuariosGPage); 
       }
     })

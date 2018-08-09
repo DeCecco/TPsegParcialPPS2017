@@ -47,15 +47,20 @@
     <ion-list>
       <ion-item>
         <ion-thumbnail item-start>
-          <img *ngIf="imagen==''" src="https://ionicframework.com/dist/preview-app/www/assets/img/avatar-gollum.jpg">
-          <img *ngIf="imagen!=''" src="{{imagen}}">
+          <img *ngIf="idimagen=='1'" src="https://ionicframework.com/dist/preview-app/www/assets/img/avatar-gollum.jpg">
+          <img *ngIf="idimagen!=''" src="{{idimagen}}">
           <h4>{{nombre}}</h4>
         </ion-thumbnail>
-        <p>Bienvenido</p>
+        <!--p>Bienvenido</p-->
         <button ion-button clear item-end (click)="goTo(1);">Editar Perfil</button>
       </ion-item>
     </ion-list>
     <ion-list>
+        <button *ngIf="tipo!=2 && tipo!=3" icon-left ion-item (click)="goTo(1234)">
+            <ion-icon item-start name="ios-list-box"  style="color:#0e6073;"></ion-icon>
+              <div>Asistencia Rapida</div>        
+            <ion-icon item-end name="ios-arrow-forward"></ion-icon>
+          </button> 
       <button *ngIf="tipo!=2 && tipo!=3" icon-left ion-item (click)="goTo(2)">
         <ion-icon item-start name="ios-list-box"  style="color:#0e6073;"></ion-icon>
           <div>Asistencia</div>        

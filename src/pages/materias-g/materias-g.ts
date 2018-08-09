@@ -62,7 +62,7 @@ export class MateriasGPage {
     this.ApiProvider.returnToken().then(response=> {     
       console.info(response)  
       this.nombre = response.nombre + ' ' + response.apellido;    
-      this.tipo = response.tipo;
+      this.tipo = response.idtipo;
     }).catch(error=>{
       this.GlobalF.cargando();
       this.storage.clear();

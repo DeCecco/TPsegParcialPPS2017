@@ -15,6 +15,7 @@ import { AmaulasPage } from '../pages/amaulas/amaulas';
 import { MateriasGPage } from '../pages/materias-g/materias-g';
 import { MateriasAmPage } from '../pages/materias-am/materias-am';
 import { UsuariosGPage } from '../pages/usuarios-g/usuarios-g';
+import { EstadisticasPage } from '../pages/estadisticas/estadisticas';
 import { AsignacionMateriasPage } from '../pages/asignacion-materias/asignacion-materias';
 
 //------------------------Local Provider------------------------//
@@ -27,6 +28,12 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { GlobalFunctionsProvider } from '../providers/global-functions/global-functions';
 import { IonicStorageModule } from '@ionic/storage';
+import { Vibration } from '@ionic-native/vibration';
+import { Toast } from '@ionic-native/toast';
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
+import { Camera, CameraOptions } from '@ionic-native/camera';
+//import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
 //------------------------Components------------------------//
 import { PopoverComponent } from '../components/popover/popover'
@@ -54,6 +61,7 @@ export const firebaseConfig  = {
     MateriasGPage,
     MateriasAmPage,
     UsuariosGPage,
+    EstadisticasPage,
     AsignacionMateriasPage
   ],
   imports: [
@@ -72,6 +80,7 @@ export const firebaseConfig  = {
     MenuPage,
     UsuariosPage,
     AmaulasPage,
+    EstadisticasPage,
     AulasgPage,
     MateriasGPage,
     PopoverComponent,
@@ -86,7 +95,13 @@ export const firebaseConfig  = {
     { provide: ErrorHandler, useClass: IonicErrorHandler, },
     ApiProvider,
     HttpClientModule,
-    GlobalFunctionsProvider
+    GlobalFunctionsProvider,
+    Vibration,
+    Toast,
+    ScreenOrientation,
+    QRScanner,
+    Camera
+    //Push
   ]
 })
 export class AppModule { }

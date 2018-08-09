@@ -12,18 +12,19 @@ import { Storage } from '@ionic/storage';
 */
 @Injectable()
 export class ApiProvider {
-  route: string = "http://localhost/UTN/TPsegParcialPPS2017/API/index.php/"; //servidor local work
-  //route: string = "http://nggroup.esy.es/API/index.php/"; //servidor local //8@xZtlYoZNLpHKUOi(RM
+  //route: string = "http://localhost/UTN/TPsegParcialPPS2017/API/index.php/"; //servidor local work
+  route: string = "http://nggroup.esy.es/API/index.php/"; //servidor local //8@xZtlYoZNLpHKUOi(RM
   constructor(public http: HttpClient, private storage: Storage) { }
 
   //----------------------------------------I-TOKEN----------------------------------------//
   token(formData) {
     var body = {
-      "email": formData[0].email,
-      "tipo": formData[0].tipo,
+      "mail": formData[0].mail,
+      "idtipo": Number(formData[0].idtipo),
       "nombre": formData[0].nombre,
       "apellido": formData[0].apellido,
-      "img": formData[0].img
+      "idimagen": formData[0].idimagen,
+      "idusuario": formData[0].idusuario
     }
     return this.http.post(this.route + "crearToken", body).toPromise();
   }

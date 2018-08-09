@@ -106,7 +106,7 @@ export class MateriasAmPage {
     this.ApiProvider.returnToken().then(response => {
       console.info(response)
       this.nombre = response.nombre + ' ' + response.apellido;
-      this.tipo = response.tipo;
+      this.tipo = response.idtipo;
     }).catch(error => {
       this.GlobalF.cargando();
       this.storage.clear();
@@ -147,6 +147,7 @@ export class MateriasAmPage {
     promt.present();
     promt.onDidDismiss((data) => {
       if (data) {
+        this.GlobalF.cargando();
         this.navCtrl.setRoot(MateriasGPage);
       }
     })
