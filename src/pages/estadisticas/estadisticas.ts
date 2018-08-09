@@ -31,16 +31,18 @@ export class EstadisticasPage {
   tipo: any;
   idimagen: any;
   idusuario: any;
-  item:any;
-  informe:number;
-  anio:any;
-  cuatrimestre:any;
-  turno:any;
-  listado:any;
+  item: any;
+  informe: number;
+  anio: any;
+  cuatrimestre: any;
+  turno: any;
+  idmateria: any;
+  listado: any;
+  selectMaterias:any;
   constructor(private screenOrientation: ScreenOrientation, public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private ApiProvider: ApiProvider,
     private GlobalF: GlobalFunctionsProvider) {
     this.habilitar = true;
-    this.informe=0;
+    this.informe = 0;
     //this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
     this.returnToken();
   }
@@ -48,7 +50,7 @@ export class EstadisticasPage {
     //this.GlobalF.cargando();
     this.ApiProvider.returnToken().then(response => {
       console.info(response);
-      this.item=response;
+      this.item = response;
       this.nombre = response.nombre + ' ' + response.apellido;
       this.tipo = response.idtipo;
       this.idimagen = response.idimagen;
@@ -59,47 +61,64 @@ export class EstadisticasPage {
       this.navCtrl.setRoot(HomePage);
     })
   }
-  test(){
+  changeIdMateria(id){
+    console.info(id)
+  }
+  comboMaterias() {
+    if (this.anio && this.cuatrimestre && this.turno) {
+      var array = [{ "anio": this.anio,'cuatrimestre':this.cuatrimestre,'idturno':this.turno }];
+      this.ApiProvider.abmGralPost(array, '/materias/comboMaterias').then(Response => {
+        this.selectMaterias=Response;
+      }).catch(error => {
+        this.GlobalF.error(0);
+      })
+    }
+  }
+  buscar(){
+    var array2 = [{ "anio": this.anio,'cuatrimestre':this.cuatrimestre,'idturno':this.turno,'idmateria':this.idmateria }];
+  console.info(array2)  
+  }
+  test() {
     var array = [{ "traer": '1' }];
     this.ApiProvider.abmGralPost(array, '/estadisticas/traerAsistenciasCuatrimestrales').then(Response => {
       console.info(Response)
       this.listado = Response;
-      var Dlabels=[];
-      var Ddata=[];
+      var Dlabels = [];
+      var Ddata = [];
       for (let index = 0; index < this.listado.length; index++) {
-        Ddata.push(this.listado[index].total); 
-        Dlabels.push(this.listado[index].apellido); 
+        Ddata.push(this.listado[index].total);
+        Dlabels.push(this.listado[index].apellido);
       }
-      
-        this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
 
-          type: 'doughnut',
-          data: {
-            labels: Dlabels,
-            datasets: [{
-              label: '# of Votes',
-              data: Ddata,
-              backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-              ],
-              hoverBackgroundColor: [
-                "#FF6384",
-                "#36A2EB",
-                "#FFCE56",
-                "#FF6384",
-                "#36A2EB",
-                "#FFCE56"
-              ]
-            }]
-          }
-    
-        });
-      
+      this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
+
+        type: 'doughnut',
+        data: {
+          labels: Dlabels,
+          datasets: [{
+            label: '# of Votes',
+            data: Ddata,
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)'
+            ],
+            hoverBackgroundColor: [
+              "#FF6384",
+              "#36A2EB",
+              "#FFCE56",
+              "#FF6384",
+              "#36A2EB",
+              "#FFCE56"
+            ]
+          }]
+        }
+
+      });
+
     }).catch(error => {
       this.GlobalF.error(0);
     })

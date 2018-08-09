@@ -31,58 +31,62 @@
 </ion-header>
 
 <ion-content padding>
-  <div *ngIf="habilitar">Seleccione un reporte del Menu</div>
-  <ion-item *ngIf="informe==1">    
-      <ion-select [(ngModel)]="anio"  >
-        <ion-option value="0" selected>Año</ion-option>
-        <ion-option value="1">1°</ion-option>
-        <ion-option value="2">2°</ion-option>
-        <ion-option value="3">3°</ion-option>
-      </ion-select>    
-      <ion-select [(ngModel)]="cuatrimestre"  >
-        <ion-option value="0" selected>Cuatrimestre</ion-option>
-        <ion-option value="1">Primer</ion-option>
-        <ion-option value="2">Segundo</ion-option>
-      </ion-select>    
-      <ion-select [(ngModel)]="turno" >
-          <ion-option value="0" selected>Turno</ion-option>
-        <ion-option value="1">Mañana</ion-option>
-        <ion-option value="2">Tarde</ion-option>
-        <ion-option value="3">Noche</ion-option>
-      </ion-select>
-    </ion-item>
-    <ion-item *ngIf="informe==1" >
-        <button ion-button full (click)="listarAsignacion()">Buscar</button>
+  <ion-item>
+    <ion-select [(ngModel)]="anio" (ngModelChange)="comboMaterias();">
+      <ion-option value="0" selected>Año</ion-option>
+      <ion-option value="1">1°</ion-option>
+      <ion-option value="2">2°</ion-option>
+      <ion-option value="3">3°</ion-option>
+    </ion-select>
+    <ion-select [(ngModel)]="cuatrimestre" (ngModelChange)="comboMaterias();">
+      <ion-option value="0" selected>Cuatrimestre</ion-option>
+      <ion-option value="1">Primer</ion-option>
+      <ion-option value="2">Segundo</ion-option>
+    </ion-select>
+    <ion-select [(ngModel)]="turno" (ngModelChange)="comboMaterias();">
+      <ion-option value="0" selected>Turno</ion-option>
+      <ion-option value="1">Mañana</ion-option>
+      <ion-option value="2">Tarde</ion-option>
+      <ion-option value="3">Noche</ion-option>
+    </ion-select>
+    <ion-select   [(ngModel)]="idmateria" (ngModelChange)="buscar()">
+      <ion-option value="0" selected>Materia</ion-option>
+      <ion-option *ngFor="let val of selectMaterias" [value]="val.idmateria">{{val.descripcion}}</ion-option>
+    </ion-select>
+     
+  </ion-item>
+  <ion-item >
+    <button ion-button full (click)="buscar()">Buscar</button>
   </ion-item>
   <ion-card>
-      <ion-card-header>
-        Bar Chart
-      </ion-card-header>
-      <ion-card-content>
-        <canvas #barCanvas></canvas>
-      </ion-card-content>
-    </ion-card>
- 
-    <ion-card>
-      <ion-card-header>
-        Cantidad de "Presentes"
-      </ion-card-header>
-      <ion-card-content>
-        <canvas #doughnutCanvas></canvas>
-      </ion-card-content>
-    </ion-card>
- 
-    <ion-card>
-      <ion-card-header>
-        Line Chart
-      </ion-card-header>
-      <ion-card-content>
-        <canvas #lineCanvas></canvas>
-      </ion-card-content>
-    </ion-card>
- 
+    <ion-card-header>
+      Bar Chart
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #barCanvas></canvas>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      Cantidad de "Presentes"
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #doughnutCanvas></canvas>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      Line Chart
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #lineCanvas></canvas>
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>
-<ion-menu [content]="leftMenu"  side="right" id="menu2">
+<ion-menu [content]="leftMenu" side="right" id="menu2">
   <ion-header>
     <ion-toolbar>
       <ion-title>Estadisticas</ion-title>

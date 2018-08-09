@@ -209,6 +209,13 @@ $app->post('/materias/verificarAulaOcupada', function (Request $request, Respons
   $idmateria= $request->getParam('idmateria');   
   return $response->withJson(Materias::verificarAulaOcupada($idturno,$anio,$cuatrimestre,$idaula,$idmateria));
 });
+$app->post('/materias/comboMaterias', function (Request $request, Response $response) {
+		
+  $idturno= $request->getParam('idturno');    
+  $anio= $request->getParam('anio'); 
+  $cuatrimestre= $request->getParam('cuatrimestre');     
+  return $response->withJson(Materias::comboMaterias($idturno,$anio,$cuatrimestre));
+});
 //----------------------------------FIN  - MATERIAS---------------------------------//
 //----------------------------------INICIO - USUARIOS---------------------------------//
 /**

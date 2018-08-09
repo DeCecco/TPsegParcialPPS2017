@@ -7,6 +7,7 @@ import { GlobalFunctionsProvider } from '../../providers/global-functions/global
 import { AngularFireAuth } from 'angularfire2/auth';
 //import { Observable } from 'rxjs/Observable';
 import { MenuPage } from '../menu/menu';
+import { EstadisticasPage } from '../estadisticas/estadisticas';
 import { UsuariosPage } from '../usuarios/usuarios';
 import { Storage } from '@ionic/storage';
 import { Vibration } from '@ionic-native/vibration';
@@ -50,7 +51,7 @@ export class HomePage {
     try {
       const result = await this.afAuth.auth.signInWithEmailAndPassword(this.mail, this.password);
       if (result) {
-        this.navCtrl.setRoot(MenuPage);
+        this.navCtrl.setRoot(EstadisticasPage);
       }
     }
     catch (e) {
@@ -79,7 +80,7 @@ export class HomePage {
               //this.GlobalF.cargando();
               setTimeout(() => {
 
-                this.navCtrl.setRoot(MenuPage);  
+                this.navCtrl.setRoot(EstadisticasPage);  
               }, 2000);
               
             }).catch(error => {

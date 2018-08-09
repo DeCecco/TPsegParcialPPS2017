@@ -245,7 +245,7 @@ class Materias
 		left join `materias-turnos` mt on mt.idmateriasturnos=mu.idmateriasturnos
 		left join materias m on m.idmateria=mt.idmateria
 		left join usuarios u on u.idusuario=mu.idusuario
-		where a.idestado!=5 and mu.cuatrimestre=$cuatrimestre and mu.anio=$anio and mt.idmateria=$idmateria and mt.idturno=$turno";
+		where a.idestado!=5 and mu.cuatrimestre=$cuatrimestre and mu.anio=$anio and mt.idmateria=$idmateria and mt.idturno=$turno and fecha=".gmdate('d-m-Y');
 		$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);							
 		$consulta->execute();				
 		return $consulta->fetchAll(PDO::FETCH_ASSOC);
@@ -301,6 +301,19 @@ class Materias
 						return 0;
 					}				
 
+	}
+	public static function comboMaterias($idturno,$anio,$cuatrimestre){
+		 
+			$sql = " SELECT m.idmateria,m.descripcion from materias m
+			left join `materias-turnos` mt on mt.idmateria=m.idmateria
+			where mt.idturno=:idturno and m.anio=:anio and m.cuatrimestre=:cuatrimestre and m.estado=1";				
+			$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);							
+			$consulta->bindParam(':idturno',$idturno);		
+			$consulta->bindParam(':anio',$anio);		
+			$consulta->bindParam(':cuatrimestre',$cuatrimestre);		 
+			$consulta->execute();							
+			return $consulta->fetchAll(PDO::FETCH_ASSOC); 
+	 
 	}
 	//----------------------------------FIN  - MATERIAS---------------------------------//
 	
