@@ -36,6 +36,7 @@ export class EstadisticasPage {
   anio:any;
   cuatrimestre:any;
   turno:any;
+  listado:any;
   constructor(private screenOrientation: ScreenOrientation, public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private ApiProvider: ApiProvider,
     private GlobalF: GlobalFunctionsProvider) {
     this.habilitar = true;
@@ -58,8 +59,53 @@ export class EstadisticasPage {
       this.navCtrl.setRoot(HomePage);
     })
   }
-  ionViewDidLoad() {
+  test(){
+    var array = [{ "traer": '1' }];
+    this.ApiProvider.abmGralPost(array, '/estadisticas/traerAsistenciasCuatrimestrales').then(Response => {
+      console.info(Response)
+      this.listado = Response;
+      var Dlabels=[];
+      var Ddata=[];
+      for (let index = 0; index < this.listado.length; index++) {
+        Ddata.push(this.listado[index].total); 
+        Dlabels.push(this.listado[index].apellido); 
+      }
+      
+        this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
 
+          type: 'doughnut',
+          data: {
+            labels: Dlabels,
+            datasets: [{
+              label: '# of Votes',
+              data: Ddata,
+              backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+              ],
+              hoverBackgroundColor: [
+                "#FF6384",
+                "#36A2EB",
+                "#FFCE56",
+                "#FF6384",
+                "#36A2EB",
+                "#FFCE56"
+              ]
+            }]
+          }
+    
+        });
+      
+    }).catch(error => {
+      this.GlobalF.error(0);
+    })
+  }
+  ionViewDidLoad() {
+    this.test();
     this.barChart = new Chart(this.barCanvas.nativeElement, {
 
       type: 'bar',
@@ -99,34 +145,7 @@ export class EstadisticasPage {
 
     });
 
-    this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
 
-      type: 'doughnut',
-      data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-        datasets: [{
-          label: '# of Votes',
-          data: [12, 19, 3, 5, 2, 3],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-          ],
-          hoverBackgroundColor: [
-            "#FF6384",
-            "#36A2EB",
-            "#FFCE56",
-            "#FF6384",
-            "#36A2EB",
-            "#FFCE56"
-          ]
-        }]
-      }
-
-    });
 
     this.lineChart = new Chart(this.lineCanvas.nativeElement, {
 

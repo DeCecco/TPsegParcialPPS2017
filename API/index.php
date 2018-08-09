@@ -3,6 +3,7 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 require_once "usuarios.php";
 require_once "materias.php";
+require_once "estadisticas.php";
 require 'vendor/autoload.php';
 require 'AutentificadorJWT.php';
 
@@ -260,5 +261,18 @@ $app->post('/usuarios/listarUsuarios', function (Request $request, Response $res
 
 
 //----------------------------------FIN  - USUARIOS---------------------------------//
+//----------------------------------INICIO  - ESTADISTICAS---------------------------------//
+$app->post('/estadisticas/traerAsistenciasCuatrimestrales', function (Request $request, Response $response) {
+		/*
+  $idturno= $request->getParam('idturno');    
+  $anio= $request->getParam('anio'); 
+  $cuatrimestre= $request->getParam('cuatrimestre');   
+  $idaula= $request->getParam('idaula');   
+  $idmateria= $request->getParam('idmateria');   */
+  return $response->withJson(Estadisticas::traerAsistenciasCuatrimestrales());
+});
+
+//----------------------------------FIN  - ESTADISTICAS---------------------------------//
+
 $app->run();
 ?>
