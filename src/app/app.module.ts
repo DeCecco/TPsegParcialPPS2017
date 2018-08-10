@@ -35,6 +35,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { NativeAudio } from '@ionic-native/native-audio';
+import { DeviceMotion, DeviceMotionAccelerationData } from '@ionic-native/device-motion';
 
 //import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
@@ -106,7 +107,8 @@ export const firebaseConfig  = {
     ScreenOrientation,
     QRScanner,
     Camera,
-    NativeAudio
+    NativeAudio,
+    DeviceMotion
     //Push
   ]
 })

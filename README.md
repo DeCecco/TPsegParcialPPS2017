@@ -18,16 +18,18 @@ npm install
 
 incluye:
 
-Vibration                                		---> https://github.com/apache/cordova-plugin-vibration
+Vibration           ---> https://github.com/apache/cordova-plugin-vibration
     Se utiliza para dar conocimiento al uso de algunos botones
-Toast                                    		---> https://github.com/EddyVerbruggen/Toast-PhoneGap-Plugin
+Toast               ---> https://github.com/EddyVerbruggen/Toast-PhoneGap-Plugin
     Se utiliza para arrojar mensajes de notificacion del uso de la aplicacion al resetear la clave del usuario
-ScreenOrientation                          		---> https://github.com/apache/cordova-plugin-screen-orientation
+ScreenOrientation   ---> https://github.com/apache/cordova-plugin-screen-orientation
     Se utiliza para mantener la pantalla en posicion Vertical y luego se cambia a horizontal en los reportes.
-Camera                                   		---> https://github.com/apache/cordova-plugin-camera
+Camera              ---> https://github.com/apache/cordova-plugin-camera
     Se utiliza para tomar fotos y setearlas en los perfiles de los usuarios
-NativeAudio                                     ---> https://github.com/floatinghotpot/cordova-plugin-nativeaudio
+NativeAudio         ---> https://github.com/floatinghotpot/cordova-plugin-nativeaudio
     Se utiliza para notificar que se grabo correctamente la Asistencia    
+Firestore
+    Se utiliza para el login, el token, y restablecimiento de contraseña 
 
 ```
 
@@ -43,10 +45,10 @@ La Documentacion para IONIC CLI se encuentra en este repositorio [Ionic](https:/
 
 <h1>Screen del Sistema</h1><br>
 <img src='https://pablodececco.com.ar/images/home.png'/><br>
-La Documentacion para Asistencia se encuentra en este link [GJS2](http://pablodececco.com.ar/doc).
+<!--La Documentacion para Asistencia se encuentra en este link [GJS2](http://pablodececco.com.ar/doc).-->
 
 
-<h2>Operatoria Administrativo</h2>
+<!--h2>Operatoria Administrativo</h2>
 
 <div>
 	Al ingresar por primera vez el usuario debera registrarse como se ve en pantalla; Completando los datos obligatorios que estan en rojo y completar el captcha para finalizar el registro.
@@ -83,7 +85,7 @@ La Documentacion para Asistencia se encuentra en este link [GJS2](http://pablode
 <br><br><br><br>
 <div>
 	
-</div>
+</div-->
 
 
 ## Licencia

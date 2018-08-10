@@ -13,6 +13,7 @@ import { EstadisticasPage } from '../estadisticas/estadisticas';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 import { Vibration } from '@ionic-native/vibration';
+import { DeviceMotion, DeviceMotionAccelerationData } from '@ionic-native/device-motion';
 
 //import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
@@ -35,7 +36,7 @@ export class MenuPage {
   idimagen: any;
   idusuario: any;
   item:any;
-  constructor(/*private push: Push,*/ private vibration: Vibration,private qrScanner: QRScanner, private screenOrientation: ScreenOrientation, public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private ApiProvider: ApiProvider, private GlobalF: GlobalFunctionsProvider) {
+  constructor(/*private push: Push,*/ private deviceMotion: DeviceMotion,private vibration: Vibration,private qrScanner: QRScanner, private screenOrientation: ScreenOrientation, public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private ApiProvider: ApiProvider, private GlobalF: GlobalFunctionsProvider) {
     this.nombre = '-Sin Nombre-';
     this.idimagen = 1;
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
@@ -60,6 +61,22 @@ export class MenuPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MenuPage');
+    this.motion();
+  }
+  motion(){
+    this.deviceMotion.getCurrentAcceleration().then(
+      (acceleration: DeviceMotionAccelerationData) => console.log(acceleration),
+      (error: any) => console.log(error)      
+    );
+    this.getMotion();
+  }
+  getMotion(){
+    var subscription = this.deviceMotion.watchAcceleration().subscribe((acceleration: DeviceMotionAccelerationData) => {
+      subscription.unsubscribe();
+      this.vibration.vibrate(50);      
+      this.navCtrl.setRoot(MateriasGPage, { estado: 'Asistencia' });            
+    });
+    
   }
   goTo(where) {
     console.info(where);
