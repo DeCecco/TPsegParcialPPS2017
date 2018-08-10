@@ -93,7 +93,7 @@ export class UsuariosGPage {
 
   modificar(item) {
 
-    this.estado = 'Modificar';
+    this.estado = 'Modificar'; 
     this.navCtrl.setRoot(UsuariosPage, { where: this.estado, arreglo: item });
   }
 
