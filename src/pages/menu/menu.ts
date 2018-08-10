@@ -73,8 +73,10 @@ export class MenuPage {
   getMotion(){
     var subscription = this.deviceMotion.watchAcceleration({frequency:20000}).subscribe((acceleration: DeviceMotionAccelerationData) => {
       subscription.unsubscribe();
-      this.vibration.vibrate(50);      
-      this.navCtrl.setRoot(MateriasGPage, { estado: 'Asistencia' });            
+      if(this.tipo==1 || this.tipo==4){
+        this.vibration.vibrate(50);      
+        this.navCtrl.setRoot(MateriasGPage, { estado: 'Asistencia' });            
+      }
     });
     
   }
