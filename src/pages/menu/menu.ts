@@ -41,7 +41,7 @@ export class MenuPage {
     this.idimagen = 1;
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
     this.returnToken();    
-
+    this.motion();
   }
   returnToken() {
     this.GlobalF.cargando3Seg();
@@ -61,7 +61,7 @@ export class MenuPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MenuPage');
-    this.motion();
+    
   }
   motion(){
     this.deviceMotion.getCurrentAcceleration().then(

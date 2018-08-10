@@ -91,13 +91,4 @@ La Documentacion para IONIC CLI se encuentra en este repositorio [Ionic](https:/
 ## Licencia
 
 MIT
-Screen Orientation
-Toast
-Vibration
-Camera
-falta audio
-ver QR
-
-Administrativo:
-asistencias por cuatrimestre por materia ->
 
