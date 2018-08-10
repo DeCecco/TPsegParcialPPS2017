@@ -43,10 +43,10 @@ La Documentacion para IONIC CLI se encuentra en este repositorio [Ionic](https:/
 
 <h1>Screen del Sistema</h1><br>
 <img src='https://pablodececco.com.ar/images/home.png'/><br>
-La Documentacion para GJS2 se encuentra en este link [GJS2](http://pablodececco.com.ar/doc).
+La Documentacion para Asistencia se encuentra en este link [GJS2](http://pablodececco.com.ar/doc).
 
 
-<h2>Operatoria Usuario</h2>
+<h2>Operatoria Administrativo</h2>
 
 <div>
 	Al ingresar por primera vez el usuario debera registrarse como se ve en pantalla; Completando los datos obligatorios que estan en rojo y completar el captcha para finalizar el registro.

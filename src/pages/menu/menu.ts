@@ -5,6 +5,7 @@ import { Storage } from '@ionic/storage';
 import { AulasgPage } from '../aulasg/aulasg';
 import { MateriasGPage } from '../materias-g/materias-g';
 import { UsuariosGPage } from '../usuarios-g/usuarios-g';
+import { AboutPage } from '../about/about';
 import { GlobalFunctionsProvider } from '../../providers/global-functions/global-functions';
 import { HomePage } from '../home/home';
 import { UsuariosPage } from '../usuarios/usuarios';
@@ -89,6 +90,8 @@ export class MenuPage {
         this.navCtrl.setRoot(EstadisticasPage);
         break;
       case 7:
+        this.GlobalF.cargando();
+        this.navCtrl.setRoot(AboutPage);
         break;
       case 8:
         this.GlobalF.cargando();

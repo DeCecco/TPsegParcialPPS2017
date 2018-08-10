@@ -9,6 +9,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { MenuPage } from '../pages/menu/menu';
+import { AboutPage } from '../pages/about/about';
 import { UsuariosPage } from '../pages/usuarios/usuarios';
 import { AulasgPage } from '../pages/aulasg/aulasg';
 import { AmaulasPage } from '../pages/amaulas/amaulas';
@@ -64,7 +65,8 @@ export const firebaseConfig  = {
     MateriasAmPage,
     UsuariosGPage,
     EstadisticasPage,
-    AsignacionMateriasPage
+    AsignacionMateriasPage,
+    AboutPage
   ],
   imports: [
     BrowserModule,
@@ -89,7 +91,8 @@ export const firebaseConfig  = {
     EstadoAsistenciaComponent,
     MateriasAmPage,
     UsuariosGPage,
-    AsignacionMateriasPage
+    AsignacionMateriasPage,
+    AboutPage
   ],
   providers: [
     StatusBar,
