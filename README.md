@@ -8,6 +8,7 @@ Este proyecto utiliza Ionic CLI PRO 3.20.0.
 
 * [Instalacion](#instalacion)
 * [Uso](#uso)
+* [View](#view)
 * [Documentation](#documentacion)
 * [Licencia](#licencia)
 
@@ -39,6 +40,8 @@ Firestore
 ionic Serve
 ```
 
+## View
+944E889B
 ## Documentacion
 
 La Documentacion para IONIC CLI se encuentra en este repositorio [Ionic](https://ionicframework.com/docs/api/).
