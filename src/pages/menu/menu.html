@@ -35,9 +35,43 @@
 <ion-content padding>
   <ion-row>
     <ion-col class="textoCentrado">      
-      <p><button *ngIf="rol!='3' " ion-button class="btnsize" icon-left  (click)="irAsistencia()"><ion-icon name="ios-list-box"></ion-icon>Administrativas</button></p>
-      <p><button ion-button class="btnsize" icon-left  (click)="irAsistenciaA()"><ion-icon name="ios-list-box"></ion-icon>Alumno</button></p>
-      <p><button *ngIf="rol!='3' " ion-button class="btnsize" icon-left  (click)="irAsistenciaP()"><ion-icon name="ios-list-box"></ion-icon>Profesor</button></p>
+        <ion-list>
+          <button *ngIf="tipo!=2 && tipo!=3" icon-left ion-item (click)="goTo(2)">
+            <ion-icon item-start name="ios-list-box"  style="color:#0e6073;"></ion-icon>
+              <div>Asistencia</div>        
+            <ion-icon item-end name="ios-arrow-forward"></ion-icon>
+          </button> 
+          <button icon-left ion-item (click)="goTo(3)" *ngIf="tipo!=2 && tipo!=3">
+            <ion-icon item-start name="ios-book"  style="color:#0e6073;"></ion-icon>
+              <div>Materias</div>        
+            <ion-icon item-end name="ios-arrow-forward"></ion-icon>
+          </button> 
+          <button icon-left ion-item (click)="goTo(4)" *ngIf="tipo==1">
+            <ion-icon item-start name="ios-create"  style="color:#0e6073;"></ion-icon>
+              <div>Aulas</div>        
+            <ion-icon item-end name="ios-arrow-forward"></ion-icon>
+          </button>       
+          <button icon-left ion-item  (click)="goTo(5)" *ngIf="tipo!=2 && tipo!=3">
+            <ion-icon item-start name="ios-contacts"  style="color:#0e6073;"></ion-icon>
+              <div>Usuarios</div>        
+            <ion-icon item-end name="ios-arrow-forward"></ion-icon>
+          </button> 
+           <button icon-left ion-item  (click)="goTo(6)">
+            <ion-icon item-start name="ios-stats"  style="color:#0e6073;"></ion-icon>
+              <div>Estadisticas</div>        
+            <ion-icon item-end name="ios-arrow-forward"></ion-icon>
+          </button>      
+          <button icon-left ion-item  (click)="goTo(7)">
+            <ion-icon item-start name="md-school"  style="color:#0e6073;"></ion-icon>
+              <div>Acerca de</div>        
+            <ion-icon item-end name="ios-arrow-forward"></ion-icon>
+          </button> 
+          <button icon-left ion-item  (click)="goTo(8)">
+            <ion-icon item-start name="ios-exit"  style="color:#0e6073;"></ion-icon>
+              <div>Salir</div>        
+            <ion-icon item-end name="ios-arrow-forward"></ion-icon>
+          </button> 
+        </ion-list> 
     </ion-col>
   </ion-row>
 </ion-content>

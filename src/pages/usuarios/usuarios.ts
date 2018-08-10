@@ -100,6 +100,7 @@ export class UsuariosPage {
       return false;
   }
   guardar2(array) {
+    this.vibration.vibrate(200);
     this.ApiProvider.altaUsuario(array).then(response => {
       this.GlobalF.correcto(1);
       this.back();
