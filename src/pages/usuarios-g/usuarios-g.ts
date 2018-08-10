@@ -98,7 +98,7 @@ export class UsuariosGPage {
   }
 
   eliminar(item) {
-    this.returnToken();
+    
     let promt = this.GlobalF.alerta(2);
     promt.present();
     promt.onDidDismiss((data) => {

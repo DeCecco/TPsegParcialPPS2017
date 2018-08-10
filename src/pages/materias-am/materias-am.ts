@@ -7,7 +7,8 @@ import { GlobalFunctionsProvider } from '../../providers/global-functions/global
 import { AngularFirestore/*, AngularFirestoreDocument */ } from 'angularfire2/firestore';
 import { Storage } from '@ionic/storage';
 import { HomePage } from '../home/home';
-
+import { Vibration } from '@ionic-native/vibration';
+import { NativeAudio } from '@ionic-native/native-audio';
 /**
  * Generated class for the MateriasAmPage page.
  *
@@ -41,8 +42,9 @@ export class MateriasAmPage {
   cuatrimestre: string;
   nombre: string;
   tipo: any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, private ApiProvider: ApiProvider, private storage: Storage, private GlobalF: GlobalFunctionsProvider,
+  constructor(private vibration: Vibration,private nativeAudio: NativeAudio,public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, private ApiProvider: ApiProvider, private storage: Storage, private GlobalF: GlobalFunctionsProvider,
     private db: AngularFirestore) {
+      this.nativeAudio.preloadSimple('tambor', 'assets/sound/tambor.mp3');
     this.estado = this.navParams.get("estado");
     this.habilitarM = 0;
     this.habilitarT = 0;
@@ -156,8 +158,9 @@ export class MateriasAmPage {
   guardar() {
 
     if (this.formAM.valid) {
-
-
+      this.vibration.vibrate(100);
+      this.nativeAudio.play('tambor');
+      this.GlobalF.cargando3Seg();
       if (this.estado != 'Modificar') {
         var array = [{ "descripcion": this.descripcion, "descripcionCorta": this.descripcionCorta, "turno": this.turno, "aulaAsig": this.aulaAsig, "anio": this.anio, "cuatrimestre": this.cuatrimestre }];
         this.ApiProvider.abmGralPost(array, 'materias/altaMateria').then(Response => {
