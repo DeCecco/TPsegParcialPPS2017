@@ -171,8 +171,8 @@ export class EstadisticasPage {
           data: {
             labels: this.Lnomap1,
             datasets: [{
-              label: this.DPresente,
-              data: [12, 19, 3, 5, 2, 3],
+              label: 'Presencias',
+              data: this.DPresente,
               backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
