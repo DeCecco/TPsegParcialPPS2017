@@ -27,8 +27,8 @@ class Usuarios
 	    return $consulta->fetchAll(PDO::FETCH_ASSOC);
 	}
 	public static function altaUsuario($mail,$idtipo,$nombre,$apellido,$idimagen){
-		$sql = " INSERT INTO usuarios (idtipo,idimagen,nombre,apellido,mail) 
-		values (:idtipo,:idimagen,:nombre,:apellido,:mail); ";
+		$sql = " INSERT INTO usuarios (idtipo,idimagen,nombre,apellido,mail,estado) 
+		values (:idtipo,:idimagen,:nombre,:apellido,:mail,1); ";
 		$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);
 		$consulta->bindParam(':mail',$mail);
 		$consulta->bindParam(':idtipo',$idtipo);
@@ -65,7 +65,7 @@ class Usuarios
 		if($tipo==1){
 			$sql = "SELECT *,concat(nombre, ' ',apellido) as nomap  from usuarios where estado=1 order by apellido,nombre";
 		}else{
-			$sql = "SELECT *,concat(nombre, ' ',apellido) as nomap  from usuarios where estado=1 and idtipo=3 order by apellido,nombre ";
+			$sql = "SELECT *,concat(nombre, ' ',apellido) as nomap  from usuarios where estado=1 and idtipo!=1 and idtipo!=4 order by apellido,nombre ";
 		}
 		$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);				
 	    $consulta->execute();

@@ -6,27 +6,34 @@
   </ion-navbar>
 </ion-header>
 <ion-nav [root]="rootPage"></ion-nav>
-<ion-content padding>
-  <form [formGroup]="formLogin">
-    <ion-list>
+<ion-content class="background-Black">
 
-      <ion-item>
-        <ion-label floating>Mail</ion-label>
-        <ion-input type="text" formControlName="mail" [(ngModel)]="mail"></ion-input>
-      </ion-item>
+  <ion-card>
 
-      <ion-item>
-        <ion-label floating>Password</ion-label>
-        <ion-input type="password" formControlName="password" [(ngModel)]="password"></ion-input>
-      </ion-item>
+    <img src="assets/imgs/inicio.jpg" usemap="#batuta" />
+    <form [formGroup]="formLogin">
+      <ion-list>
 
-    </ion-list>
-  </form>
-  <button ion-button full (click)="ingresar()">Ingresar</button>  
-  <div class="center"><a (click)="forgot()">Olvide mi password</a></div>
-  <button ion-button full color="danger" (click)="registrarse()">Registrarse</button>
-  <button ion-button full color="dark" (click)="harcode(1)">Administrador</button>
-  <button ion-button full color="dark" (click)="harcode(2)">Profesor</button>
-  <button ion-button full color="dark" (click)="harcode(3)">Alumno</button>
-  <button ion-button full color="dark" (click)="harcode(4)">Administrativo</button>
+        <ion-item>
+          <ion-label floating>Mail</ion-label>
+          <ion-input type="text" formControlName="mail" [(ngModel)]="mail"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>Password</ion-label>
+          <ion-input type="password" formControlName="password" [(ngModel)]="password"></ion-input>
+        </ion-item>
+
+      </ion-list>
+    </form>
+    <button ion-button full (click)="ingresar()">Ingresar</button>
+    <div class="center">
+      <a (click)="forgot()">Olvide mi password</a>
+    </div>
+    <button ion-button full color="danger" (click)="registrarse()">Registrarse</button>
+    <button ion-button full color="dark" (click)="harcode(1)">Administrador</button>
+    <button ion-button full color="dark" (click)="harcode(2)">Profesor</button>
+    <button ion-button full color="dark" (click)="harcode(3)">Alumno</button>
+    <button ion-button full color="dark" (click)="harcode(4)">Administrativo</button>
+  </ion-card>
 </ion-content>

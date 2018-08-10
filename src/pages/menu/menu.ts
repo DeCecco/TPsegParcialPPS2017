@@ -36,7 +36,7 @@ export class MenuPage {
   constructor(/*private push: Push,*/ private qrScanner: QRScanner, private screenOrientation: ScreenOrientation, public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private ApiProvider: ApiProvider, private GlobalF: GlobalFunctionsProvider) {
     this.nombre = '-Sin Nombre-';
     this.idimagen = 1;
-    //this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
+    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
     this.returnToken();    
 
   }

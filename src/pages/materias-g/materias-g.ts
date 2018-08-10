@@ -36,9 +36,9 @@ export class MateriasGPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, private ApiProvider: ApiProvider, private storage: Storage, private GlobalF: GlobalFunctionsProvider) {
     this.estado = this.navParams.get("estado");
     this.arreglo = this.navParams.get("arreglo");
-    this.anio = '1';
-    this.cuatrimestre = '1';
-    this.turno = '1';
+    this.anio = '0';
+    this.cuatrimestre = '0';
+    this.turno = '0';
     this.titulo = 'Materias';
     this.returnToken();
   }
@@ -61,7 +61,6 @@ export class MateriasGPage {
   }
   returnToken() {
     this.ApiProvider.returnToken().then(response => {
-      console.info(response)
       this.nombre = response.nombre + ' ' + response.apellido;
       this.tipo = response.idtipo;
     }).catch(error => {
@@ -229,6 +228,7 @@ export class MateriasGPage {
   }
   listarUsuariosAsignados(item) {
     let array = [{ "anio": this.anio, "cuatrimestre": this.cuatrimestre, "turno": this.turno, "idmateria": item.idmateria }];
+    console.info(array)
     this.ApiProvider.abmGralPost(array, 'materias/tomarAsistencia').then(Response => {
       this.listado = Response;
       this.navCtrl.setRoot(UsuariosGPage, { listado: this.listado });

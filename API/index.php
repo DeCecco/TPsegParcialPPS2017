@@ -214,7 +214,9 @@ $app->post('/materias/comboMaterias', function (Request $request, Response $resp
   $idturno= $request->getParam('idturno');    
   $anio= $request->getParam('anio'); 
   $cuatrimestre= $request->getParam('cuatrimestre');     
-  return $response->withJson(Materias::comboMaterias($idturno,$anio,$cuatrimestre));
+  $idusuario= $request->getParam('idusuario');     
+  $idtipo= $request->getParam('idtipo');     
+  return $response->withJson(Materias::comboMaterias($idturno,$anio,$cuatrimestre,$idusuario,$idtipo));
 });
 //----------------------------------FIN  - MATERIAS---------------------------------//
 //----------------------------------INICIO - USUARIOS---------------------------------//
@@ -270,13 +272,14 @@ $app->post('/usuarios/listarUsuarios', function (Request $request, Response $res
 //----------------------------------FIN  - USUARIOS---------------------------------//
 //----------------------------------INICIO  - ESTADISTICAS---------------------------------//
 $app->post('/estadisticas/traerAsistenciasCuatrimestrales', function (Request $request, Response $response) {
-		/*
+	
   $idturno= $request->getParam('idturno');    
   $anio= $request->getParam('anio'); 
-  $cuatrimestre= $request->getParam('cuatrimestre');   
-  $idaula= $request->getParam('idaula');   
-  $idmateria= $request->getParam('idmateria');   */
-  return $response->withJson(Estadisticas::traerAsistenciasCuatrimestrales());
+  $cuatrimestre= $request->getParam('cuatrimestre');     
+  $idmateria= $request->getParam('idmateria');   
+  $idtipo= $request->getParam('idtipo');   
+  $idusuario= $request->getParam('idusuario');   
+  return $response->withJson(Estadisticas::traerAsistenciasCuatrimestrales($anio,$cuatrimestre,$idturno,$idmateria,$idtipo,$idusuario));
 });
 
 //----------------------------------FIN  - ESTADISTICAS---------------------------------//

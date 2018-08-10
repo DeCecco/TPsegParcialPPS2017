@@ -38,7 +38,7 @@ export class UsuariosGPage {
   }
   returnToken() {
     this.ApiProvider.returnToken().then(response => {
-      console.info(response)
+      
       this.nombre = response.nombre + ' ' + response.apellido;
       this.tipo = response.idtipo;
       if (this.arreglo != null) {
@@ -63,7 +63,7 @@ export class UsuariosGPage {
 
   listar(x) {
     var array = [{ "traer": x }];
-
+      this.GlobalF.cargando3Seg();
       this.ApiProvider.abmGralPost(array, 'usuarios/listarUsuarios').then(Response => {
         this.listado = Response;
       }).catch(error => {

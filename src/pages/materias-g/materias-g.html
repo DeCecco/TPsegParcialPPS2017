@@ -34,21 +34,21 @@
 <ion-content padding>  
   <ion-item *ngIf="estado=='Usuarios' || estado=='Asistencia'">    
     <ion-select [(ngModel)]="anio" (ngModelChange)="limpiarLista();" >
-      <ion-option value="0" selected>Año</ion-option>
-      <ion-option value="1">1°</ion-option>
-      <ion-option value="2">2°</ion-option>
-      <ion-option value="3">3°</ion-option>
+      <ion-option value='0' selected>Año</ion-option>
+      <ion-option value='1'>1°</ion-option>
+      <ion-option value='2'>2°</ion-option>
+      <ion-option value='3'>3°</ion-option>
     </ion-select>    
     <ion-select [(ngModel)]="cuatrimestre"  (ngModelChange)="limpiarLista();">
-      <ion-option value="0" selected>Cuatrimestre</ion-option>
-      <ion-option value="1">Primer</ion-option>
-      <ion-option value="2">Segundo</ion-option>
+      <ion-option value='0' selected>Cuatrimestre</ion-option>
+      <ion-option value='1'>Primer</ion-option>
+      <ion-option value='2'>Segundo</ion-option>
     </ion-select>    
     <ion-select [(ngModel)]="turno" (ngModelChange)="limpiarLista();">
-        <ion-option value="0" selected>Turno</ion-option>
-      <ion-option value="1">Mañana</ion-option>
-      <ion-option value="2">Tarde</ion-option>
-      <ion-option value="3">Noche</ion-option>
+        <ion-option value='0' selected>Turno</ion-option>
+      <ion-option value='1'>Mañana</ion-option>
+      <ion-option value='2'>Tarde</ion-option>
+      <ion-option value='3'>Noche</ion-option>
     </ion-select>
   </ion-item>
   <ion-item *ngIf="estado=='Usuarios' || estado=='Asistencia'" >

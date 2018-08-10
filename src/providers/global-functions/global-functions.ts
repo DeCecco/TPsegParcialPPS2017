@@ -21,12 +21,22 @@ export class GlobalFunctionsProvider {
   cargando() {
     let loader = this.loadingCtrl.create({
       dismissOnPageChange: true,
-      cssClass: 'transparent',
+      //cssClass: 'transparent',
+      content:'Cargando...',
       spinner: 'ios'
     });
     loader.present();
   }
-
+  
+  cargando3Seg() {
+    let loader = this.loadingCtrl.create({      
+      //cssClass: 'transparent',
+      content:'Cargando...',
+      spinner: 'ios',
+      duration: 3000
+    });
+    loader.present();
+  }
   error(x) {
     switch (x) {
       case 0: x = 'COMUNIQUESE CON SOPORTE';

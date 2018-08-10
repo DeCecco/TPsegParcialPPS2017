@@ -51,7 +51,7 @@ export class HomePage {
     try {
       const result = await this.afAuth.auth.signInWithEmailAndPassword(this.mail, this.password);
       if (result) {
-        this.navCtrl.setRoot(EstadisticasPage);
+        this.navCtrl.setRoot(MenuPage);
       }
     }
     catch (e) {
@@ -80,7 +80,7 @@ export class HomePage {
               //this.GlobalF.cargando();
               setTimeout(() => {
 
-                this.navCtrl.setRoot(EstadisticasPage);  
+                this.navCtrl.setRoot(MenuPage);  
               }, 2000);
               
             }).catch(error => {
