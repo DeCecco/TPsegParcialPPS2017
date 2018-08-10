@@ -9,6 +9,8 @@ import { MateriasAmPage } from '../materias-am/materias-am';
 import { UsuariosGPage } from '../usuarios-g/usuarios-g';
 import { Storage } from '@ionic/storage';
 import { HomePage } from '../home/home';
+import { NativeAudio } from '@ionic-native/native-audio';
+import { Vibration } from '@ionic-native/vibration';
 
 /**
  * Generated class for the MateriasGPage page.
@@ -33,13 +35,14 @@ export class MateriasGPage {
   nombre: string;
   tipo: any;
   titulo: string;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, private ApiProvider: ApiProvider, private storage: Storage, private GlobalF: GlobalFunctionsProvider) {
+  constructor(public navCtrl: NavController,private vibration: Vibration,private nativeAudio: NativeAudio, public navParams: NavParams, public popoverCtrl: PopoverController, private ApiProvider: ApiProvider, private storage: Storage, private GlobalF: GlobalFunctionsProvider) {
     this.estado = this.navParams.get("estado");
     this.arreglo = this.navParams.get("arreglo");
     this.anio = '0';
     this.cuatrimestre = '0';
     this.turno = '0';
-    this.titulo = 'Materias';
+    this.titulo = 'Materias';    
+    this.nativeAudio.preloadSimple('tambor', 'assets/sound/tambor.mp3');
     this.returnToken();
   }
 
@@ -200,14 +203,17 @@ export class MateriasGPage {
   }
 
   guardar() {
-
+    this.nativeAudio.play('tambor');
     if (this.listado != null) {
       if (this.listado.length != 0) {
         var array = [{ "lista": this.listado }];
-        console.info(array);
+        
         this.ApiProvider.abmGralPost(array, 'materias/grabarAsignacion').then(Response => {
+          
           if (Response == 1) {
             this.GlobalF.correcto(1);
+            
+            this.vibration.vibrate(50);
           } else {
             this.GlobalF.error(Response);
           }

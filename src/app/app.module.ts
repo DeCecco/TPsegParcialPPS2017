@@ -33,6 +33,8 @@ import { Toast } from '@ionic-native/toast';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { NativeAudio } from '@ionic-native/native-audio';
+
 //import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
 //------------------------Components------------------------//
@@ -100,7 +102,8 @@ export const firebaseConfig  = {
     Toast,
     ScreenOrientation,
     QRScanner,
-    Camera
+    Camera,
+    NativeAudio
     //Push
   ]
 })

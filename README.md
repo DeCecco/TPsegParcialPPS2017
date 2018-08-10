@@ -1,8 +1,8 @@
 ## # TPsegParcialPPS2017 - Proyecto final Asistencia
  
-## Requisitos
+## Version
 
-Este proyecto utiliza Angular CLI para ello es requerido Node 6.9.0 o una version superior y también NPM 3 o una version superior.
+Este proyecto utiliza Ionic CLI PRO 3.20.0.
 
 ## Tabla de Contenidos
 
@@ -13,36 +13,36 @@ Este proyecto utiliza Angular CLI para ello es requerido Node 6.9.0 o una versio
 
 ## Instalacion
 
-**Antes de Instalar:** Por favor, lea los  [Requisitos](#Requisitos)
 ```bash
 npm install 
 
 incluye:
 
-npm i ng-recaptcha --save                  		---> https://github.com/DethAriel/ng-recaptcha
-npm install ng2-charts --save              		---> https://github.com/valor-software/ng2-charts
-npm install ng2-modal --save               		---> https://github.com/pleerock/ngx-modal
-npm install ngx-uploader --save            		---> https://github.com/bleenco/ngx-uploader
-npm install ngx-bootstrap --save           		---> https://github.com/valor-software/ngx-bootstrap
-npm install --save ngx-loading             		---> https://github.com/Zak-C/ngx-loading
-npm install --save alasql 		           		---> https://github.com/agershun/alasql
-npm install @ngui/map @types/googlemaps --save 	---> https://github.com/ng2-ui/map
+Vibration                                		---> https://github.com/apache/cordova-plugin-vibration
+    Se utiliza para dar conocimiento al uso de algunos botones
+Toast                                    		---> https://github.com/EddyVerbruggen/Toast-PhoneGap-Plugin
+    Se utiliza para arrojar mensajes de notificacion del uso de la aplicacion al resetear la clave del usuario
+ScreenOrientation                          		---> https://github.com/apache/cordova-plugin-screen-orientation
+    Se utiliza para mantener la pantalla en posicion Vertical y luego se cambia a horizontal en los reportes.
+Camera                                   		---> https://github.com/apache/cordova-plugin-camera
+    Se utiliza para tomar fotos y setearlas en los perfiles de los usuarios
+NativeAudio                                     ---> https://github.com/floatinghotpot/cordova-plugin-nativeaudio
+    Se utiliza para notificar que se grabo correctamente la Asistencia    
 
-entre otros
 ```
 
 ## Uso
 
 ```bash
-ng serve 
+ionic Serve
 ```
 
 ## Documentacion
 
-La Documentacion para Angular CLI se encuentra en este repositorio [wiki](https://github.com/angular/angular-cli/wiki).
+La Documentacion para IONIC CLI se encuentra en este repositorio [Ionic](https://ionicframework.com/docs/api/).
 
 <h1>Screen del Sistema</h1><br>
-<img src='https://pablodececco.com.ar/assets/img/screen.jpg'/><br>
+<img src='https://pablodececco.com.ar/images/home.png'/><br>
 La Documentacion para GJS2 se encuentra en este link [GJS2](http://pablodececco.com.ar/doc).
 
 
@@ -92,4 +92,10 @@ MIT
 Screen Orientation
 Toast
 Vibration
+Camera
+falta audio
+ver QR
+
+Administrativo:
+asistencias por cuatrimestre por materia ->
 

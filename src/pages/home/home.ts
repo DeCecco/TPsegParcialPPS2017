@@ -13,7 +13,7 @@ import { Storage } from '@ionic/storage';
 import { Vibration } from '@ionic-native/vibration';
 import { Toast } from '@ionic-native/toast';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
-
+import { NativeAudio } from '@ionic-native/native-audio';
 
 @Component({
   selector: 'page-home',
@@ -23,10 +23,9 @@ export class HomePage {
   formLogin: FormGroup;
   mail: string;
   password: string;
-  constructor(private screenOrientation: ScreenOrientation,private vibration: Vibration,public navCtrl: NavController, public formBuilder: FormBuilder, private ApiProvider: ApiProvider, /*private db: AngularFirestore,*/
+  constructor(private screenOrientation: ScreenOrientation,private vibration: Vibration,private nativeAudio: NativeAudio,public navCtrl: NavController, public formBuilder: FormBuilder, private ApiProvider: ApiProvider, /*private db: AngularFirestore,*/
     private GlobalF: GlobalFunctionsProvider, public modalCtrl: ModalController, private afAuth: AngularFireAuth, private storage: Storage,private toast: Toast) {
-    //this.mail = "pablomdececcorios@gmail.com";
-    //this.password = "agos1305";
+      this.nativeAudio.preloadSimple('tambor', 'assets/sound/tambor.mp3');
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
     this.formLogin = formBuilder.group({
       mail: [this.mail, Validators.compose([Validators.required, Validators.maxLength(30), Validators.minLength(6), Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])],
@@ -47,7 +46,7 @@ export class HomePage {
 
 
   async ingresar2() {
-    this.GlobalF.cargando();
+    this.GlobalF.cargando3Seg();
     try {
       const result = await this.afAuth.auth.signInWithEmailAndPassword(this.mail, this.password);
       if (result) {
@@ -66,7 +65,7 @@ export class HomePage {
       try {
 
         //this.afAuth.auth.signInWithEmailAndPassword(this.mail, this.password).then(response => {
-        this.GlobalF.cargando();
+        this.GlobalF.cargando3Seg();
         
         this.ApiProvider.verificarUsuario(this.mail).then(response => {
           if (response[0].existe > 0) {
@@ -77,7 +76,7 @@ export class HomePage {
             console.info(array)
             this.ApiProvider.token(array).then(tk => {
               this.storage.set('Token', tk);
-              //this.GlobalF.cargando();
+              //this.GlobalF.cargando3Seg();
               setTimeout(() => {
 
                 this.navCtrl.setRoot(MenuPage);  
@@ -134,6 +133,7 @@ export class HomePage {
   forgot() {
     if(this.mail){
       this.vibration.vibrate(500);
+      this.nativeAudio.play('tambor');
       this.toast.show(`Se envio un correo a su casilla`, '5000', 'center').subscribe(
         toast => {
           console.log(toast);

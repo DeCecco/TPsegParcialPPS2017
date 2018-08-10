@@ -234,11 +234,11 @@ class Materias
 		left join `materias-turnos` mt on mt.idmateriasturnos=mu.idmateriasturnos
 		left join materias m on m.idmateria=mt.idmateria
 		left join usuarios u on u.idusuario=mu.idusuario
-		where mu.anio=1 and mu.cuatrimestre=".(int)$cuatrimestre."  and m.estado=1 and m.idmateria=".(int)$idmateria." and u.estado=1 and mt.idturno=".(int)$turno."
+		where mu.anio=".(int)$anio." and mu.cuatrimestre=".(int)$cuatrimestre."  and m.estado=1 and mt.idmateria=".(int)$idmateria." and u.estado=1 and mt.idturno=".(int)$turno."
 		and mu.idusuario not in(SELECT a.idusuario from asistencia a
 								left join  `materias-usuarios` mu on a.idmateriasusuarios=mu.idmateriasusuarios
 								left join `materias-turnos` mt on mt.idmateriasturnos=mu.idmateriasturnos
-								where a.idestado!=5 and mu.cuatrimestre=".(int)$cuatrimestre." and mu.anio=1 and mt.idmateria=".(int)$idmateria." and mt.idturno=".(int)$turno." and fecha='".gmdate('d-m-Y')."'
+								where a.idestado!=5 and mu.cuatrimestre=".(int)$cuatrimestre." and mu.anio=".(int)$anio." and mt.idmateria=".(int)$idmateria." and mt.idturno=".(int)$turno." and fecha='".gmdate('d-m-Y')."'
 								)
 		union		
 		SELECT a.idmateriasusuarios,a.idasistencia,a.idusuario,mu.anio,mu.cuatrimestre,m.idmateria,m.descripcion,m.descripcioncorta,mt.idturno,
@@ -248,8 +248,8 @@ class Materias
 		left join `materias-turnos` mt on mt.idmateriasturnos=mu.idmateriasturnos
 		left join materias m on m.idmateria=mt.idmateria
 		left join usuarios u on u.idusuario=mu.idusuario
-		where a.idestado!=5 and mu.cuatrimestre=".(int)$cuatrimestre." and mu.anio=1 and mt.idmateria=".(int)$idmateria." and mt.idturno=".(int)$turno ." and fecha='".gmdate('d-m-Y')."'";
-		$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);							
+		where a.idestado!=5 and mu.cuatrimestre=".(int)$cuatrimestre." and mu.anio=".(int)$anio." and mt.idmateria=".(int)$idmateria." and mt.idturno=".(int)$turno ." and fecha='".gmdate('d-m-Y')."'";
+		$consulta = AccesoDatos::ObtenerObjetoAccesoDatos()->ObtenerConsulta($sql);									
 		$consulta->execute();				
 		return $consulta->fetchAll(PDO::FETCH_ASSOC);
 	}

@@ -1,6 +1,6 @@
 {
   "name": "Invicta",
-  "app_id": "",
+  "app_id": "944e889b",
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}

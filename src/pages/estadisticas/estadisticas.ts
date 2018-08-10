@@ -140,6 +140,8 @@ export class EstadisticasPage {
 
         if (vuelta == this.listado.length) {
           this.DPresente = DPresente;
+          console.info(DPresente)
+          console.info(this.DPresente)
           this.Lnomap1 = Lnomap1;
           this.DAusente = DAusente;
           this.Lnomap2 = Lnomap2;

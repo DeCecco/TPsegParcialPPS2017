@@ -11,6 +11,7 @@ import { UsuariosPage } from '../usuarios/usuarios';
 import { EstadisticasPage } from '../estadisticas/estadisticas';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
+import { Vibration } from '@ionic-native/vibration';
 
 //import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
@@ -33,7 +34,7 @@ export class MenuPage {
   idimagen: any;
   idusuario: any;
   item:any;
-  constructor(/*private push: Push,*/ private qrScanner: QRScanner, private screenOrientation: ScreenOrientation, public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private ApiProvider: ApiProvider, private GlobalF: GlobalFunctionsProvider) {
+  constructor(/*private push: Push,*/ private vibration: Vibration,private qrScanner: QRScanner, private screenOrientation: ScreenOrientation, public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private ApiProvider: ApiProvider, private GlobalF: GlobalFunctionsProvider) {
     this.nombre = '-Sin Nombre-';
     this.idimagen = 1;
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
@@ -41,7 +42,7 @@ export class MenuPage {
 
   }
   returnToken() {
-    this.GlobalF.cargando();
+    this.GlobalF.cargando3Seg();
     this.ApiProvider.returnToken().then(response => {
       console.info(response);
       this.item=response;
@@ -50,7 +51,7 @@ export class MenuPage {
       this.idimagen = response.idimagen;
       this.idusuario = response.idusuario;
     }).catch(error => {
-      this.GlobalF.cargando();
+      this.GlobalF.cargando3Seg();
       this.storage.clear();
       this.navCtrl.setRoot(HomePage);
     })
@@ -61,6 +62,7 @@ export class MenuPage {
   }
   goTo(where) {
     console.info(where);
+    this.vibration.vibrate(50);
     switch (where) {
       case 1:
         this.GlobalF.cargando();
