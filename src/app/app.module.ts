@@ -17,6 +17,7 @@ import { MateriasGPage } from '../pages/materias-g/materias-g';
 import { MateriasAmPage } from '../pages/materias-am/materias-am';
 import { UsuariosGPage } from '../pages/usuarios-g/usuarios-g';
 import { EstadisticasPage } from '../pages/estadisticas/estadisticas';
+import { QrPage } from '../pages/qr/qr';
 import { AsignacionMateriasPage } from '../pages/asignacion-materias/asignacion-materias';
 
 //------------------------Local Provider------------------------//
@@ -67,7 +68,8 @@ export const firebaseConfig  = {
     UsuariosGPage,
     EstadisticasPage,
     AsignacionMateriasPage,
-    AboutPage
+    AboutPage,
+    QrPage
   ],
   imports: [
     BrowserModule,
@@ -93,7 +95,8 @@ export const firebaseConfig  = {
     MateriasAmPage,
     UsuariosGPage,
     AsignacionMateriasPage,
-    AboutPage
+    AboutPage,
+    QrPage
   ],
   providers: [
     StatusBar,
