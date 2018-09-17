@@ -33,10 +33,12 @@ import { IonicStorageModule } from '@ionic/storage';
 import { Vibration } from '@ionic-native/vibration';
 import { Toast } from '@ionic-native/toast';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
-import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
+//import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { NativeAudio } from '@ionic-native/native-audio';
 import { DeviceMotion, DeviceMotionAccelerationData } from '@ionic-native/device-motion';
+import { NgxQRCodeModule} from 'ngx-qrcode2';
+import { BarcodeScanner} from '@ionic-native/barcode-scanner';
 
 //import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
@@ -106,12 +108,14 @@ export const firebaseConfig  = {
     HttpClientModule,
     GlobalFunctionsProvider,
     Vibration,
-    Toast,
+    Toast, 
     ScreenOrientation,
-    QRScanner,
+    //QRScanner,
     Camera,
     NativeAudio,
-    DeviceMotion
+    DeviceMotion,
+    NgxQRCodeModule,
+    BarcodeScanner
     //Push
   ]
 })

@@ -12,10 +12,10 @@ import { UsuariosPage } from '../usuarios/usuarios';
 import { QrPage } from '../qr/qr';
 import { EstadisticasPage } from '../estadisticas/estadisticas';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
-import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
+//import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 import { Vibration } from '@ionic-native/vibration';
 import { DeviceMotion, DeviceMotionAccelerationData } from '@ionic-native/device-motion';
-
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 //import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
 /**
@@ -38,7 +38,10 @@ export class MenuPage {
   idimagen: any;
   idusuario: any;
   item:any;
-  constructor(/*private push: Push,*/ private deviceMotion: DeviceMotion,private vibration: Vibration,private qrScanner: QRScanner, private screenOrientation: ScreenOrientation, public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private ApiProvider: ApiProvider, private GlobalF: GlobalFunctionsProvider) {
+  qrData = null;
+  createdCode = null;
+  scannedCode = null;
+  constructor(/*private push: Push,*/ private deviceMotion: DeviceMotion,private barcodeScanner:BarcodeScanner,private vibration: Vibration/*,private qrScanner: QRScanner*/, private screenOrientation: ScreenOrientation, public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private ApiProvider: ApiProvider, private GlobalF: GlobalFunctionsProvider) {
     this.nombre = '-Sin Nombre-';
     this.idimagen = 1;
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
@@ -120,12 +123,24 @@ export class MenuPage {
         this.navCtrl.setRoot(HomePage);
         break;
       case 1234:
+        this.GlobalF.cargando();
         this.navCtrl.setRoot(QrPage);
         //this.pruebaQR();
+        //this.qr2tyest();
         break;
       default:
         break;
     }
+  }
+  qr2tyest(){
+    this.barcodeScanner.scan().then(barcodeData=>{
+      this.scannedCode = barcodeData.text;
+      if(this.scannedCode){
+        console.info('algo');
+      }else{
+        console.info('nada');
+      }
+  	})
   }
   /*pruebaPush() {
     this.push.hasPermission()
@@ -164,7 +179,8 @@ export class MenuPage {
         }
 
       });
-  }*/
+  }
+
   pruebaQR() {
     //this.spin(false);
     // this.modalCtrl.create(ContentPage).present();
@@ -221,5 +237,5 @@ export class MenuPage {
       //this.spin(false);
       console.info('Error: ', 'Detalles: '+ e);
     });
-  }
+  }*/
 }

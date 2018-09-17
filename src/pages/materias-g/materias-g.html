@@ -50,6 +50,9 @@
       <ion-option value='2'>Tarde</ion-option>
       <ion-option value='3'>Noche</ion-option>
     </ion-select>
+    <!--ion-select placeholder="Select" [(ngModel)]="turno">
+      <ion-option *ngFor="let item of ArregloTurnos" value="{{item}}">{{item}}</ion-option>
+  </ion-select-->
   </ion-item>
   <ion-item *ngIf="estado=='Usuarios' || estado=='Asistencia'" >
       <button ion-button full (click)="listarAsignacion()">Buscar</button>

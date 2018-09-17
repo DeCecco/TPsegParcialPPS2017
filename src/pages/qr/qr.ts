@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { MenuPage } from '../menu/menu';
+import { GlobalFunctionsProvider } from '../../providers/global-functions/global-functions';
+import { ApiProvider } from '../../providers/api/api';
+import { UsuariosGPage } from '../usuarios-g/usuarios-g';
 /**
  * Generated class for the QrPage page.
  *
@@ -13,67 +17,43 @@ import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
   selector: 'page-qr',
   templateUrl: 'qr.html',
 })
-export class QrPage {
-  private scanSub;
-  constructor(private qrScanner: QRScanner,public navCtrl: NavController, public navParams: NavParams) {
+export class QrPage {  
+  qrData = null;
+  createdCode = null;
+  scannedCode = null;
+  listado:any;
+  constructor(/*private qrScanner: QRScanner,*/public navCtrl: NavController, public navParams: NavParams,private barcodeScanner:BarcodeScanner,private GlobalF: GlobalFunctionsProvider,
+    private ApiProvider: ApiProvider) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad QrPage');
-    this.qr();
+    this.qrScan();  
   }
-
-  qr(){
-    this.qrScanner.prepare()
-    .then((status: QRScannerStatus) => {
-      if (status.authorized) {
-        // camera permission was granted
-        console.info('ok')
-        //alert('authorized');
-        // start scanning
-        this.scanSub = this.qrScanner.scan().subscribe((text: string) => {
-          //console.log('Scanned something', text);
-          
-          //this.Modal('QR code:', text);
-          console.info(text);// <----- DECIDE QUE HACER
-          
-          this.qrScanner.hide(); // hide camera preview
-          this.scanSub.unsubscribe(); // stop scanning
-          console.log('Escaneo QR finalizado');
-          //this.closeModal();
-          //this.showElements();
-          this.navCtrl.pop();
-        });
-        this.qrScanner.resumePreview();
-        // show camera preview
-        this.qrScanner.show()
-        .then((data : QRScannerStatus)=> { 
-          console.log('datashowing', data.showing);
-          //alert(data.showing);
-        },err => {
-          //this.spin(false);
-          console.info('error')
-          //this.Modal('Error: ', 'Detalles: '+ err);
-        });
-
-        // wait for user to scan something, then the observable callback will be called
-
-      } else if (status.denied) {
-        //this.spin(false);
-        console.info('Permisos', 'Permisos a la cámara denegados.');
-        // camera permission was permanently denied
-        // you must use QRScanner.openSettings() method to guide the user to the settings page
-        // then they can grant the permission from there
-      } else {
-        // permission was denied, but not permanently. You can ask for permission again at a later time.
-        //this.spin(false);
-        console.info('Permisos', 'Permisos a la cámara denegados. Elija Aceptar la próxima vez.');
+  qrScan(){
+      this.barcodeScanner.scan().then(barcodeData=>{
+      this.scannedCode = barcodeData.text;
+      if(this.scannedCode){
+        console.info(this.scannedCode)
+        console.info(typeof this.scannedCode)
+        this.listarUsuariosAsignados(this.scannedCode);
+      }else{
+        this.GlobalF.cargando();
+        this.navCtrl.setRoot(MenuPage);
       }
-    })
-    .catch((e: any) => {
-      //this.spin(false);
-      console.info('Error: ', 'Detalles: '+ e);
-    });
+  	})
+  }
+  goToAssist(x){
+    
   }
 
+  listarUsuariosAsignados(x) {        
+    var array= JSON.parse(x);    
+    this.ApiProvider.abmGralPost(array, 'materias/tomarAsistencia').then(Response => {
+      this.listado = Response;
+      this.navCtrl.setRoot(UsuariosGPage, { listado: this.listado,desde:'ARapida' });
+    }).catch(error => {
+      this.GlobalF.error(0);
+    })
+  }
 }

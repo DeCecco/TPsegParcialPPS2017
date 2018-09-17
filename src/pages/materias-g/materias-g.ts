@@ -35,6 +35,7 @@ export class MateriasGPage {
   nombre: string;
   tipo: any;
   titulo: string;
+  ArregloTurnos:any;
   constructor(public navCtrl: NavController,private vibration: Vibration,private nativeAudio: NativeAudio, public navParams: NavParams, public popoverCtrl: PopoverController, private ApiProvider: ApiProvider, private storage: Storage, private GlobalF: GlobalFunctionsProvider) {
     this.estado = this.navParams.get("estado");
     this.arreglo = this.navParams.get("arreglo");
@@ -42,6 +43,20 @@ export class MateriasGPage {
     this.cuatrimestre = '0';
     this.turno = '0';
     this.titulo = 'Materias';    
+    this.ArregloTurnos = [{1:"Mañanas",2:"Tardes",3:"Noches"}];        
+
+    /*this.ArregloTurnos = {      
+      "primero": [{
+        "turno": "Mañana"
+      }],
+      "segundo": [{
+        "turno": "Tarde"
+      }],      
+      "tercero": [{
+        "turno": "Noche"
+      }]            
+    }*/
+
     this.nativeAudio.preloadSimple('tambor', 'assets/sound/tambor.mp3');
     this.returnToken();
   }
