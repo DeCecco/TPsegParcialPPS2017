@@ -1,0 +1,14 @@
+
+{
+  "HELLO": "Olá",
+  "ASSISTANCE": "Assistência",
+  "QUICK ASSISTANCE":"Assistência rápida",
+  "SUBJECTS":"Matérias",
+  "CLASSROOMS":"Aulas",
+  "USERS":"Usuários",
+  "STATISTICS":"Estatísticas",
+  "ABOUT":"Sobre",
+  "LOG OUT":"Sair",
+  "EDIT PROFILE":"Editar Perfil",
+  "GREETING": "oi, {{ value }}"
+}

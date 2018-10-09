@@ -1,0 +1,13 @@
+{
+  "HELLO": "Hello",
+  "ASSISTANCE": "Assistance",
+  "QUICK ASSISTANCE":"Quick assistance",
+  "SUBJECTS":"Subjects",
+  "CLASSROOMS":"Classrooms",
+  "USERS":"Users",
+  "STATISTICS":"Statistics",
+  "ABOUT":"About",
+  "LOG OUT":"Log out",
+  "EDIT PROFILE":"Edit Profile",
+  "GREETING": "Hi, {{ value }}"
+}

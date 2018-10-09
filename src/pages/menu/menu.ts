@@ -16,6 +16,8 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { Vibration } from '@ionic-native/vibration';
 import { DeviceMotion, DeviceMotionAccelerationData } from '@ionic-native/device-motion';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { TranslateService } from '@ngx-translate/core'
+
 //import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
 /**
@@ -41,12 +43,33 @@ export class MenuPage {
   qrData = null;
   createdCode = null;
   scannedCode = null;
-  constructor(/*private push: Push,*/ private deviceMotion: DeviceMotion,private barcodeScanner:BarcodeScanner,private vibration: Vibration/*,private qrScanner: QRScanner*/, private screenOrientation: ScreenOrientation, public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private ApiProvider: ApiProvider, private GlobalF: GlobalFunctionsProvider) {
+  idioms: any[] = [];
+  lan:string;
+  constructor(/*private push: Push,*/  private translateService: TranslateService, private deviceMotion: DeviceMotion,private barcodeScanner:BarcodeScanner,private vibration: Vibration/*,private qrScanner: QRScanner*/, private screenOrientation: ScreenOrientation, public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private ApiProvider: ApiProvider, private GlobalF: GlobalFunctionsProvider) {
     this.nombre = '-Sin Nombre-';
     this.idimagen = 1;
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
     this.returnToken();    
+    this.idioms = [
+      {
+        value: 'es',
+        label: 'Español'
+      },
+      {
+        value: 'en',
+        label: 'Ingles'
+      },
+      {
+        value: 'pt',
+        label: 'Portugués'
+      }
+    ];
+    this.choose('en');
 
+  }
+  choose(lang) {
+    this.translateService.use(lang);
+    this.lan=lang;
   }
   returnToken() {
     this.GlobalF.cargando3Seg();

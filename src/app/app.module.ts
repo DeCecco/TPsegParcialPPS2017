@@ -24,7 +24,7 @@ import { AsignacionMateriasPage } from '../pages/asignacion-materias/asignacion-
 import { ApiProvider } from '../providers/api/api';
 
 //------------------------Providers------------------------//
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient,HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
@@ -39,6 +39,8 @@ import { NativeAudio } from '@ionic-native/native-audio';
 import { DeviceMotion, DeviceMotionAccelerationData } from '@ionic-native/device-motion';
 import { NgxQRCodeModule} from 'ngx-qrcode2';
 import { BarcodeScanner} from '@ionic-native/barcode-scanner';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 //import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
@@ -54,6 +56,10 @@ export const firebaseConfig  = {
   storageBucket: "asistencia-63f29.appspot.com",
   messagingSenderId: "1053669090196"
 };
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -80,7 +86,14 @@ export const firebaseConfig  = {
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
