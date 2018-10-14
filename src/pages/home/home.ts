@@ -163,7 +163,7 @@ export class HomePage {
             this.harcode(1);
           }
         },
-        {
+        { 
           text: 'Profesor',
           handler: () => {
             this.harcode(2);
