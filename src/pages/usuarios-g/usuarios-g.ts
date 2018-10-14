@@ -31,8 +31,11 @@ export class UsuariosGPage {
   arreglo: any;
   nombre: string;
   tipo: any;
+  titulo: string;
+  doing: string;
   constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, private storage: Storage, private ApiProvider: ApiProvider, private GlobalF: GlobalFunctionsProvider) {
     this.arreglo = this.navParams.get("listado");
+    console.log(this.arreglo);
 
     this.returnToken();
   }
@@ -41,13 +44,19 @@ export class UsuariosGPage {
 
       this.nombre = response.nombre + ' ' + response.apellido;
       this.tipo = response.idtipo;
+      
       if (this.arreglo != null) {
         this.listado = this.arreglo;
         this.status = 'Asistencia';
+        this.Ttitulo();
+         
       } else {
         this.listar(this.tipo);
         this.status = 'Usuarios';
+        this.titulo='Usuarios';
       }
+
+
     }).catch(error => {
       this.GlobalF.cargando();
       this.storage.clear();
@@ -55,7 +64,21 @@ export class UsuariosGPage {
     })
 
   }
+  Ttitulo(){
+    let turno;
+    switch (this.arreglo[0].idturno) {
+      case 1: turno = 'Mañana';
+        break;
+      case 2: turno = 'Tarde';
+        break;
+      case 3: turno = 'Noche';
+        break;
+    }
+    console.info('0')
+    this.titulo='Usuarios';
+    this.doing = "Materia: " + this.arreglo[0].descripcioncorta + " - Turno: " + turno + " - Año: " + this.arreglo[0].anio + '°';
 
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad UsuariosGPage');
   }

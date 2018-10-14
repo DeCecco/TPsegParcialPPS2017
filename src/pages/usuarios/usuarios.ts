@@ -38,6 +38,7 @@ export class UsuariosPage {
   tipo: any;
   name: any;
   testImg: any;
+  
   constructor(private vibration: Vibration, public navCtrl: NavController, private camera: Camera, public navParams: NavParams, public formBuilder: FormBuilder, private storage: Storage, private GlobalF: GlobalFunctionsProvider,
     private ApiProvider: ApiProvider, private db: AngularFirestore, private afAuth: AngularFireAuth) {
     this.where = navParams.get('where');

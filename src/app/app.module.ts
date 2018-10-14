@@ -46,8 +46,9 @@ import { Globalization } from '@ionic-native/globalization';
 //import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
 //------------------------Components------------------------//
-import { PopoverComponent } from '../components/popover/popover'
-import { EstadoAsistenciaComponent } from '../components/estado-asistencia/estado-asistencia'
+import { PopoverComponent } from '../components/popover/popover';
+import { SelectCountryComponent } from '../components/select-country/select-country'
+import { EstadoAsistenciaComponent } from '../components/estado-asistencia/estado-asistencia';
 
 export const firebaseConfig  = {
   apiKey: "AIzaSyAhU9S_jk3tRU0pxYft15f7wYa-3yuwcSY",
@@ -71,6 +72,7 @@ export function createTranslateLoader(http: HttpClient) {
     AulasgPage,
     AmaulasPage,
     PopoverComponent,
+    SelectCountryComponent,
     EstadoAsistenciaComponent,
     MateriasGPage,
     MateriasAmPage,
@@ -108,6 +110,7 @@ export function createTranslateLoader(http: HttpClient) {
     AulasgPage,
     MateriasGPage,
     PopoverComponent,
+    SelectCountryComponent,
     EstadoAsistenciaComponent,
     MateriasAmPage,
     UsuariosGPage,

@@ -24,24 +24,24 @@
         <ion-icon name="ios-menu"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-navbar>
+    <ion-navbar  style="background-color: red">
       <ion-title>
         <div>{{ 'ASSISTANCE' | translate }}</div>
       </ion-title>
     </ion-navbar>
     <ion-buttons end >
         <ion-buttons end >
-            <button ion-button icon-only (ionChange)="choose($event)">
-              <ion-icon name="md-globe" style="color:mediumblue;">{{lan}}</ion-icon>
+            <button ion-button icon-only (click)="optionCountry($event)">
+              <ion-icon name="md-globe" style="color:lightskyblue;"></ion-icon>
             </button>
           </ion-buttons>
-        <ion-icon item-start name="md-globe" style="color:mediumblue;">{{lan}}
-            <ion-select (ionChange)="choose($event)">
+        <!--ion-icon item-start name="md-globe" style="color:mediumblue;">{{lan}}
+            <ion-select (ionChange)="optionCountry($event)">
               <ion-option *ngFor="let item of idioms" [value]="item.value">
                 {{ item.label }}
               </ion-option>
             </ion-select>
-          </ion-icon>
+          </ion-icon-->
       </ion-buttons>
   </ion-toolbar>
   
@@ -50,9 +50,9 @@
 </ion-header>
 
 
-<ion-content padding>  
+<ion-content padding class="fondoGral">  
   <ion-row>
-    <ion-col class="textoCentrado">
+    <ion-col class="textoCentrado fondoCapa2">
       <ion-list>
         <button *ngIf="tipo!=2 && tipo!=3" icon-left ion-item (click)="goTo(2)">
           <ion-icon item-start name="ios-list-box" style="color:#0e6073;"></ion-icon>
@@ -100,16 +100,16 @@
 </ion-content>
 
 <ion-menu [content]="mycontent">
-  <ion-content>
+  <ion-content class="fondoCapa2">
     <ion-list>
-      <ion-item>
+      <ion-item  class="fondoGral">
         <ion-thumbnail item-start>
           <img *ngIf="idimagen=='1'" src="https://ionicframework.com/dist/preview-app/www/assets/img/avatar-gollum.jpg">
           <img *ngIf="idimagen!='1'" src="{{idimagen}}">
-          <h4>{{nombre}}</h4>
+          <h4 style="color:white">{{nombre}}</h4>
         </ion-thumbnail>
         <!--p>Bienvenido</p-->
-        <button ion-button clear item-end (click)="goTo(1);">{{ 'EDIT PROFILE' | translate }}</button>
+        <button style="color:white" ion-button clear item-end (click)="goTo(1);">{{ 'EDIT PROFILE' | translate }}</button>
       </ion-item>
     </ion-list>
     <ion-list>
@@ -118,43 +118,43 @@
               <div>Asistencia Rapida</div>        
             <ion-icon item-end name="ios-arrow-forward"></ion-icon>
           </button-->
-      <button *ngIf="tipo!=2 && tipo!=3" icon-left ion-item (click)="goTo(2)">
-        <ion-icon item-start name="ios-list-box" style="color:#0e6073;"></ion-icon>
+      <button class="itemWhiteBrown" *ngIf="tipo!=2 && tipo!=3" icon-left ion-item (click)="goTo(2)">
+        <ion-icon item-start name="ios-list-box" ></ion-icon>
         <div>{{ 'ASSISTANCE' | translate }}</div>
         <ion-icon item-end name="ios-arrow-forward"></ion-icon>
       </button>
-      <button *ngIf="tipo!=2 && tipo!=3" icon-left ion-item (click)="goTo(1234)">
-        <ion-icon item-start name="md-qr-scanner" style="color:#0e6073;"></ion-icon>
+      <button  class="itemWhiteBrown" *ngIf="tipo!=2 && tipo!=3" icon-left ion-item (click)="goTo(1234)">
+        <ion-icon item-start name="md-qr-scanner" ></ion-icon>
         <div>{{ 'QUICK ASSISTANCE' | translate }}</div>
         <ion-icon item-end name="ios-arrow-forward"></ion-icon>
       </button>
-      <button icon-left ion-item (click)="goTo(3)" *ngIf="tipo!=2 && tipo!=3">
-        <ion-icon item-start name="ios-book" style="color:#0e6073;"></ion-icon>
+      <button  class="itemWhiteBrown" icon-left ion-item (click)="goTo(3)" *ngIf="tipo!=2 && tipo!=3">
+        <ion-icon item-start name="ios-book" ></ion-icon>
         <div>{{ 'SUBJECTS' | translate }}</div>
         <ion-icon item-end name="ios-arrow-forward"></ion-icon>
       </button>
-      <button icon-left ion-item (click)="goTo(4)" *ngIf="tipo==1">
-        <ion-icon item-start name="ios-create" style="color:#0e6073;"></ion-icon>
+      <button  class="itemWhiteBrown" icon-left ion-item (click)="goTo(4)" *ngIf="tipo==1">
+        <ion-icon item-start name="ios-create" ></ion-icon>
         <div>{{ 'CLASSROOMS' | translate }}</div>
         <ion-icon item-end name="ios-arrow-forward"></ion-icon>
       </button>
-      <button icon-left ion-item (click)="goTo(5)" *ngIf="tipo!=2 && tipo!=3">
-        <ion-icon item-start name="ios-contacts" style="color:#0e6073;"></ion-icon>
+      <button  class="itemWhiteBrown" icon-left ion-item (click)="goTo(5)" *ngIf="tipo!=2 && tipo!=3">
+        <ion-icon item-start name="ios-contacts" ></ion-icon>
         <div>{{ 'USERS' | translate }}</div>
         <ion-icon item-end name="ios-arrow-forward"></ion-icon>
       </button>
-      <button icon-left ion-item (click)="goTo(6)">
-        <ion-icon item-start name="ios-stats" style="color:#0e6073;"></ion-icon>
+      <button  class="itemWhiteBrown" icon-left ion-item (click)="goTo(6)">
+        <ion-icon item-start name="ios-stats" ></ion-icon>
         <div>{{ 'STATISTICS' | translate }}</div>
         <ion-icon item-end name="ios-arrow-forward"></ion-icon>
       </button>
-      <button icon-left ion-item (click)="goTo(7)">
-        <ion-icon item-start name="md-school" style="color:#0e6073;"></ion-icon>
+      <button  class="itemWhiteBrown" icon-left ion-item (click)="goTo(7)">
+        <ion-icon item-start name="md-school" ></ion-icon>
         <div>{{ 'ABOUT' | translate }}</div>
         <ion-icon item-end name="ios-arrow-forward"></ion-icon>
       </button>
-      <button icon-left ion-item (click)="goTo(8)">
-        <ion-icon item-start name="ios-exit" style="color:#0e6073;"></ion-icon>
+      <button  class="itemWhiteBrown" icon-left ion-item (click)="goTo(8)">
+        <ion-icon item-start name="ios-exit" ></ion-icon>
         <div>{{ 'LOG OUT' | translate }}</div>
         <ion-icon item-end name="ios-arrow-forward"></ion-icon>
       </button>

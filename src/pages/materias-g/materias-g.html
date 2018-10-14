@@ -31,7 +31,7 @@
 
 
 
-<ion-content padding>  
+<ion-content padding class="fondoGral">  
   <ion-item *ngIf="estado=='Usuarios' || estado=='Asistencia'">    
     <ion-select [(ngModel)]="anio" (ngModelChange)="limpiarLista();" >
       <ion-option value='0' selected>Año</ion-option>
@@ -57,9 +57,12 @@
   <ion-item *ngIf="estado=='Usuarios' || estado=='Asistencia'" >
       <button ion-button full (click)="listarAsignacion()">Buscar</button>
 </ion-item>
+<ion-item *ngIf="estado=='Usuarios'">
+  <h4>Usuario: {{Anombre}}</h4>
+</ion-item>
 <ion-item>
-  <ion-list inset>
-    <button ion-item *ngFor="let item of listado" (click)="opciones(item)">
+  <ion-list inset >
+    <button class="itemWhiteBrown" ion-item *ngFor="let item of listado" (click)="opciones(item)">
       <ion-avatar item-start *ngIf="estado=='Materias'">
         <ion-icon name="md-book"></ion-icon>
       </ion-avatar>

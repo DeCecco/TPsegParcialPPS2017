@@ -36,13 +36,18 @@ export class MateriasGPage {
   tipo: any;
   titulo: string;
   ArregloTurnos:any;
+  Anombre:string;
   constructor(public navCtrl: NavController,private vibration: Vibration,private nativeAudio: NativeAudio, public navParams: NavParams, public popoverCtrl: PopoverController, private ApiProvider: ApiProvider, private storage: Storage, private GlobalF: GlobalFunctionsProvider) {
     this.estado = this.navParams.get("estado");
     this.arreglo = this.navParams.get("arreglo");
     this.anio = '0';
     this.cuatrimestre = '0';
     this.turno = '0';
+    /*setTimeout(() => {
+      this.Anombre=this.arreglo.nombre + ' ' + this.arreglo.apellido;  
+    }, 250);*/
     
+
     this.titulo = 'Materias';    
     this.ArregloTurnos = [{1:"Mañanas",2:"Tardes",3:"Noches"}];        
     this.setDefault();
@@ -67,6 +72,8 @@ export class MateriasGPage {
     switch (this.estado) {
       case 'Usuarios':
         this.titulo = 'Asignacion de Materias';
+        this.Anombre=this.arreglo.nomap;
+        console.info(this.Anombre)
         break;
       case 'Asistencia':
         this.titulo = 'Toma de Asistencia';
