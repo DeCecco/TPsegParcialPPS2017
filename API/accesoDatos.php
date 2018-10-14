@@ -8,12 +8,14 @@ class AccesoDatos
     private function __construct(){
         try { 
             //CREACIÓN DE LA CONEXIÓN CON EL SERVIDOR LOCAL            
-            //$servername ='mysql.hostinger.com.ar';            
+            //$servername ='mysql.hostinger.com.ar';          https://asistencia1231231.000webhostapp.com/  
             $servername = 'localhost'; //localhost'
             //$dbname='u766132325_bd'; //asistencia'
             
             $dbname='asistencia'; //asistencia'            
+            //$dbname = 'id6598807_asistencia';
             $username = 'root'; //root'
+            //$username = 'id6598807_pdcasis';
             //$username = 'u766132325_us'; //root'pablodec_pdcv2
             
             //$password = 'garbarino123';//''

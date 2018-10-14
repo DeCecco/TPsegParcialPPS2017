@@ -42,9 +42,10 @@ export class MateriasGPage {
     this.anio = '0';
     this.cuatrimestre = '0';
     this.turno = '0';
+    
     this.titulo = 'Materias';    
     this.ArregloTurnos = [{1:"Mañanas",2:"Tardes",3:"Noches"}];        
-
+    this.setDefault();
     /*this.ArregloTurnos = {      
       "primero": [{
         "turno": "Mañana"
@@ -75,6 +76,24 @@ export class MateriasGPage {
         this.estado = 'Materias';
         this.listar();
         break;
+    }
+  }
+
+  setDefault(){
+    let d = new Date();
+    let m = d.getMonth();
+    let h = d.getHours()
+    if(m>=6){
+      this.cuatrimestre="2";
+    }else{
+      this.cuatrimestre="1";
+    }
+    if(h>=18){
+      this.turno='3';
+    }else if(h<=13){
+      this.turno='1';
+    }else{
+      this.turno='2';
     }
   }
   returnToken() {
@@ -110,7 +129,7 @@ export class MateriasGPage {
       } else {
         array = [{ "anio": this.anio, "cuatrimestre": this.cuatrimestre, "turno": this.turno, "idusuario": '0' }];
       }
-
+      this.GlobalF.cargando3Seg();
       this.ApiProvider.abmGralPost(array, 'materias/listarMateriaAsignada').then(Response => {
         this.listadoT = Response;
 
@@ -246,6 +265,7 @@ export class MateriasGPage {
   limpiarLista() {
 
     this.listado = [];
+    this.listarAsignacion(); 
   }
   listarUsuariosAsignados(item) {
     let array = [{ "anio": this.anio, "cuatrimestre": this.cuatrimestre, "turno": this.turno, "idmateria": item.idmateria }];

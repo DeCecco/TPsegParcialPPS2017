@@ -31,14 +31,14 @@ export class UsuariosGPage {
   arreglo: any;
   nombre: string;
   tipo: any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, private storage: Storage,private ApiProvider: ApiProvider, private GlobalF: GlobalFunctionsProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, private storage: Storage, private ApiProvider: ApiProvider, private GlobalF: GlobalFunctionsProvider) {
     this.arreglo = this.navParams.get("listado");
 
     this.returnToken();
   }
   returnToken() {
     this.ApiProvider.returnToken().then(response => {
-      
+
       this.nombre = response.nombre + ' ' + response.apellido;
       this.tipo = response.idtipo;
       if (this.arreglo != null) {
@@ -48,34 +48,38 @@ export class UsuariosGPage {
         this.listar(this.tipo);
         this.status = 'Usuarios';
       }
-    }).catch(error=>{
+    }).catch(error => {
       this.GlobalF.cargando();
       this.storage.clear();
       this.navCtrl.setRoot(HomePage);
-    })  
+    })
 
   }
- 
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad UsuariosGPage');
   }
 
 
   listar(x) {
-    var array = [{ "traer": x }];
+    if (this.tipo == 3) {
+      this.back();
+    } else {
+      var array = [{ "traer": x }];
       this.GlobalF.cargando3Seg();
       this.ApiProvider.abmGralPost(array, 'usuarios/listarUsuarios').then(Response => {
         this.listado = Response;
       }).catch(error => {
         this.GlobalF.error(0);
-      })        
+      })
+    }
   }
   back() {
-    if(this.status=='Asistencia'){
+    if (this.status == 'Asistencia') {
       this.navCtrl.setRoot(MateriasGPage, { estado: 'Asistencia' });
-    }else{
+    } else {
       this.navCtrl.setRoot(MenuPage);
-    }    
+    }
   }
   menu(evento) {
     console.info(evento);
@@ -93,12 +97,12 @@ export class UsuariosGPage {
 
   modificar(item) {
 
-    this.estado = 'Modificar'; 
+    this.estado = 'Modificar';
     this.navCtrl.setRoot(UsuariosPage, { where: this.estado, arreglo: item });
   }
 
   eliminar(item) {
-    
+
     let promt = this.GlobalF.alerta(2);
     promt.present();
     promt.onDidDismiss((data) => {

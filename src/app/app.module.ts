@@ -41,6 +41,7 @@ import { NgxQRCodeModule} from 'ngx-qrcode2';
 import { BarcodeScanner} from '@ionic-native/barcode-scanner';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { Globalization } from '@ionic-native/globalization';
 
 //import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
@@ -87,6 +88,7 @@ export function createTranslateLoader(http: HttpClient) {
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    //Globalization,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -122,6 +124,7 @@ export function createTranslateLoader(http: HttpClient) {
     GlobalFunctionsProvider,
     Vibration,
     Toast, 
+    Globalization,
     ScreenOrientation,
     //QRScanner,
     Camera,

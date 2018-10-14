@@ -17,6 +17,7 @@ import { Vibration } from '@ionic-native/vibration';
 import { DeviceMotion, DeviceMotionAccelerationData } from '@ionic-native/device-motion';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { TranslateService } from '@ngx-translate/core'
+import { Globalization } from '@ionic-native/globalization';
 
 //import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
@@ -45,11 +46,15 @@ export class MenuPage {
   scannedCode = null;
   idioms: any[] = [];
   lan:string;
-  constructor(/*private push: Push,*/  private translateService: TranslateService, private deviceMotion: DeviceMotion,private barcodeScanner:BarcodeScanner,private vibration: Vibration/*,private qrScanner: QRScanner*/, private screenOrientation: ScreenOrientation, public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private ApiProvider: ApiProvider, private GlobalF: GlobalFunctionsProvider) {
+  constructor(/*private push: Push,*/  private globalization: Globalization,private translateService: TranslateService, private deviceMotion: DeviceMotion,private barcodeScanner:BarcodeScanner,private vibration: Vibration/*,private qrScanner: QRScanner*/, private screenOrientation: ScreenOrientation, public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private ApiProvider: ApiProvider, private GlobalF: GlobalFunctionsProvider) {
     this.nombre = '-Sin Nombre-';
     this.idimagen = 1;
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
     this.returnToken();    
+    this.globalization.getPreferredLanguage()
+      .then(res => this.choose(res.value.substring(0, 2)))
+      .catch(e => console.log(e));
+    
     this.idioms = [
       {
         value: 'es',
@@ -63,8 +68,7 @@ export class MenuPage {
         value: 'pt',
         label: 'Portugués'
       }
-    ];
-    this.choose('en');
+    ];        
 
   }
   choose(lang) {
@@ -89,7 +93,7 @@ export class MenuPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MenuPage');
-    this.motion();
+    //this.motion();
   }
   motion(){
     this.deviceMotion.getCurrentAcceleration().then(

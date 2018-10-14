@@ -43,7 +43,7 @@
         <ion-input placeholder="Mail" type="text" formControlName="mail" [(ngModel)]="mail"></ion-input>
       </ion-item>
 
-      <ion-item *ngIf="where!='HOME'">        
+      <ion-item *ngIf="where!='HOME'  && idtipo!=3">        
         <ion-label>Perfil</ion-label>
         <ion-select [(ngModel)]="idtipo" formControlName="idtipo">
           <ion-option *ngIf="tipo==1" value="1">Administrador</ion-option>

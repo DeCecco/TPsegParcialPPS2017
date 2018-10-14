@@ -43,8 +43,9 @@ $app->post('/crearToken', function (Request $request, Response $response) {
   $apellido = $request->getParam('apellido');		
   $idimagen = $request->getParam('idimagen');		
   $idusuario = $request->getParam('idusuario');		
+  $estado = 1;		
 	
-    $datos = array('mail' => $mail,'idtipo' => $idtipo, 'nombre' => $nombre,'apellido' => $apellido,'idimagen' => $idimagen,'idusuario' => $idusuario);    
+    $datos = array('mail' => $mail,'idtipo' => $idtipo, 'nombre' => $nombre,'apellido' => $apellido,'idimagen' => $idimagen,'idusuario' => $idusuario,'estado' => $estado);    
     
     $token= AutentificadorJWT::CrearToken($datos); 
 	//$payload=AutentificadorJWT::ObtenerPayload($token);

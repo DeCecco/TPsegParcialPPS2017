@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1053669090196",
+    "firebase_url": "https://asistencia-63f29.firebaseio.com",
+    "project_id": "asistencia-63f29",
+    "storage_bucket": "asistencia-63f29.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1053669090196:android:764d2cb7da3280eb",
+        "android_client_info": {
+          "package_name": "io.ionic.starter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1053669090196-us6dci01gjql52h4kgssc4n99m79kpk4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2gfqRwawwW7NyPe-myk5Wy2_kel-ImDs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

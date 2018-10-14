@@ -85,7 +85,7 @@ export class UsuariosPage {
   }
 
   back() {
-    this.GlobalF.cargando();
+    //this.GlobalF.cargando();
     if (this.where == 'HOME') {
       this.navCtrl.setRoot(HomePage);
 
@@ -110,10 +110,11 @@ export class UsuariosPage {
     })
   }
   guardar() {
-
+    
     console.info(this.idimagen);
     if (this.checkPassword()) {
       if (this.formUser.valid) {
+        this.GlobalF.cargando3Seg();
         if (this.where != 'Modificar') {
 
           var array = [{

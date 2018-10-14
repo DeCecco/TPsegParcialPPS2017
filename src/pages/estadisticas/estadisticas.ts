@@ -66,7 +66,26 @@ export class EstadisticasPage {
     this.idmateria = 0;
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
     this.returnToken();
+    this.setDefault();
   }
+  setDefault(){
+    let d = new Date();
+    let m = d.getMonth();
+    let h = d.getHours()
+    if(m>=6){
+      this.cuatrimestre="2";
+    }else{
+      this.cuatrimestre="1";
+    }
+    if(h>=18){
+      this.turno='3';
+    }else if(h<=13){
+      this.turno='1';
+    }else{
+      this.turno='2';
+    }
+  }
+
   returnToken() {
     //this.GlobalF.cargando();
     this.ApiProvider.returnToken().then(response => {
