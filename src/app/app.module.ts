@@ -44,7 +44,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { Globalization } from '@ionic-native/globalization';
 
 //import { Push, PushObject, PushOptions } from '@ionic-native/push';
-
+import { Push, PushObject, PushOptions } from '@ionic-native/push';
 //------------------------Components------------------------//
 import { PopoverComponent } from '../components/popover/popover';
 import { SelectCountryComponent } from '../components/select-country/select-country'
@@ -130,6 +130,7 @@ export function createTranslateLoader(http: HttpClient) {
     Globalization,
     ScreenOrientation,
     //QRScanner,
+    Push,
     Camera,
     NativeAudio,
     DeviceMotion,
