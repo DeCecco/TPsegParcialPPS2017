@@ -9,5 +9,14 @@
   "ABOUT":"About",
   "LOG OUT":"Log out",
   "EDIT PROFILE":"Edit Profile",
-  "GREETING": "Hi, {{ value }}"
+  "GREETING": "Hi, {{ value }}",
+  "Search Users":"Search Users",
+  "YEAR":"Year",
+  "TURN":"Turn",
+  "QUARTER":"Quarter",
+  "FIRST":"First",
+  "SECOND":"Second",
+  "MORNING":"Morning",
+  "AFTERNOON":"Afternoon",
+  "NIGHT":"Night"
 }

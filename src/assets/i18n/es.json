@@ -10,5 +10,15 @@
   "ABOUT":"Acerca de",
   "LOG OUT":"Salir",
   "EDIT PROFILE":"Editar Perfil",
-  "GREETING": "Hola, {{ value }}"
+  "GREETING": "Hola, {{ value }}",
+  "Search Users":"Búsqueda de usuarios",
+  "YEAR":"Año",
+  "TURN":"Turno",
+  "QUARTER":"Cuatrimestre",
+  "FIRST":"Primero",
+  "SECOND":"Segundo",
+  "MORNING":"Mañana",
+  "AFTERNOON":"Tarde",
+  "NIGHT":"Noche",
+  "SEARCH":"Buscar"
 }

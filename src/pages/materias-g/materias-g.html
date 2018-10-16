@@ -34,28 +34,28 @@
 <ion-content padding class="fondoGral">  
   <ion-item *ngIf="estado=='Usuarios' || estado=='Asistencia'">    
     <ion-select [(ngModel)]="anio" (ngModelChange)="limpiarLista();" >
-      <ion-option value='0' selected>Año</ion-option>
+      <ion-option value='0' selected>{{ 'YEAR' | translate }}</ion-option>
       <ion-option value='1'>1°</ion-option>
       <ion-option value='2'>2°</ion-option>
       <ion-option value='3'>3°</ion-option>
     </ion-select>    
     <ion-select [(ngModel)]="cuatrimestre"  (ngModelChange)="limpiarLista();">
-      <ion-option value='0' selected>Cuatrimestre</ion-option>
-      <ion-option value='1'>Primer</ion-option>
-      <ion-option value='2'>Segundo</ion-option>
+      <ion-option value='0' selected>{{ 'QUARTER' | translate }}</ion-option>
+      <ion-option value='1'>{{ 'FIRST' | translate }}</ion-option>
+      <ion-option value='2'>{{ 'SECOND' | translate }}</ion-option>
     </ion-select>    
     <ion-select [(ngModel)]="turno" (ngModelChange)="limpiarLista();">
-        <ion-option value='0' selected>Turno</ion-option>
-      <ion-option value='1'>Mañana</ion-option>
-      <ion-option value='2'>Tarde</ion-option>
-      <ion-option value='3'>Noche</ion-option>
+        <ion-option value='0' selected>{{ 'TURN' | translate }}</ion-option>
+      <ion-option value='1'>{{ 'MORNING' | translate }}</ion-option>
+      <ion-option value='2'>{{ 'AFTERNOON' | translate }}</ion-option>
+      <ion-option value='3'>{{ 'NIGHT' | translate }}</ion-option>
     </ion-select>
     <!--ion-select placeholder="Select" [(ngModel)]="turno">
       <ion-option *ngFor="let item of ArregloTurnos" value="{{item}}">{{item}}</ion-option>
   </ion-select-->
   </ion-item>
   <ion-item *ngIf="estado=='Usuarios' || estado=='Asistencia'" >
-      <button ion-button full (click)="listarAsignacion()">Buscar</button>
+      <button ion-button full (click)="listarAsignacion()">{{ 'SEARCH' | translate }}</button>
 </ion-item>
 <ion-item *ngIf="estado=='Usuarios'">
   <h4>Usuario: {{Anombre}}</h4>

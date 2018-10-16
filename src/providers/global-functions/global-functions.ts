@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFirestore/*, AngularFirestoreDocument */ } from 'angularfire2/firestore';
-
+import { NativeAudio } from '@ionic-native/native-audio';
 import { AlertController, LoadingController, ToastController, ActionSheetController } from 'ionic-angular';
+import { Vibration } from '@ionic-native/vibration';
 
 /*
   Generated class for the GlobalFunctionsProvider provider.
@@ -13,11 +14,16 @@ import { AlertController, LoadingController, ToastController, ActionSheetControl
 @Injectable()
 export class GlobalFunctionsProvider {
 
-  constructor(public http: HttpClient, public loadingCtrl: LoadingController, public toastCtrl: ToastController, public alertCtrl: AlertController, private db: AngularFirestore,
+  constructor(private vibration: Vibration,public http: HttpClient,private nativeAudio: NativeAudio, public loadingCtrl: LoadingController, public toastCtrl: ToastController, public alertCtrl: AlertController, private db: AngularFirestore,
     public actionSheetCtrl: ActionSheetController) {
+      this.nativeAudio.preloadSimple('TAMBOR', 'assets/sound/tambor.mp3');
     console.log('Hello GlobalFunctionsProvider Provider');
   }
 
+  playTambor(){
+    this.vibration.vibrate(100);
+    this.nativeAudio.play('TAMBOR');
+  }
   cargando() {
     let loader = this.loadingCtrl.create({
       dismissOnPageChange: true,

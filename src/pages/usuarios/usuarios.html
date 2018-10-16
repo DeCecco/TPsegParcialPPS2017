@@ -43,7 +43,7 @@
         <ion-input placeholder="Mail" type="text" formControlName="mail" [(ngModel)]="mail"></ion-input>
       </ion-item>
 
-      <ion-item *ngIf="where!='HOME'  && idtipo!=3">        
+      <ion-item *ngIf="where!='HOME'  && tipoUs!=3">        
         <ion-label>Perfil</ion-label>
         <ion-select [(ngModel)]="idtipo" formControlName="idtipo">
           <ion-option *ngIf="tipo==1" value="1">Administrador</ion-option>
@@ -64,7 +64,7 @@
       <ion-item  text-center>                    
               <ion-icon style="zoom:2.0;" name="camera" (click)="photo(1)"></ion-icon>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <ion-icon style="zoom:2.0;" name="attach" (click)="photo(2)"></ion-icon>
+          <!--ion-icon style="zoom:2.0;" name="attach" (click)="photo(2)"></ion-icon-->
       </ion-item>      
       <img *ngIf="idimagen!=1" src="{{idimagen}}" height="50%" width="50%" >
     </ion-list>

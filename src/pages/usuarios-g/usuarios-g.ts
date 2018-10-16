@@ -26,6 +26,7 @@ import { Storage } from '@ionic/storage';
 })
 export class UsuariosGPage {
   listado: any;
+  listado2: any;
   estado: string;
   status: string;
   arreglo: any;
@@ -47,6 +48,7 @@ export class UsuariosGPage {
       
       if (this.arreglo != null) {
         this.listado = this.arreglo;
+        this.listado2 = this.arreglo;
         this.status = 'Asistencia';
         this.Ttitulo();
          
@@ -92,6 +94,7 @@ export class UsuariosGPage {
       this.GlobalF.cargando3Seg();
       this.ApiProvider.abmGralPost(array, 'usuarios/listarUsuarios').then(Response => {
         this.listado = Response;
+        this.listado2 = Response;
       }).catch(error => {
         this.GlobalF.error(0);
       })
@@ -208,12 +211,13 @@ export class UsuariosGPage {
     this.ApiProvider.abmGralPost(array, 'materias/tomarAsistencia').then(Response => {
       this.GlobalF.correcto(1);
       this.listado = Response;
+      this.listado2 = Response;
     }).catch(error => {
       this.GlobalF.error(0);
     })
   }
 
-  getItems(ev: any) {
+  getItemsOld(ev: any) {
     // Reset items back to all of the items
     this.listar(this.tipo);
 
@@ -226,5 +230,33 @@ export class UsuariosGPage {
         return (item['nomap'].toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
     }
+  }
+  getItems(ev) {
+    let val = ev.target.value;    
+    if (!val || !val.trim()) {
+      this.listado = this.query();      
+      return;
+    }
+    this.listado = this.query({
+      nomap: val
+    });
+  }
+  query(params?: any) {    
+    if (!params) {
+      this.listado=this.listado2;      
+      return this.listado;
+    }
+
+    return this.listado.filter((item) => {      
+      for (let key in params) {
+        let field = item[key];        
+        if (typeof field == 'string' && field.toLowerCase().indexOf(params[key].toLowerCase()) >= 0) {
+          return item;
+        } else if (field == params[key]) {
+          return item;
+        }
+      }
+      return null;
+    });
   }
 }

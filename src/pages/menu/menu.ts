@@ -114,9 +114,8 @@ export class MenuPage {
     });
     
   }
-  goTo(where) {
-    console.info(where);
-    this.vibration.vibrate(50);
+  goTo(where) {    
+    this.GlobalF.playTambor();
     switch (where) {
       case 1:
         this.GlobalF.cargando();

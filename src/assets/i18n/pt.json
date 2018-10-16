@@ -10,5 +10,15 @@
   "ABOUT":"Sobre",
   "LOG OUT":"Sair",
   "EDIT PROFILE":"Editar Perfil",
-  "GREETING": "oi, {{ value }}"
+  "GREETING": "oi, {{ value }}",
+  "Search Users":"Pesquise usuários",
+  "YEAR":"Ano",
+  "TURN":"Turno",
+  "QUARTER":"Semestre",
+  "FIRST":"Primeiro",
+  "SECOND":"Segundo",
+  "MORNING":"Amanhã",
+  "AFTERNOON":"Tarde",
+  "NIGHT":"Noite",
+  "SEARCH":"Pesquisar"
 }
